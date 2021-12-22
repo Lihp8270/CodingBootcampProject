@@ -8,6 +8,7 @@
 -Price of tickets for a performance
 -Availability of tickets for a performance
 -If show contains live music, the performer or group should be prominently displayed
+-SQL Injection protection (Number selection, Search for title uses prepared statements and *rollsback* (Investigate if this rolls back the database or the query) after search)
 
 **Show Information**
 -Shows can be staged multiple times on the same day (matinee and evening)
@@ -17,10 +18,10 @@
 -If live music is included the performer or group should be shown
 
 **Theatre Information**
--200 seats (120 Stalls 80 circle)
--All seats are the same price
--Prices of tickets vary by show
--Concessions are 25% discount
+-200 seats (120 Stalls 80 circle) - Build from database
+-All seats are the same price - Build from database
+-Prices of tickets vary by show - Build from database
+-Concessions are 25% discount - Build from database
 
 **User Information**
 -Must provide a name
