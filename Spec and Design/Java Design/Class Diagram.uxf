@@ -1,0 +1,42 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;20&lt;/x&gt;&lt;y&gt;230&lt;/y&gt;&lt;w&gt;590&lt;/w&gt;&lt;h&gt;490&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;FrontEnd
+--
+bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>29</x><y>480</y><w>210</w><h>100</h></coordinates><panel_attributes>Main
+--
+Responsibilities
+-- Main program loop
+-- Handles user interaction and
+manages interactions with classes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>349</x><y>400</y><w>210</w><h>90</h></coordinates><panel_attributes>ShoppingBasket
+--
+Responsibilities
+-- Manages ticket objects for the user
+-- Ensures "locked" tickets unlock</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>129</x><y>640</y><w>210</w><h>80</h></coordinates><panel_attributes>InterfaceController
+--
+Responsibilities
+-- Formats and draws user interface
+(Screens)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>109</x><y>310</y><w>210</w><h>100</h></coordinates><panel_attributes>Scanner
+--
+Responsibilities
+-- Parsing user inputs
+-- Uses scanner to read text from user
+-- Checks for SQL Injection attempts</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>939</x><y>480</y><w>210</w><h>100</h></coordinates><panel_attributes>DatabaseConnector
+--
+Responsibilities
+-- Connects to the database
+-- Runs queries
+-- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>959</x><y>340</y><w>210</w><h>100</h></coordinates><panel_attributes>QueryBuilder
+--
+Responsibilities
+-- Builds query strings for 
+DatabaseConnector</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>639</x><y>480</y><w>210</w><h>150</h></coordinates><panel_attributes>BackendController
+--
+Responsibilities
+-- Manages ArrayList of Database
+Objects (Shows, Seats, User)
+-- Handles Front End requests
+-- Front facing access for Front End
+to obtain information from database
+-- Stay updated with Database</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>400</y><w>60</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>440</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>129</x><y>570</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;70</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>530</y><w>430</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;30</additional_attributes></element><element><id>Relation</id><coordinates><x>839</x><y>540</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1009</x><y>430</y><w>60</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;50;40;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>270</y><w>580</w><h>470</h></coordinates><panel_attributes>Front End
+--
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>610</x><y>270</y><w>590</w><h>470</h></coordinates><panel_attributes>Back End
+--
+bg=black</panel_attributes><additional_attributes></additional_attributes></element></diagram>
