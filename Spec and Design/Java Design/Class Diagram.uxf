@@ -1,33 +1,33 @@
 <diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;20&lt;/x&gt;&lt;y&gt;230&lt;/y&gt;&lt;w&gt;590&lt;/w&gt;&lt;h&gt;490&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;FrontEnd
 --
-bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>29</x><y>480</y><w>210</w><h>100</h></coordinates><panel_attributes>Main
+bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>29</x><y>508</y><w>210</w><h>100</h></coordinates><panel_attributes>Main
 --
 Responsibilities
 -- Main program loop
 -- Handles user interaction and
-manages interactions with classes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>349</x><y>400</y><w>210</w><h>90</h></coordinates><panel_attributes>ShoppingBasket
+manages interactions with classes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>349</x><y>428</y><w>210</w><h>90</h></coordinates><panel_attributes>ShoppingBasket
 --
 Responsibilities
 -- Manages ticket objects for the user
--- Ensures "locked" tickets unlock</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>129</x><y>640</y><w>210</w><h>80</h></coordinates><panel_attributes>InterfaceController
+-- Ensures "locked" tickets unlock</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>129</x><y>668</y><w>210</w><h>80</h></coordinates><panel_attributes>InterfaceController
 --
 Responsibilities
 -- Formats and draws user interface
-(Screens)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>109</x><y>310</y><w>210</w><h>100</h></coordinates><panel_attributes>Scanner
+(Screens)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>109</x><y>338</y><w>210</w><h>100</h></coordinates><panel_attributes>Scanner
 --
 Responsibilities
 -- Parsing user inputs
 -- Uses scanner to read text from user
--- Checks for SQL Injection attempts</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>939</x><y>480</y><w>210</w><h>100</h></coordinates><panel_attributes>DatabaseConnector
+-- Checks for SQL Injection attempts</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>979</x><y>748</y><w>210</w><h>100</h></coordinates><panel_attributes>DatabaseConnector
 --
 Responsibilities
 -- Connects to the database
 -- Runs queries
--- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>959</x><y>340</y><w>210</w><h>100</h></coordinates><panel_attributes>QueryBuilder
+-- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1079</x><y>588</y><w>210</w><h>100</h></coordinates><panel_attributes>QueryBuilder
 --
 Responsibilities
 -- Builds query strings for 
-DatabaseConnector</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>639</x><y>480</y><w>210</w><h>150</h></coordinates><panel_attributes>BackendController
+DatabaseConnector</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>679</x><y>728</y><w>210</w><h>150</h></coordinates><panel_attributes>BackendController
 --
 Responsibilities
 -- Manages ArrayList of Database
@@ -35,8 +35,66 @@ Objects (Shows, Seats, User)
 -- Handles Front End requests
 -- Front facing access for Front End
 to obtain information from database
--- Stay updated with Database</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>400</y><w>60</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>440</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>129</x><y>570</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;70</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>530</y><w>430</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;30</additional_attributes></element><element><id>Relation</id><coordinates><x>839</x><y>540</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1009</x><y>430</y><w>60</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;50;40;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>270</y><w>580</w><h>470</h></coordinates><panel_attributes>Front End
+-- Stay updated with Database</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>129</x><y>428</y><w>50</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>468</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>129</x><y>598</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;70</additional_attributes></element><element><id>Relation</id><coordinates><x>229</x><y>558</y><w>470</w><h>270</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;450;250</additional_attributes></element><element><id>Relation</id><coordinates><x>879</x><y>808</y><w>120</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;50;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1139</x><y>678</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;70;30;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>298</y><w>580</w><h>470</h></coordinates><panel_attributes>Front End
 --
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>610</x><y>270</y><w>590</w><h>470</h></coordinates><panel_attributes>Back End
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>680</x><y>358</y><w>210</w><h>340</h></coordinates><panel_attributes>show
+--
+- title : String
+- type : showType
+- description : String
+- time : String
+- date : String
+- duration : int (minutes)
+- price : double
+- stallsAvailable : int
+- circleAvailable : int
+--
++ getTitle()
++ getType()
++ getDescription()
++ getTime()
++ getDate()
++ getDuration()
++ getPrice()
++ getStallsAvailable()
++ getCircleAvailable()
+--
+Build show object by passing all
+fields to the Constructor
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>688</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>218</y><w>210</w><h>100</h></coordinates><panel_attributes>concert
+--
+- performers : ArrayList&lt;performer&gt;
+--
++ getPerformers()
+--
+Build object by passing all
+fields to the Constructor
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>308</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>890</x><y>198</y><w>210</w><h>130</h></coordinates><panel_attributes>nonConcertWithMusic
+--
+- performers : ArrayList&lt;performer&gt;
+- language : String
+--
++ getPerformers()
++ getLanguage()
+--
+Build object by passing all
+fields to the Constructor
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>318</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>950</x><y>378</y><w>210</w><h>120</h></coordinates><panel_attributes>showType
+--
+- type : String
+--
++ getType()
+--
+Build showType object by passing all
+fields to the Constructor
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>879</x><y>448</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;70;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>780</x><y>58</y><w>210</w><h>110</h></coordinates><panel_attributes>performer
+--
+- name : String
+--
++ getName()
+--
+Build performer object by passing all
+fields to the Constructor
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>739</x><y>158</y><w>70</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>939</x><y>158</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>644</x><y>10</y><w>880</w><h>930</h></coordinates><panel_attributes>Back End
 --
 bg=black</panel_attributes><additional_attributes></additional_attributes></element></diagram>
