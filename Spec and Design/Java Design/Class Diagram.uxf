@@ -33,7 +33,7 @@ Methods
 Responsibilities
 -- Connects to the database
 -- Runs queries
--- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>947</x><y>588</y><w>230</w><h>290</h></coordinates><panel_attributes>QueryController
+-- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>947</x><y>578</y><w>230</w><h>290</h></coordinates><panel_attributes>QueryController
 --
 Variables
 - query : String
@@ -72,7 +72,7 @@ Objects (Shows, Seats, User)
 -- Front facing access for Front End
 to obtain information from database
 -- Stay updated with Database
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>248</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>368</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>127</x><y>438</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;60;60</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>418</y><w>430</w><h>270</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;250</additional_attributes></element><element><id>Relation</id><coordinates><x>877</x><y>728</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>658</x><y>128</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>248</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>368</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>127</x><y>438</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;60;60</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>418</y><w>430</w><h>270</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;250</additional_attributes></element><element><id>Relation</id><coordinates><x>877</x><y>718</y><w>90</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;30;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>658</x><y>128</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
 --
 - performanceID : int
 - title : String
@@ -149,6 +149,6 @@ with the purchase details
 
 user object created only when 
 purchase is made</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>397</x><y>238</y><w>50</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;90;30;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1278</x><y>800</y><w>140</w><h>70</h></coordinates><panel_attributes>DATABASE
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1317</x><y>748</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;50</additional_attributes></element><element><id>Relation</id><coordinates><x>1167</x><y>628</y><w>70</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;50;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>2</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1317</x><y>748</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;50</additional_attributes></element><element><id>Relation</id><coordinates><x>1167</x><y>628</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>2</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
 --
 bg=black</panel_attributes><additional_attributes></additional_attributes></element></diagram>
