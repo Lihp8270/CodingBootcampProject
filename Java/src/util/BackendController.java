@@ -1,7 +1,5 @@
 package util;
 
-import util.DatabaseConnector;
-
 public class BackendController {
     private QueryController qController;
     
