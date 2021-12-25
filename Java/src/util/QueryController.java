@@ -46,6 +46,18 @@ public class QueryController {
         }
     }
 
+    public boolean getBasket(int userID) {
+        
+        //Update with actual query
+        String query = "";
+        
+        if (dbConnector.runQuery(query) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Builds query to purchase a ticket
      * @param ticketIDs ArrayList of integers containing ticketID's to be purchased
@@ -66,6 +78,24 @@ public class QueryController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Creates a temporary user for the session, if no purchase is made the temp user is auto deleted from the database
+     * When a purchase is made the user record with this ID is updated
+     * @return Return result set containing a single result with the userID which was created
+     */
+    public ResultSet createTempUser() {
+        // Update with actual query
+        // Insert new record into customer table then get the most recent result and return the resultset
+        ResultSet results = null;
+        String query = "";
+        
+        if (dbConnector.runQuery(query) != null) {
+            return results;
+        } else {
+            return null;
         }
     }
 }
