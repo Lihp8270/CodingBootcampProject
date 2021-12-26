@@ -18,7 +18,7 @@ public class DatabaseConnector {
 	 */
 	public DatabaseConnector() {
 		conn = null;
-		databaseLocation = "jdbc:mysql://localhost:3306/TheatreDB";
+		databaseLocation = "jdbc:mysql://localhost:3306/theatre";
 		username = "root";
 		password = "Pa$$word123";
 	}
@@ -87,26 +87,26 @@ public class DatabaseConnector {
 	// 		System.exit(1);
 	// 	}
 
-	// 	try {
-	// 		// while there is another row
-	// 		while (rs.next()) {
-	// 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-	// 				System.out.print(rsmd.getColumnLabel(i));
-	// 				System.out.print(" | ");
-	// 			}
+		// try {
+		// 	// while there is another row
+		// 	while (rs.next()) {
+		// 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+		// 			System.out.print(rsmd.getColumnLabel(i));
+		// 			System.out.print(" | ");
+		// 		}
 
-	// 			System.out.println();
+		// 		System.out.println();
 
-	// 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-	// 				System.out.print(rs.getString(i));
-	// 				System.out.print(" | ");
-	// 			}
+		// 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+		// 			System.out.print(rs.getString(i));
+		// 			System.out.print(" | ");
+		// 		}
 				
-	// 			System.out.println();
-	// 		}
-	// 	} catch (SQLException e) {
-	// 		e.printStackTrace();
-	// 	}
+		// 		System.out.println();
+		// 	}
+		// } catch (SQLException e) {
+		// 	e.printStackTrace();
+		// }
 	// }
 
 	public void close() {

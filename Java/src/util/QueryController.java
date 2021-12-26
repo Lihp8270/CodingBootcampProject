@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class QueryController {
     private DatabaseConnector dbConnector;
@@ -19,10 +20,12 @@ public class QueryController {
     public ResultSet buildSearchQuery(String searchField, String searchTerm) {
         ResultSet results = null;
 
-        //Update with actual query
-        String query = "";
+        // Build switch statement for each of the search Field types
+        String query = "SELECT * FROM performance JOIN showtable ON performance.show_id = showtable.id WHERE title = \"" + searchTerm + "\"" + ";";
         
+        dbConnector.connect();
         results = dbConnector.runQuery(query);
+        dbConnector.close();
 
         return results;
     }
@@ -39,11 +42,15 @@ public class QueryController {
         //Update with actual query
         String query = "";
         
+        dbConnector.connect();
         if (dbConnector.runQuery(query) != null) {
+            dbConnector.close();
             return true;
         } else {
+            dbConnector.close();
             return false;
         }
+        
     }
 
     public boolean getBasket(int userID) {
@@ -51,9 +58,12 @@ public class QueryController {
         //Update with actual query
         String query = "";
         
+        dbConnector.connect();
         if (dbConnector.runQuery(query) != null) {
+            dbConnector.close();
             return true;
         } else {
+            dbConnector.close();
             return false;
         }
     }
@@ -74,9 +84,12 @@ public class QueryController {
         //Update with actual query
         String query = "";
         
+        dbConnector.connect();
         if (dbConnector.runQuery(query) != null) {
+            dbConnector.close();
             return true;
         } else {
+            dbConnector.close();
             return false;
         }
     }
@@ -86,13 +99,47 @@ public class QueryController {
      * When a purchase is made the user record with this ID is updated
      * @return Return result set containing a single result with the userID which was created
      */
-    public ResultSet createTempUser() {
+    public int createTempUser() {
         // Update with actual query
         // Insert new record into customer table then get the most recent result and return the resultset
         ResultSet results = null;
-        String query = "";
+        int userID = 0;
+        String query = "INSERT INTO customer (id) VALUES (default);";
         
-        if (dbConnector.runQuery(query) != null) {
+        dbConnector.connect();
+
+        dbConnector.runQuery(query);
+        query = "SELECT MAX(id) FROM customer;";
+        results = dbConnector.runQuery(query);
+        
+        if (results != null) {
+
+            try {
+                while (results.next()) {
+                    userID = results.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            dbConnector.close();
+
+            return userID;
+        } else {
+            dbConnector.close();
+
+            return 0;
+        }
+    }
+
+    public ResultSet getAllShows() {
+        // Show table may need updating when table names are finalised
+        ResultSet results = null;
+        String query = "SELECT * FROM performance JOIN showtable ON performance.show_id = showtable.id;";
+        
+        dbConnector.connect();
+        results = dbConnector.runQuery(query);
+        dbConnector.close();
+        if (results != null) {
             return results;
         } else {
             return null;
