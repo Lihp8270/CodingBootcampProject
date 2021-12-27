@@ -1,6 +1,6 @@
 -- set show categories.
 use theatre;
-insert into theatre.show_category (name)
+insert into theatre.production_category (category_name)
 values
 ('Opera'),
 ('Concert'),
@@ -8,11 +8,11 @@ values
 ('Theatre')
 ;
 
-insert into theatre.show (title, `description`, duration, category_id, price)
+insert into theatre.production (title, production_description, duration, category_id, price)
 values
 ('Oliver!','Oliver! - The Musical', 120, 1, 30);
 
-insert into performer(name)
+insert into performer(performer_name)
 	values
     ('Ron Moody'),
     ('Georgia Brown'),
@@ -21,7 +21,7 @@ insert into performer(name)
     ('Martin Horsey')
 ;
 
-insert into show_performers (show_id, performer_id, show_role)
+insert into production_performers (production_id, performer_id, production_role)
 	values
     (1,1, 'Fagin'),
     (1,2, 'Nancy'),
@@ -36,19 +36,19 @@ insert into seat (id, location)
 	(2,'stalls')
 ;
 
-insert into customer (name, email, password) value ('bob','bob@gmail','bob123');
-insert into concession (name, discount)
+insert into customer (customer_name, customer_email, customer_password) value ('bob','bob@gmail','bob123');
+insert into concession (concession_name, discount)
 	values
     ('Standard', 1),
     ('Child', 0.75)
 ;
-insert into performance( date, time_slot,show_id)
+insert into performance( performance_date, time_slot, production_id)
 	values 
     (curdate()+1, 'matinee', 1),
     (curdate()+1, 'evening', 1)
 ;
 
-insert into ticket (concession_id, performance_id, seat_id, customer_id, status)
+insert into ticket (concession_id, performance_id, seat_id, customer_id, ticket_status)
 	values 
     (1,1,1,1,'basket'),
     (1,1,2,1,'purchased')
