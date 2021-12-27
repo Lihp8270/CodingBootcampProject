@@ -1,27 +1,65 @@
 package util;
 
 import model.User;
+import model.Performance;
+import model.ShowType;
+import model.Concert;
+import model.NonConcertWithMusic;
+import model.Performer;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class BackendController {
-    private QueryController qController;
+    private DatabaseConnector dbConnector;
     
     public BackendController() {
-        qController = new QueryController();
+        dbConnector = new DatabaseConnector();
     }
 
-    // This needs to return an ArrayList of shows,  ResultSet Cannot be used outside of a DB connection
-    public ResultSet getShowsFromTitle(String searchTerm) {
-        // Temp for testing
-        ResultSet results = null;
-        results = qController.buildSearchQuery("Title", searchTerm);
+    // To Do: Join necessary tables to populate Performance model.
+    public ArrayList<Performance> getShowsFromTitle(String searchTerm) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM performance JOIN showtable ON performance.show_id = showtable.id WHERE title = \"" + searchTerm + "\"" + ";";
+
+        dbConnector.connect();
+        rs = dbConnector.runQuery(query);
+        dbConnector.close();
+
+
 
         return results;
     }
 
     public int createNewUser() {
-        int userID = qController.createTempUser();
+        ResultSet results = null;
+        int userID = 0;
+        String query = "INSERT INTO customer (id) VALUES (default);";
         
-        return userID;
+        dbConnector.connect();
+        dbConnector.runQuery(query);
+        query = "SELECT MAX(id) FROM customer;";
+        results = dbConnector.runQuery(query);
+        
+        if (results != null) {
+            try {
+                while (results.next()) {
+                    userID = results.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            dbConnector.close();
+
+            return userID;
+        } else {
+            dbConnector.close();
+
+            return 0;
+        }
     }
+
 }
