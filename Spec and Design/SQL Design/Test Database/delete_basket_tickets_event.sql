@@ -1,5 +1,5 @@
 -- show variables where variable_name='event_scheduler';
-
+use theatre;
 drop event if exists every_5_mins_remove_basket_tickets;
 delimiter $$
 
