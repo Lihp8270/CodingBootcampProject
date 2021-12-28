@@ -15,6 +15,10 @@ public class Concert extends ShowType {
         performers.add(performer);
     }
 
+    /**
+     * Accessor for Performers
+     * @return returns an array list of performers
+     */
     public ArrayList<Performer> getPerformers() {
         return performers;
     }

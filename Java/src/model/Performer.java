@@ -7,6 +7,10 @@ public class Performer {
         this.name = name;
     }
 
+    /**
+     * Accessor for the performer name
+     * @return returns the performer name as a String
+     */
     public String getName() {
         return name;
     }

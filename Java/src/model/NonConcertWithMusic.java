@@ -17,10 +17,18 @@ public class NonConcertWithMusic extends ShowType {
         performers.add(performer);
     }
 
+    /**
+     * Accessor for show performers
+     * @return returns an ArrayList of performers
+     */
     public ArrayList<Performer> getPerformers() {
         return performers;
     }
 
+    /**
+     * Accessor for the language
+     * @return returns the language of the show as a String
+     */
     public String getLanguage() {
         return language;
     }

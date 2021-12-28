@@ -9,6 +9,10 @@ public abstract class ShowType {
         this.type = type;
     }
 
+    /**
+     * Accessor for the show type
+     * @return Returns the show type as a String
+     */
     public String getType() {
         return this.type;
     }

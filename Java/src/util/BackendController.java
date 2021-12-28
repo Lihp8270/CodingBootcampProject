@@ -18,7 +18,11 @@ public class BackendController {
         dbConnector = new DatabaseConnector();
     }
 
-    // To Do: Join necessary tables to populate Performance model.
+    /**
+     * Search shows by title
+     * @param searchTerm Search term to search the title for 
+     * @return Returns an ArrayList of Performance Objects
+     */
     public ArrayList<Performance> getShowsFromTitle(String searchTerm) {
         // Temp holders for building Performance Object
         int performanceID;
