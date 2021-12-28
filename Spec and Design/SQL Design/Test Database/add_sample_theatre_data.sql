@@ -1,4 +1,4 @@
--- set show categories.
+-- set production categories.
 use theatre;
 insert into theatre.production_category (category_name)
 values
@@ -8,9 +8,13 @@ values
 ('Theatre')
 ;
 
-insert into theatre.production (title, production_description, duration, category_id, price)
-values
-('Oliver!','Oliver! - The Musical', 120, 1, 30);
+insert into theatre.production (title, production_description, duration, category_id, price, production_language)
+	values
+	('Oliver!','Oliver! - The Musical', 120, 3, 30, 'English'),
+	('The Mousetrap','Whodunit?', 150, 4, 30,'English'),
+	('Matilda','Adapted from Roald Dahl\'s novel', 150, 3, 35,'English'),
+    ('La bohème','Mimì and Rodolfo\'s passion burns with a brilliant flame. In a city of lights, can love eclipse Death itself?', 130, 1, 40, 'Italian')
+;
 
 insert into performer(performer_name)
 	values
@@ -18,7 +22,29 @@ insert into performer(performer_name)
     ('Georgia Brown'),
     ('Danny Sewell'),
     ('Keith Hamshire'),
-    ('Martin Horsey')
+    ('Martin Horsey'),
+    
+    ('Karen Archer'),
+    ('Simon Haynes'),
+    ('Jamie Hutchins'),
+    ('Chrisopher Knott'),
+    ('Hannah Lee'),
+    ('Simon Roberts'),
+    ('Tom Rooke'),
+    ('Kirsten Hazel Smith'),
+    
+    ('Cleo Demetriou'),
+    ('Bertie Carvel'),
+    ('Lauren Ward'),
+    ('Paul Kaye'),
+    ('Josie Walker'),
+    
+    ('Evan Gorga'),
+    ('Cesira Ferrani'),
+    ('Tieste Wilmant'),
+    
+    ('La Scala Orchestra')
+    
 ;
 
 insert into production_performers (production_id, performer_id, production_role)
@@ -27,9 +53,35 @@ insert into production_performers (production_id, performer_id, production_role)
     (1,2, 'Nancy'),
     (1,3, 'Bill Sykes'),
     (1,4, 'Oliver Twist'),
-    (1,5, 'The Artful Dodger')
-    ;
+    (1,5, 'The Artful Dodger'),
     
+    (2,6, 'Mrs Boyle'),
+    (2,7, 'Christopher Wren'),
+    (2,8, 'Detective Trotter'),
+    (2,9, 'Major Metcalf'),
+    (2,10, 'Miss Casewell'),
+    (2,11, 'Mr Paravicini'),
+    (2,12, 'Giles Ralston'),
+    (2,13, 'Mollie Ralston'),
+    
+    (3,14, 'Matilda Wormwood'),
+    (3,15, 'Miss Trunchbull'),
+    (3,16, 'Jennifer Honey'),
+    (3,17, 'Mr Wormwood'),
+    (3,18, 'Mrs Wormwood'),
+    
+    (4,19, 'Rodolfo'),
+    (4,20, 'Mimi'),
+    (4,21, 'Marcello')
+;
+
+insert into music_performers (production_id, performer_id, music_role)
+	values
+    (4,22, 'Orchestra')
+;
+
+
+
 insert into seat (id, location) 
 	values
 	(1,'stalls'),
