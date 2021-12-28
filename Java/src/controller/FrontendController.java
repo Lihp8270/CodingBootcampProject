@@ -16,9 +16,27 @@ public class FrontendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         
         results = bController.getShowsFromTitle("Oliver!");
+        System.out.println("USER ID");
         System.out.println(user.getUserID());
-        System.out.println(results.get(0).getType());
-        System.out.println(results.get(0).getType().getLanguage());
-        System.out.println(results.get(0).getType().getPerformers().get(0).getName());
+        System.out.println("---------");
+
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println("Type");
+            System.out.println(results.get(i).getType());
+            System.out.println("---------");
+            System.out.println("Language");
+            System.out.println(results.get(i).getType().getLanguage());
+            System.out.println("---------");
+            System.out.println("Time");
+            System.out.println(results.get(i).getTime());
+            System.out.println("---------");
+            System.out.println("Performers");
+            for (int j = 0; j < results.get(i).getType().getPerformers().size(); j++) {
+                System.out.println(results.get(i).getType().getPerformers().get(j).getName());
+            }
+            System.out.println("---------");
+            System.out.println("---------");
+            System.out.println("---------");
+        }
     }
 }

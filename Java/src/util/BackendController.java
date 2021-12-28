@@ -30,6 +30,7 @@ public class BackendController {
         double price;
         int stallsAvailable;
         int circleAvailable;
+        String productionLanguage;
         Concert concertType = null;
         NonConcertWithMusic nonConcertType = null;
         ShowType sType = null;
@@ -39,7 +40,7 @@ public class BackendController {
         ResultSet rsSearch = null;
 
         // Query also needs to return number of tickets sold so that we can get the availability
-        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
+        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
         
         dbConnector.connect();
         rsSearch = dbConnector.runQuery(querySearch);
@@ -56,6 +57,7 @@ public class BackendController {
                     date = rsSearch.getString(6);
                     duration = rsSearch.getInt(7);
                     price = rsSearch.getDouble(8);
+                    productionLanguage = rsSearch.getString(9);
 
                     // If these return 9999 stop search process
                     stallsAvailable = getAvailableTickets("Stalls", performanceID);
@@ -65,23 +67,30 @@ public class BackendController {
 
                     switch (rsSearch.getString(3)) {
                         case "Theatre":
+                            
                             break;
                         case "Musical":
-                            break;
-                        case "Opera":
-                            // Find language with SQL Search
-                            nonConcertType = new NonConcertWithMusic("Opera", "English");
+                            nonConcertType = new NonConcertWithMusic("Musical", productionLanguage);
 
-                            // Create and Add performers using SQL Search
-                            Performer performer = new Performer("Test");
-                            nonConcertType.addPerformer(performer);
+                            // Get Performers list
+                            ArrayList<String> musicalPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < musicalPerformers.size(); i++) {
+                                Performer performer = new Performer(musicalPerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
 
                             // Add Show Type to the performance
                             newPerformance.addShowType(nonConcertType);
+
                             break;
-                        case "Concert":
+                        case "Opera":
+                            
+                            break;
+                        case "Concert": 
+
                             break;
                         default:
+                        
                             break;
                     }
 
@@ -122,6 +131,24 @@ public class BackendController {
 
             return 0;
         }
+    }
+
+    private ArrayList<String> findPerformers(int performanceID) {
+        ArrayList<String> performers = new ArrayList<String>();
+        String performerSearch = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = " + performanceID + ";"; 
+        ResultSet pResultSet = dbConnector.runQuery(performerSearch);
+
+        if (pResultSet != null) {
+            try {
+                while (pResultSet.next()) {
+                    performers.add(pResultSet.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return performers;
     }
 
     /**
