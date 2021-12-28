@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS theatre.production_performers (
 DROP TABLE IF EXISTS theatre.music_performers ;
 
 CREATE TABLE IF NOT EXISTS theatre.music_performers (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   production_id INT NOT NULL,
   performer_id INT NOT NULL,
   music_role VARCHAR(45) NULL,
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS theatre.music_performers (
 DROP TABLE IF EXISTS theatre.application_admin;
 
 CREATE TABLE IF NOT EXISTS theatre.application_admin (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(45) NOT NULL,
   user_password VARCHAR(45) NOT NULL,
   PRIMARY KEY (id))
