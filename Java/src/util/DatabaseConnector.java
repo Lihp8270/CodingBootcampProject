@@ -19,7 +19,7 @@ public class DatabaseConnector {
 	public DatabaseConnector() {
 		conn = null;
 		databaseLocation = "jdbc:mysql://localhost:3306/theatre";
-		username = "root";
+		username = "theatre_user";
 		password = "Pa$$word123";
 	}
 

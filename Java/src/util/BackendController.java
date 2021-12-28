@@ -23,7 +23,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rs = null;
 
-        String query = "SELECT * FROM performance JOIN showtable ON performance.show_id = showtable.id WHERE title = \"" + searchTerm + "\"" + ";";
+        String query = "SELECT * FROM performance JOIN production ON performance.production_id = production.id WHERE title = \"" + searchTerm + "\"" + ";";
 
         dbConnector.connect();
         rs = dbConnector.runQuery(query);
