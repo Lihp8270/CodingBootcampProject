@@ -19,6 +19,128 @@ public class BackendController {
     }
 
     /**
+     * Gets all unique productions that are currently scheduled with at least 1 performance
+     * @return Returns an ArrayList of Performances, details can be accessed using Performance, and relevant ShowType accessors
+     */
+    public ArrayList<Performance> getAllShows() {
+        // Temp holders for building Performance Object
+        int performanceID;
+        String title;
+        String description;
+        String time;
+        String date;
+        int duration;
+        double price;
+        int stallsAvailable;
+        int circleAvailable;
+        String productionLanguage;
+        Concert concertType = null;
+        NonConcertWithMusic nonConcertType = null;
+        ShowType sType = null;
+
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+
+        // Pass Prepared Statement Object
+        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance  JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id  GROUP BY production.id;";
+        
+        dbConnector.connect();
+        rsSearch = dbConnector.runQuery(querySearch);
+
+        if (rsSearch != null) {
+            try {
+                while (rsSearch.next()) {
+                    performanceID = rsSearch.getInt(1);
+                    title = rsSearch.getString(2);
+
+                    // Build ShowType
+                    description = rsSearch.getString(4);
+                    time = rsSearch.getString(5);
+                    date = rsSearch.getString(6);
+                    duration = rsSearch.getInt(7);
+                    price = rsSearch.getDouble(8);
+                    productionLanguage = rsSearch.getString(9);
+
+                    // If these return 9999 stop search process
+                    stallsAvailable = getAvailableTickets("Stalls", performanceID);
+                    circleAvailable = getAvailableTickets("Circle", performanceID);
+
+                    Performance newPerformance = new Performance(performanceID, title, description, time, date, duration, price, stallsAvailable, circleAvailable);
+
+                    switch (rsSearch.getString(3)) {
+                        case "Theatre":
+                            nonConcertType = new NonConcertWithMusic("Theatre", productionLanguage);
+
+                            // Get Performers list
+                            ArrayList<String> theatrePerformers = findPerformers(performanceID);
+                            for (int i = 0; i < theatrePerformers.size(); i++) {
+                                Performer performer = new Performer(theatrePerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(nonConcertType);
+
+                            break;
+                        case "Musical":
+                            nonConcertType = new NonConcertWithMusic("Musical", productionLanguage);
+
+                            // Get Performers list
+                            ArrayList<String> musicalPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < musicalPerformers.size(); i++) {
+                                Performer performer = new Performer(musicalPerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(nonConcertType);
+
+                            break;
+                        case "Opera":
+                            nonConcertType = new NonConcertWithMusic("Opera", productionLanguage);
+
+                            // Get Performers list
+                            ArrayList<String> operaPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < operaPerformers.size(); i++) {
+                                Performer performer = new Performer(operaPerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(nonConcertType);
+                            
+                            break;
+                        case "Concert":
+                            concertType = new Concert("Concert");
+
+                            // Get Performers list
+                            ArrayList<String> concertPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < concertPerformers.size(); i++) {
+                                Performer performer = new Performer(concertPerformers.get(i));
+                                concertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(concertType);
+
+                            break;
+                        default:
+                        
+                            break;
+                    }
+
+                    results.add(newPerformance);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
      * Search shows by title
      * @param searchTerm Search term to search the title for 
      * @return Returns an ArrayList of Performance Objects
@@ -71,7 +193,18 @@ public class BackendController {
 
                     switch (rsSearch.getString(3)) {
                         case "Theatre":
-                            
+                            nonConcertType = new NonConcertWithMusic("Theatre", productionLanguage);
+
+                            // Get Performers list
+                            ArrayList<String> theatrePerformers = findPerformers(performanceID);
+                            for (int i = 0; i < theatrePerformers.size(); i++) {
+                                Performer performer = new Performer(theatrePerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(nonConcertType);
+
                             break;
                         case "Musical":
                             nonConcertType = new NonConcertWithMusic("Musical", productionLanguage);
@@ -88,9 +221,31 @@ public class BackendController {
 
                             break;
                         case "Opera":
+                            nonConcertType = new NonConcertWithMusic("Opera", productionLanguage);
+
+                            // Get Performers list
+                            ArrayList<String> operaPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < operaPerformers.size(); i++) {
+                                Performer performer = new Performer(operaPerformers.get(i));
+                                nonConcertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(nonConcertType);
                             
                             break;
-                        case "Concert": 
+                        case "Concert":
+                            concertType = new Concert("Concert");
+
+                            // Get Performers list
+                            ArrayList<String> concertPerformers = findPerformers(performanceID);
+                            for (int i = 0; i < concertPerformers.size(); i++) {
+                                Performer performer = new Performer(concertPerformers.get(i));
+                                concertType.addPerformer(performer);
+                            }
+
+                            // Add Show Type to the performance
+                            newPerformance.addShowType(concertType);
 
                             break;
                         default:

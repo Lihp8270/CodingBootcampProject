@@ -5,8 +5,11 @@ import java.util.ArrayList;
 public class Concert extends ShowType {
     private ArrayList<Performer> performers;
     
-    // Not figured out how to access this list of performers yet
-    public Concert(String type, Performer performer) {
+    /**
+     * Constructor for Concert Types
+     * @param type
+     */
+    public Concert(String type) {
         super(type);
         performers = new ArrayList<Performer>();
     }
