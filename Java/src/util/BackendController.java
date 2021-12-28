@@ -39,7 +39,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
 
-        // Query also needs to return number of tickets sold so that we can get the availability
+        // Pass Prepared Statement Object
         String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
         
         dbConnector.connect();
@@ -192,5 +192,4 @@ public class BackendController {
             return maxCircle - ticketsFound;
         }
     }
-
 }

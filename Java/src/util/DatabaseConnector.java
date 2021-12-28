@@ -42,6 +42,7 @@ public class DatabaseConnector {
 	 * 4. Prepare a query statement to run - DONE :) 5. Execute query - DONE
 	 */
 
+	// Pass PreparedStatement object instead of SQL string
 	public ResultSet runQuery(String sql) {
 		PreparedStatement pst = null;
 		try {

@@ -2,10 +2,11 @@
     "maven.view": "hierarchical",
     "java.project.referencedLibraries": {
         "include": [
-            "lib/**/*.jar"
+            "lib/**/*.jar",
+            "Java/mysql-connector-java-8.0.27.jar"
         ],
         "exclude": [
-            "Java/mysql-connector-java-8.0.27.jar"
+            "c:\\Users\\JS\\OneDrive\\Learning\\Aston Uni\\CodingBootcampProject\\Java\\mysql-connector-java-8.0.27.jar"
         ]
     }
 }
