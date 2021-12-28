@@ -17,6 +17,10 @@ public class User {
         creditCard = "";
     }
 
+    public int getUserID() {
+        return userID;
+    }
+
     public String getName() {
         return name;
     }

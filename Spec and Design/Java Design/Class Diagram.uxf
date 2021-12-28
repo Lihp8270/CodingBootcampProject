@@ -74,7 +74,7 @@ Objects (Shows, Seats, User)
 -- Front facing access for Front End
 to obtain information from database
 -- Stay updated with Database
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>258</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>378</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>127</x><y>448</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;60;60</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>428</y><w>430</w><h>220</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;200</additional_attributes></element><element><id>Relation</id><coordinates><x>877</x><y>698</y><w>70</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;50;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>858</x><y>118</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>258</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>378</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>127</x><y>448</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;60;60</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>428</y><w>430</w><h>220</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;200</additional_attributes></element><element><id>Relation</id><coordinates><x>877</x><y>608</y><w>360</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;100;340;12</additional_attributes></element><element><id>UMLClass</id><coordinates><x>688</x><y>58</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
 --
 - performanceID : int
 - title : String
@@ -101,7 +101,7 @@ Build show object by passing all
 fields to the Constructor
 
 Duration in minutes
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>878</x><y>498</y><w>100</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;30;80;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1138</x><y>208</y><w>210</w><h>120</h></coordinates><panel_attributes>concert
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>768</x><y>438</y><w>40</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;90;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>938</x><y>198</y><w>210</w><h>120</h></coordinates><panel_attributes>concert
 --
 - performers : ArrayList&lt;performer&gt;
 --
@@ -110,7 +110,7 @@ Duration in minutes
 --
 Build object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1158</x><y>318</y><w>60</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1388</x><y>188</y><w>210</w><h>130</h></coordinates><panel_attributes>nonConcertWithMusic
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>958</x><y>308</y><w>120</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>100;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1278</x><y>198</y><w>210</w><h>130</h></coordinates><panel_attributes>nonConcertWithMusic
 --
 - performers : ArrayList&lt;performer&gt;
 - language : String
@@ -120,7 +120,7 @@ fields to the Constructor
 --
 Build object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1368</x><y>308</y><w>40</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;60;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1168</x><y>368</y><w>210</w><h>120</h></coordinates><panel_attributes>showType
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1228</x><y>318</y><w>70</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;30;50;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1028</x><y>348</y><w>210</w><h>120</h></coordinates><panel_attributes>showType
 --
 - type : String
 --
@@ -128,7 +128,7 @@ fields to the Constructor
 --
 Build showType object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1057</x><y>448</y><w>130</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;110;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1238</x><y>48</y><w>210</w><h>110</h></coordinates><panel_attributes>performer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>887</x><y>398</y><w>160</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;140;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1088</x><y>58</y><w>210</w><h>110</h></coordinates><panel_attributes>performer
 --
 - name : String
 --
@@ -136,7 +136,7 @@ fields to the Constructor
 --
 Build performer object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1217</x><y>148</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1397</x><y>148</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>278</x><y>78</y><w>210</w><h>210</h></coordinates><panel_attributes>user
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1077</x><y>158</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;20;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1247</x><y>158</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>278</x><y>78</y><w>210</w><h>210</h></coordinates><panel_attributes>user
 --
 - name : String
 - addressLine1 : String
@@ -150,13 +150,9 @@ with the purchase details
 
 user object created only when 
 purchase is made</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>278</y><w>140</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;120;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1278</x><y>810</y><w>140</w><h>70</h></coordinates><panel_attributes>DATABASE
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1317</x><y>758</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;50</additional_attributes></element><element><id>Relation</id><coordinates><x>1177</x><y>638</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>12</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1317</x><y>758</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;50</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>12</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
 --
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>624</x><y>0</y><w>980</w><h>890</h></coordinates><panel_attributes>Back End
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>624</x><y>0</y><w>990</w><h>890</h></coordinates><panel_attributes>Back End
 --
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>850</x><y>30</y><w>770</w><h>490</h></coordinates><panel_attributes>Possible to remove?
-
-This could just be read from the database directly each time
-and parsed by the interface controller as all this info
-will be in the result set.  I don't believe we actually need to store this?
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>920</x><y>540</y><w>280</w><h>340</h></coordinates><panel_attributes>No longer required
 bg=blue</panel_attributes><additional_attributes></additional_attributes></element></diagram>

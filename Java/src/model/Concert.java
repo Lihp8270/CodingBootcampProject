@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Concert extends ShowType {
     private ArrayList<Performer> performers;
     
+    // Not figured out how to access this list of performers yet
     public Concert(String type, Performer performer) {
         super(type);
         performers = new ArrayList<Performer>();
@@ -16,5 +17,9 @@ public class Concert extends ShowType {
 
     public ArrayList<Performer> getPerformers() {
         return performers;
+    }
+
+    public String getLanguage() {
+        return "";
     }
 }

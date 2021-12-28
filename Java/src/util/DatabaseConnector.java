@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-// import java.sql.ResultSetMetaData;
 
 public class DatabaseConnector {
 	private Connection conn;
@@ -71,43 +70,6 @@ public class DatabaseConnector {
 		}
 
 	}
-
-	/**
-	 * Commented out as this will be handled by the front end and interface controller
-	 */
-	// 6. Process Results
-
-	// public void printResult(ResultSet rs) {
-	// 	ResultSetMetaData rsmd;
-	// 	rsmd = null;
-	// 	try {
-	// 		rsmd = rs.getMetaData();
-	// 	} catch (SQLException e) {
-	// 		e.printStackTrace();
-	// 		System.exit(1);
-	// 	}
-
-		// try {
-		// 	// while there is another row
-		// 	while (rs.next()) {
-		// 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-		// 			System.out.print(rsmd.getColumnLabel(i));
-		// 			System.out.print(" | ");
-		// 		}
-
-		// 		System.out.println();
-
-		// 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-		// 			System.out.print(rs.getString(i));
-		// 			System.out.print(" | ");
-		// 		}
-				
-		// 		System.out.println();
-		// 	}
-		// } catch (SQLException e) {
-		// 	e.printStackTrace();
-		// }
-	// }
 
 	public void close() {
 		try {

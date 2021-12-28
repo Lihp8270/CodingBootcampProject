@@ -12,12 +12,11 @@ public class Performance {
     private int stallsAvailable;
     private int circleAvailable;
 
-    
-    public Performance(int performanceID, String title, ShowType type, String description, String time, String date,
+    // Type is added separately
+    public Performance(int performanceID, String title, String description, String time, String date,
             int duration, double price, int stallsAvailable, int circleAvailable) {
         this.performanceID = performanceID;
         this.title = title;
-        this.type = type;
         this.description = description;
         this.time = time;
         this.date = date;
@@ -27,6 +26,9 @@ public class Performance {
         this.circleAvailable = circleAvailable;
     }
 
+    public void addShowType(ShowType type) {
+        this.type = type;
+    }
 
     public int getPerformanceID() {
         return performanceID;

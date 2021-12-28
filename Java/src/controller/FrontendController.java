@@ -15,6 +15,10 @@ public class FrontendController {
         User user = new User(bController.createNewUser());
         ArrayList<Performance> results = new ArrayList<Performance>();
         
-        bController.getShowsFromTitle("Oliver!");
+        results = bController.getShowsFromTitle("Oliver!");
+        System.out.println(user.getUserID());
+        System.out.println(results.get(0).getType());
+        System.out.println(results.get(0).getType().getLanguage());
+        System.out.println(results.get(0).getType().getPerformers().get(0).getName());
     }
 }
