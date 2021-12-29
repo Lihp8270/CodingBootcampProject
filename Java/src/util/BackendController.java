@@ -3,13 +3,13 @@ package util;
 import java.util.ArrayList;
 
 import model.Performance;
-import model.ShowType;
 import model.Concert;
 import model.NonConcertWithMusic;
 import model.Performer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 public class BackendController {
     private DatabaseConnector dbConnector;
@@ -36,16 +36,23 @@ public class BackendController {
         String productionLanguage;
         Concert concertType = null;
         NonConcertWithMusic nonConcertType = null;
-        ShowType sType = null;
 
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
+        PreparedStatement pStatement = null;
 
         // Pass Prepared Statement Object
         String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance  JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id  GROUP BY production.id;";
         
         dbConnector.connect();
-        rsSearch = dbConnector.runQuery(querySearch);
+        try {
+            pStatement = dbConnector.getConn().prepareStatement(querySearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rsSearch = dbConnector.runQueryTest(pStatement);
 
         if (rsSearch != null) {
             try {
@@ -159,17 +166,26 @@ public class BackendController {
         String productionLanguage;
         Concert concertType = null;
         NonConcertWithMusic nonConcertType = null;
-        ShowType sType = null;
-
 
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
+        PreparedStatement pStatement = null;
 
         // Pass Prepared Statement Object
-        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
+        // String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
+        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = ? GROUP BY performance.id";
         
         dbConnector.connect();
-        rsSearch = dbConnector.runQuery(querySearch);
+        try {
+            pStatement = dbConnector.getConn().prepareStatement(querySearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setString(1, searchTerm);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rsSearch = dbConnector.runQueryTest(pStatement);
+        // rsSearch = dbConnector.runQuery(querySearch);
 
         if (rsSearch != null) {
             try {

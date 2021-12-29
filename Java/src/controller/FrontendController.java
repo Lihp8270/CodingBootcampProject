@@ -16,6 +16,7 @@ public class FrontendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         
         results = bController.getShowsFromTitle("Oliver!");
+        // results = bController.getAllShows();
         System.out.println("USER ID");
         System.out.println(user.getUserID());
         System.out.println("---------");

@@ -82,4 +82,35 @@ public class DatabaseConnector {
 		}
 	}
 
+	public ResultSet runQueryTest(PreparedStatement pst) {
+		try {
+			// pst = conn.prepareStatement(sql,
+			// 		ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+            //         ResultSet.CONCUR_UPDATABLE);
+			pst.execute();
+			
+			ResultSet results = pst.getResultSet();
+			if (results != null) {
+				int rowcount = 0;
+				if (results.last()) {
+					rowcount = results.getRow();
+					results.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first
+											// element
+				}
+				// System.out.println(sql + "\n Success.  Result set has " + rowcount + " rows");
+			} else {
+				// System.out.println(sql + "\n Success.  No results returned");
+			}
+			return results;
+		} catch (SQLException e) {
+			// System.out.println(sql + "\n failed to run.");
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
 }
