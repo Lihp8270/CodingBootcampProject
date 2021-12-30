@@ -3,8 +3,10 @@ package util;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.sql.ResultSet;
+import java.sql.Date;
+
+import java.time.LocalDate;
 
 public class StatementBuilder {
     private String searchTitle;
@@ -17,8 +19,8 @@ public class StatementBuilder {
 
     public StatementBuilder() {
         pStatement = null;
-        searchAll = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id GROUP BY production.id";
-        searchTitle = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = ? GROUP BY performance.id";
+        searchAll = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id WHERE performance_date >= ? GROUP BY production.id";
+        searchTitle = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = ? AND performance_date >= ? GROUP BY performance.id";
         searchTickets = "SELECT COUNT(location) FROM performance JOIN production ON performance.production_id = production.id JOIN ticket ON performance.id = ticket.performance_id JOIN seat ON ticket.seat_id = seat.id WHERE seat.location = ? AND performance.id = ?";
         getPerformers = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
         insertTempUser = "INSERT INTO customer (id) VALUES (default)";
@@ -38,6 +40,7 @@ public class StatementBuilder {
                 ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
                 ResultSet.CONCUR_UPDATABLE);
             pStatement.setString(1, searchTerm);
+            pStatement.setDate(2, Date.valueOf(LocalDate.now()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,10 +77,10 @@ public class StatementBuilder {
             pStatement = conn.prepareStatement(searchAll,
                 ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
                 ResultSet.CONCUR_UPDATABLE);
+            pStatement.setDate(1, Date.valueOf(LocalDate.now()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         return pStatement;
     }
