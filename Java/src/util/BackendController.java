@@ -13,9 +13,13 @@ import java.sql.PreparedStatement;
 
 public class BackendController {
     private DatabaseConnector dbConnector;
+    private StatementBuilder sBuilder;
+    private PreparedStatement pStatement;
     
     public BackendController() {
         dbConnector = new DatabaseConnector();
+        sBuilder = new StatementBuilder();
+        pStatement = null;
     }
 
     /**
@@ -39,20 +43,10 @@ public class BackendController {
 
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
-        PreparedStatement pStatement = null;
 
-        // Pass Prepared Statement Object
-        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance  JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id  GROUP BY production.id;";
-        
         dbConnector.connect();
-        try {
-            pStatement = dbConnector.getConn().prepareStatement(querySearch,
-                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
-                ResultSet.CONCUR_UPDATABLE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        rsSearch = dbConnector.runQueryTest(pStatement);
+        pStatement = sBuilder.buildSearchAllStatement(dbConnector.getConn());
+        rsSearch = dbConnector.runQuery(pStatement);
 
         if (rsSearch != null) {
             try {
@@ -171,21 +165,9 @@ public class BackendController {
         ResultSet rsSearch = null;
         PreparedStatement pStatement = null;
 
-        // Pass Prepared Statement Object
-        // String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = \"" + searchTerm + "\"" + " GROUP BY performance.id;";
-        String querySearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title = ? GROUP BY performance.id";
-        
         dbConnector.connect();
-        try {
-            pStatement = dbConnector.getConn().prepareStatement(querySearch,
-                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
-                ResultSet.CONCUR_UPDATABLE);
-            pStatement.setString(1, searchTerm);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        rsSearch = dbConnector.runQueryTest(pStatement);
-        // rsSearch = dbConnector.runQuery(querySearch);
+        pStatement = sBuilder.buildTitleSearchStatement(dbConnector.getConn(), searchTerm);
+        rsSearch = dbConnector.runQuery(pStatement);
 
         if (rsSearch != null) {
             try {
@@ -283,12 +265,13 @@ public class BackendController {
     public int createNewUser() {
         ResultSet results = null;
         int userID = 0;
-        String query = "INSERT INTO customer (id) VALUES (default);";
         
         dbConnector.connect();
-        dbConnector.runQuery(query);
-        query = "SELECT MAX(id) FROM customer;";
-        results = dbConnector.runQuery(query);
+        pStatement = sBuilder.buildInsertTempUserStatement(dbConnector.getConn());
+        dbConnector.runQuery(pStatement);
+
+        pStatement = sBuilder.buildGetRecentUserID(dbConnector.getConn());
+        results = dbConnector.runQuery(pStatement);
         
         if (results != null) {
             try {
@@ -310,8 +293,12 @@ public class BackendController {
 
     private ArrayList<String> findPerformers(int performanceID) {
         ArrayList<String> performers = new ArrayList<String>();
-        String performerSearch = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = " + performanceID + ";"; 
-        ResultSet pResultSet = dbConnector.runQuery(performerSearch);
+
+
+        ResultSet pResultSet = null;
+        
+        pStatement = sBuilder.buildGetPerformersStatement(dbConnector.getConn(), performanceID);
+        pResultSet = dbConnector.runQuery(pStatement);
 
         if (pResultSet != null) {
             try {
@@ -337,7 +324,6 @@ public class BackendController {
         int maxCircle = 120;
         int ticketsFound = 0;
         boolean validEntry = false;
-        String query = "SELECT COUNT(\"" + location + "\"" + ") FROM performance JOIN production ON performance.production_id = production.id JOIN ticket ON performance.id = ticket.performance_id JOIN seat ON ticket.seat_id = seat.id WHERE seat.location = 'Stalls' AND performance.id = " + performanceID + ";";
         ResultSet ticketsRS;
         
         // Check location is valid and return 9999 if not
@@ -349,7 +335,8 @@ public class BackendController {
             return 9999;
         }
 
-        ticketsRS = dbConnector.runQuery(query);
+        pStatement = sBuilder.buildGetTicketsStatement(dbConnector.getConn(), location, performanceID);
+        ticketsRS = dbConnector.runQuery(pStatement);
 
         if (ticketsRS != null) {
             try {

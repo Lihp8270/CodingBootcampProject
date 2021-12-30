@@ -38,40 +38,6 @@ public class DatabaseConnector {
 		}
 	}
 
-	/*
-	 * 4. Prepare a query statement to run - DONE :) 5. Execute query - DONE
-	 */
-
-	// Pass PreparedStatement object instead of SQL string
-	public ResultSet runQuery(String sql) {
-		PreparedStatement pst = null;
-		try {
-			pst = conn.prepareStatement(sql,
-					ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
-                    ResultSet.CONCUR_UPDATABLE);
-			pst.execute();
-			
-			ResultSet results = pst.getResultSet();
-			if (results != null) {
-				int rowcount = 0;
-				if (results.last()) {
-					rowcount = results.getRow();
-					results.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first
-											// element
-				}
-				System.out.println(sql + "\n Success.  Result set has " + rowcount + " rows");
-			} else {
-				System.out.println(sql + "\n Success.  No results returned");
-			}
-			return results;
-		} catch (SQLException e) {
-			System.out.println(sql + "\n failed to run.");
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
 	public void close() {
 		try {
 			conn.close();
@@ -82,7 +48,7 @@ public class DatabaseConnector {
 		}
 	}
 
-	public ResultSet runQueryTest(PreparedStatement pst) {
+	public ResultSet runQuery(PreparedStatement pst) {
 		try {
 			// pst = conn.prepareStatement(sql,
 			// 		ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
@@ -97,13 +63,13 @@ public class DatabaseConnector {
 					results.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first
 											// element
 				}
-				// System.out.println(sql + "\n Success.  Result set has " + rowcount + " rows");
+				// System.out.println("\n Success.  Result set has " + rowcount + " rows");
 			} else {
-				// System.out.println(sql + "\n Success.  No results returned");
+				// System.out.println("\n Success.  No results returned");
 			}
 			return results;
 		} catch (SQLException e) {
-			// System.out.println(sql + "\n failed to run.");
+			System.out.println("\n failed to run.");
 			e.printStackTrace();
 			return null;
 		}
