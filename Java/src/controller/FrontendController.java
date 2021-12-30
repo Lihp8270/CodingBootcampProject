@@ -5,7 +5,6 @@ import model.Performance;
 
 import util.BackendController;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class FrontendController {
@@ -16,9 +15,10 @@ public class FrontendController {
         User user = new User(bController.createNewUser());
         ArrayList<Performance> results = new ArrayList<Performance>();
         
-        // results = bController.getShowsFromTitle("Mouse");
+        // results = bController.getShowsFromTitle("La");
         // results = bController.getAllShows();
-        results = bController.getShowsFromType("Theat");
+        // results = bController.getShowsFromType("Theat");
+        results = bController.getShowsFromTime("evening");
         System.out.println("USER ID");
         System.out.println(user.getUserID());
         System.out.println("---------");

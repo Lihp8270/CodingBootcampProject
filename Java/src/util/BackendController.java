@@ -55,9 +55,29 @@ public class BackendController {
         ResultSet rsSearch = null;
 
         searchTerm = createLikeSearchString(searchTerm);
-
+        
         dbConnector.connect();
-        pStatement = sBuilder.buildTypeSearchStatement(dbConnector.getConn(), searchTerm);
+        pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "type", searchTerm);
+        rsSearch = dbConnector.runQuery(pStatement);
+        results = buildPerformanceReturn(rsSearch, false);
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
+     * Search by show time
+     * @param searchTerm evening or matinee
+     * @return Returns an ArrayList of Performance Objects
+     */
+    public ArrayList<Performance> getShowsFromTime(String searchTerm) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+
+        searchTerm = createLikeSearchString(searchTerm);
+        
+        dbConnector.connect();
+        pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "time", searchTerm);
         rsSearch = dbConnector.runQuery(pStatement);
         results = buildPerformanceReturn(rsSearch, false);
         dbConnector.close();
@@ -77,7 +97,7 @@ public class BackendController {
         searchTerm = createLikeSearchString(searchTerm);
 
         dbConnector.connect();
-        pStatement = sBuilder.buildTitleSearchStatement(dbConnector.getConn(), searchTerm);
+        pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "title", searchTerm);
         rsSearch = dbConnector.runQuery(pStatement);
 
         results = buildPerformanceReturn(rsSearch, false);
@@ -87,6 +107,10 @@ public class BackendController {
         return results;
     }
 
+    /**
+     * Creates a temporary new user
+     * @return Returns the new userID
+     */
     public int createNewUser() {
         ResultSet results = null;
         int userID = 0;
