@@ -46,6 +46,26 @@ public class BackendController {
     }
 
     /**
+     * Search by Show Type
+     * @param searchTerm Search term to search type from
+     * @return Returns an ArrayList of Performance Objects
+     */
+    public ArrayList<Performance> getShowsFromType(String searchTerm) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+
+        searchTerm = createLikeSearchString(searchTerm);
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildTypeSearchStatement(dbConnector.getConn(), searchTerm);
+        rsSearch = dbConnector.runQuery(pStatement);
+        results = buildPerformanceReturn(rsSearch, false);
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
      * Search shows by title, using "Like"  Does not require a complete title name
      * @param searchTerm Search term to search the title for 
      * @return Returns an ArrayList of Performance Objects
@@ -54,7 +74,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
         PreparedStatement pStatement = null;
-        searchTerm = "%" + searchTerm + "%";
+        searchTerm = createLikeSearchString(searchTerm);
 
         dbConnector.connect();
         pStatement = sBuilder.buildTitleSearchStatement(dbConnector.getConn(), searchTerm);
@@ -163,6 +183,15 @@ public class BackendController {
         } else {
             return maxCircle - ticketsFound;
         }
+    }
+
+    /**
+     * Creates a usable string for searching "Like"
+     * @param searchTerm Search term to modify
+     * @return returns searchable String
+     */
+    private String createLikeSearchString(String searchTerm) {
+        return "%" + searchTerm + "%";
     }
 
     /**
