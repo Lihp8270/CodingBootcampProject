@@ -46,7 +46,7 @@ public class BackendController {
     }
 
     /**
-     * Search shows by title
+     * Search shows by title, using "Like"  Does not require a complete title name
      * @param searchTerm Search term to search the title for 
      * @return Returns an ArrayList of Performance Objects
      */
@@ -54,6 +54,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
         PreparedStatement pStatement = null;
+        searchTerm = "%" + searchTerm + "%";
 
         dbConnector.connect();
         pStatement = sBuilder.buildTitleSearchStatement(dbConnector.getConn(), searchTerm);
@@ -294,12 +295,6 @@ public class BackendController {
         }
     
         return results;
-    }
-
-    @Override
-    public String toString() {
-        return "BackendController [dbConnector=" + dbConnector + ", pStatement=" + pStatement + ", sBuilder=" + sBuilder
-                + "]";
     }
 
 }
