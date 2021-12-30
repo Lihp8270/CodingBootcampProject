@@ -5,6 +5,7 @@ import model.Performance;
 
 import util.BackendController;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class FrontendController {
@@ -22,11 +23,17 @@ public class FrontendController {
         System.out.println("---------");
 
         for (int i = 0; i < results.size(); i++) {
+            System.out.println("Title");
+            System.out.println(results.get(i).getTitle());
+            System.out.println("---------");
             System.out.println("Type");
             System.out.println(results.get(i).getType());
             System.out.println("---------");
             System.out.println("Language");
             System.out.println(results.get(i).getType().getLanguage());
+            System.out.println("---------");
+            System.out.println("Date");
+            System.out.println(results.get(i).getDate());
             System.out.println("---------");
             System.out.println("Time");
             System.out.println(results.get(i).getTime());
