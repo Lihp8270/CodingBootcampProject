@@ -96,8 +96,18 @@ insert into concession (concession_name, discount)
 ;
 insert into performance( performance_date, time_slot, production_id)
 	values 
-    (curdate()+1, 'matinee', 1),
-    (curdate()+1, 'evening', 1)
+    (date_add(curdate(), interval 1 day), 'matinee', 1),
+    (date_add(curdate(), interval 1 day), 'evening', 1),
+    
+	(date_add(curdate(), interval 2 day), 'matinee', 2),
+    (date_add(curdate(), interval 2 day), 'evening', 2),
+    
+	(date_add(curdate(), interval 3 day), 'matinee', 3),
+    (date_add(curdate(), interval 3 day), 'evening', 3),
+    
+	(date_add(curdate(), interval 4 day), 'matinee', 4),
+    (date_add(curdate(), interval 4 day), 'evening', 4)
+    
 ;
 
 insert into ticket (concession_id, performance_id, seat_id, customer_id, ticket_status)
