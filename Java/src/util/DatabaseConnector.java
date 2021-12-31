@@ -32,7 +32,7 @@ public class DatabaseConnector {
 		}
 
 		if (conn != null) {
-			System.out.println("Connection established.");
+			//System.out.println("Connection established.");
 		} else {
 			System.out.println("Connection null still.");
 		}
@@ -41,7 +41,7 @@ public class DatabaseConnector {
 	public void close() {
 		try {
 			conn.close();
-			System.out.println("Connection closed.");
+			//System.out.println("Connection closed.");
 		} catch (SQLException e) {
 			System.out.println("Connection not closed.");
 			e.printStackTrace();
