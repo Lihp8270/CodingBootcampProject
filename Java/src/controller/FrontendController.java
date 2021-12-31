@@ -15,17 +15,28 @@ public class FrontendController {
         User user = new User(bController.createNewUser());
         ArrayList<Performance> results = new ArrayList<Performance>();
         
-        results = bController.getShowsFromTitle("Oliver!");
+        // results = bController.getShowsFromTitle("La");
+        // results = bController.getAllShows();
+        // results = bController.getShowsFromType("Theat");
+        // results = bController.getShowsFromTime("evening");
+        // results = bController.getShowsFromMaxDuration(140);
+        results = bController.getShowsFromDate(2022, 01, 03);
         System.out.println("USER ID");
         System.out.println(user.getUserID());
         System.out.println("---------");
 
         for (int i = 0; i < results.size(); i++) {
+            System.out.println("Title");
+            System.out.println(results.get(i).getTitle());
+            System.out.println("---------");
             System.out.println("Type");
             System.out.println(results.get(i).getType());
             System.out.println("---------");
             System.out.println("Language");
             System.out.println(results.get(i).getType().getLanguage());
+            System.out.println("---------");
+            System.out.println("Date");
+            System.out.println(results.get(i).getDate());
             System.out.println("---------");
             System.out.println("Time");
             System.out.println(results.get(i).getTime());

@@ -1,27 +1,29 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;0&lt;/x&gt;&lt;y&gt;106&lt;/y&gt;&lt;w&gt;580&lt;/w&gt;&lt;h&gt;590&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;Front End
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;624&lt;/x&gt;&lt;y&gt;0&lt;/y&gt;&lt;w&gt;990&lt;/w&gt;&lt;h&gt;890&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;Back End
+--
+bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;0&lt;/x&gt;&lt;y&gt;106&lt;/y&gt;&lt;w&gt;580&lt;/w&gt;&lt;h&gt;590&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;Front End
 --
 bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;UMLPackage&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;20&lt;/x&gt;&lt;y&gt;230&lt;/y&gt;&lt;w&gt;590&lt;/w&gt;&lt;h&gt;490&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;FrontEnd
 --
-bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>47</x><y>370</y><w>210</w><h>100</h></coordinates><panel_attributes>FrontendController
+bg=black&lt;/panel_attributes&gt;&lt;additional_attributes&gt;&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>87</x><y>346</y><w>210</w><h>100</h></coordinates><panel_attributes>FrontendController
 --
 Responsibilities
 -- Main program loop
 -- Handles user interaction and
-manages interactions with classes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>347</x><y>370</y><w>210</w><h>90</h></coordinates><panel_attributes>ShoppingBasket
+manages interactions with classes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>387</x><y>346</y><w>210</w><h>90</h></coordinates><panel_attributes>ShoppingBasket
 --
 Responsibilities
 -- Manages ticket objects for the user
 -- Contains ArrayList of ticket ID's that
-the user has in their basket</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>27</x><y>520</y><w>210</w><h>80</h></coordinates><panel_attributes>InterfaceController
+the user has in their basket</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>67</x><y>496</y><w>210</w><h>80</h></coordinates><panel_attributes>InterfaceController
 --
 Responsibilities
 -- Formats and draws user interface
-(Screens)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>47</x><y>180</y><w>210</w><h>100</h></coordinates><panel_attributes>Scanner
+(Screens)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>87</x><y>156</y><w>210</w><h>100</h></coordinates><panel_attributes>Scanner
 --
 Responsibilities
 -- Parsing user inputs
 -- Uses scanner to read text from user
--- Checks for SQL Injection attempts</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1217</x><y>570</y><w>220</w><h>210</h></coordinates><panel_attributes>DatabaseConnector
+-- Checks for SQL Injection attempts</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1217</x><y>646</y><w>220</w><h>210</h></coordinates><panel_attributes>DatabaseConnector
 --
 Variables
 - databaseLocation : String
@@ -34,26 +36,10 @@ Methods
 Responsibilities
 -- Connects to the database
 -- Runs queries
--- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>927</x><y>600</y><w>260</w><h>280</h></coordinates><panel_attributes>QueryController
---
-Variables
-- query : String
---
-Methods
-+ buildSearchQuery(String searchField, 
-String searchTerm)
-+ buildAddToBasket(int showID, 
-String seatLocation, int UserID)
-+ buildPurchaseTicket(ArrayList&lt;int&gt; ticketIDs, 
-int customerID, String address,
-String postcode, String creditCard)
+-- Returns Result List to Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1017</x><y>636</y><w>180</w><h>70</h></coordinates><panel_attributes>StatementBuilder
 --
 Responsibilities
--- Builds Query Strings and uses
-DatabaseConnector to run query
--- Checks for SQL Injection
-Comments
--- All searches return results list</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>657</x><y>540</y><w>230</w><h>310</h></coordinates><panel_attributes>BackendController
+-- Builds Prepared Statements</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>697</x><y>516</y><w>230</w><h>310</h></coordinates><panel_attributes>BackendController
 --
 Methods
 - updateFromDB()
@@ -74,7 +60,7 @@ Objects (Shows, Seats, User)
 -- Front facing access for Front End
 to obtain information from database
 -- Stay updated with Database
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>270</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>400</y><w>120</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;100;20</additional_attributes></element><element><id>Relation</id><coordinates><x>107</x><y>460</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>440</y><w>430</w><h>220</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;200</additional_attributes></element><element><id>Relation</id><coordinates><x>877</x><y>620</y><w>360</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;100;340;12</additional_attributes></element><element><id>UMLClass</id><coordinates><x>688</x><y>70</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>157</x><y>246</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>287</x><y>376</y><w>120</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;100;20</additional_attributes></element><element><id>Relation</id><coordinates><x>147</x><y>436</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>287</x><y>416</y><w>430</w><h>220</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;410;200</additional_attributes></element><element><id>Relation</id><coordinates><x>917</x><y>776</y><w>320</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;300;32</additional_attributes></element><element><id>UMLClass</id><coordinates><x>728</x><y>46</y><w>210</w><h>390</h></coordinates><panel_attributes>performance
 --
 - performanceID : int
 - title : String
@@ -101,7 +87,7 @@ Build show object by passing all
 fields to the Constructor
 
 Duration in minutes
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>768</x><y>450</y><w>40</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;90;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>938</x><y>210</y><w>210</w><h>120</h></coordinates><panel_attributes>concert
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>808</x><y>426</y><w>40</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;90;20;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>978</x><y>186</y><w>210</w><h>120</h></coordinates><panel_attributes>concert
 --
 - performers : ArrayList&lt;performer&gt;
 --
@@ -110,7 +96,7 @@ Duration in minutes
 --
 Build object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>958</x><y>320</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1278</x><y>210</y><w>210</w><h>130</h></coordinates><panel_attributes>nonConcertWithMusic
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>998</x><y>296</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1318</x><y>186</y><w>210</w><h>130</h></coordinates><panel_attributes>nonConcertWithMusic
 --
 - performers : ArrayList&lt;performer&gt;
 - language : String
@@ -120,7 +106,7 @@ fields to the Constructor
 --
 Build object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1248</x><y>330</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;30;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1048</x><y>380</y><w>210</w><h>120</h></coordinates><panel_attributes>showType
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1288</x><y>306</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;30;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1088</x><y>356</y><w>210</w><h>120</h></coordinates><panel_attributes>showType
 --
 - type : String
 --
@@ -128,7 +114,7 @@ fields to the Constructor
 --
 Build showType object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>887</x><y>410</y><w>180</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;160;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1088</x><y>70</y><w>210</w><h>110</h></coordinates><panel_attributes>performer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>927</x><y>386</y><w>180</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;160;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1128</x><y>46</y><w>210</w><h>110</h></coordinates><panel_attributes>performer
 --
 - name : String
 --
@@ -136,7 +122,7 @@ fields to the Constructor
 --
 Build performer object by passing all
 fields to the Constructor
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1077</x><y>170</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;20;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1247</x><y>170</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>278</x><y>90</y><w>210</w><h>210</h></coordinates><panel_attributes>user
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1117</x><y>146</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;20;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1287</x><y>146</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>30;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>318</x><y>66</y><w>210</w><h>210</h></coordinates><panel_attributes>user
 --
 - name : String
 - addressLine1 : String
@@ -149,21 +135,16 @@ is passed to the database along
 with the purchase details
 
 user object created only when 
-purchase is made</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>247</x><y>290</y><w>140</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;120;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1278</x><y>822</y><w>140</w><h>70</h></coordinates><panel_attributes>DATABASE
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1317</x><y>770</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;30;50</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>24</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
+purchase is made</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>287</x><y>266</y><w>140</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;80;120;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1528</x><y>738</y><w>140</w><h>70</h></coordinates><panel_attributes>DATABASE
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1427</x><y>756</y><w>120</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;30;100;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>40</x><y>0</y><w>580</w><h>640</h></coordinates><panel_attributes>Front End
 --
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>624</x><y>12</y><w>990</w><h>890</h></coordinates><panel_attributes>Back End
---
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>920</x><y>552</y><w>280</w><h>340</h></coordinates><panel_attributes>No longer required
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>316</x><y>340</y><w>250</w><h>140</h></coordinates><panel_attributes>Shopping baseket is a query / display
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>356</x><y>316</y><w>250</w><h>140</h></coordinates><panel_attributes>Shopping baseket is a query / display
 Needs UserID and present a shopping basket
 object
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>807</x><y>460</y><w>210</w><h>80</h></coordinates><panel_attributes>TicketBuilder (Ticket Object)
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>997</x><y>506</y><w>210</w><h>80</h></coordinates><panel_attributes>TicketBuilder (Ticket Object)
 --
 Responsibilities
 -- Builds Ticket
--- Returns Array List of ticket Objects</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>630</x><y>510</y><w>140</w><h>70</h></coordinates><panel_attributes>1. Return all shows for
-browsing
-
-2. 
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+-- Returns Array List of ticket Objects</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>917</x><y>666</y><w>120</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;100;12</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>686</x><y>8</y><w>990</w><h>890</h></coordinates><panel_attributes>Back End
+--
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>917</x><y>546</y><w>100</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;20;80;10</additional_attributes></element></diagram>
