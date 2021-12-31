@@ -9,13 +9,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class StatementBuilder {
-    private String searchTitle;
     private String searchAll;
     private String searchTickets;
     private String getPerformers;
     private String insertTempUser;
     private String getNewestUser;
-    private String searchType;
     private PreparedStatement pStatement;
 
     public StatementBuilder() {
@@ -26,6 +24,56 @@ public class StatementBuilder {
         getPerformers = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
         insertTempUser = "INSERT INTO customer (id) VALUES (default)";
         getNewestUser = "SELECT MAX(id) FROM customer";
+    }
+
+    /**
+     * Search by maximum duration
+     * @param conn Pass Connection after database connects
+     * @param searchField Field to search (currently only duration)
+     * @param intValue Max duration in minutes
+     * @return Returns a prepared setatement
+     */
+    public PreparedStatement buildDurationSearchFieldStatement(Connection conn, int maxDuration) {
+        String searchQuery;
+
+        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE duration <= ? AND performance_date >= ? GROUP BY performance.id";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, maxDuration);
+            pStatement.setDate(2, Date.valueOf(LocalDate.now()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+
+    }
+
+    /**
+     * Search by Date
+     * @param conn Pass Connection after DB connects
+     * @param dateString Date String in format YYYY-MM-DD
+     * @return Returns prepared Statement
+     */
+    public PreparedStatement buildDateSearchFieldStatement(Connection conn, String dateString) {
+        String searchQuery;
+
+        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE performance_date = ? GROUP BY performance.id";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setDate(1, Date.valueOf(dateString));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+
     }
 
     /**

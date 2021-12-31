@@ -18,7 +18,9 @@ public class FrontendController {
         // results = bController.getShowsFromTitle("La");
         // results = bController.getAllShows();
         // results = bController.getShowsFromType("Theat");
-        results = bController.getShowsFromTime("evening");
+        // results = bController.getShowsFromTime("evening");
+        // results = bController.getShowsFromMaxDuration(140);
+        results = bController.getShowsFromDate(2022, 01, 03);
         System.out.println("USER ID");
         System.out.println(user.getUserID());
         System.out.println("---------");

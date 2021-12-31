@@ -46,6 +46,47 @@ public class BackendController {
     }
 
     /**
+     * Search shows by max duration
+     * @param maxDuration Maximum show duration in minutes as an integer
+     * @return Returns an ArrayList of Performance
+     */
+    public ArrayList<Performance> getShowsFromMaxDuration(int maxDuration) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+        
+        dbConnector.connect();
+        pStatement = sBuilder.buildDurationSearchFieldStatement(dbConnector.getConn(), maxDuration);
+        rsSearch = dbConnector.runQuery(pStatement);
+        results = buildPerformanceReturn(rsSearch, false);
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
+     * Search shows by Date
+     * @param year year as an integer 4 digits YYYY
+     * @param month Month as a 2 digit integer MM
+     * @param date Date as a 2 digit integer DD
+     * @return Returns an ArrayList as a Performance
+     */
+    public ArrayList<Performance> getShowsFromDate(int year, int month, int date) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+        String dateString;
+        
+        dateString = createDateString(year, month, date);
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildDateSearchFieldStatement(dbConnector.getConn(), dateString);
+        rsSearch = dbConnector.runQuery(pStatement);
+        results = buildPerformanceReturn(rsSearch, false);
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
      * Search by Show Type
      * @param searchTerm Search term to search type from
      * @return Returns an ArrayList of Performance Objects
@@ -348,6 +389,21 @@ public class BackendController {
         }
     
         return results;
+    }
+
+    /**
+     * Builds a date string to use in SQL Search
+     * @param year YYYY
+     * @param month MM
+     * @param date DD
+     * @return Returns a usable date string
+     */
+    private String createDateString(int year, int month, int date) {
+        String dateString;
+
+        dateString = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
+
+        return dateString;
     }
 
 }
