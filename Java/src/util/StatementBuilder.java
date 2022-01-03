@@ -26,6 +26,60 @@ public class StatementBuilder {
         getNewestUser = "SELECT MAX(id) FROM customer";
     }
 
+
+    /**
+     * Build prepared statement to get a list of seat numbers for a given performance and seat location
+     * @param conn Pass Connection after db connect
+     * @param performanceID Integer of the performance ID
+     * @param location circle or stalls
+     * @return Returns a Prepared Statement ready for execution
+     */
+    public PreparedStatement buildSeatNumberStatement(Connection conn, int performanceID, String location) {
+        String searchQuery = "SELECT seat_id FROM ticket JOIN seat ON ticket.seat_id = seat.id WHERE performance_id = ? AND location = ? ORDER BY seat_id ASC";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performanceID);
+            pStatement.setString(2, location);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+
+    }
+
+    /**
+     * Build Add to basket prepared statement
+     * @param conn Pass Connection after database connects
+     * @param concessionID 1 for full price, 2 for child
+     * @param performanceID Performance ID for basket
+     * @param seatID Seat number to use
+     * @param customerID Customer ID as an integer 
+     * @return Prepared Statement
+     */
+    public PreparedStatement buildAddToBasketStatement(Connection conn, int concessionID, int performanceID, int seatID, int customerID) {
+
+        String insertQuery = "INSERT INTO ticket (concession_id, performance_id, seat_id, customer_id, ticket_status) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            pStatement = conn.prepareStatement(insertQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, concessionID);
+            pStatement.setInt(2, performanceID);
+            pStatement.setInt(3, seatID);
+            pStatement.setInt(4, customerID);
+            pStatement.setString(5, "basket");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
     /**
      * Search by maximum duration
      * @param conn Pass Connection after database connects
@@ -49,7 +103,6 @@ public class StatementBuilder {
         }
 
         return pStatement;
-
     }
 
     /**
@@ -152,7 +205,7 @@ public class StatementBuilder {
     }
 
     /**
-     * Build Tickets
+     * Build search Tickets
      * @param conn Pass Connection after database connect
      * @param location Seat location, Stalls or Circle
      * @param performanceID Performance ID to search for

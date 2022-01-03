@@ -1,6 +1,8 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -8,6 +10,7 @@ import model.Performance;
 import model.Concert;
 import model.NonConcertWithMusic;
 import model.Performer;
+import model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +43,28 @@ public class BackendController {
 
         results = buildPerformanceReturn(rsSearch, true);
         
+        dbConnector.close();
+
+        return results;
+    }
+
+    /**
+     * Returns all scheduled performances
+     * @return Returns an array list of performance objects
+     */
+    public ArrayList<Performance> getAllPerformances() {
+        String searchTerm = "";
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+        PreparedStatement pStatement = null;
+        searchTerm = createLikeSearchString(searchTerm);
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "title", searchTerm);
+        rsSearch = dbConnector.runQuery(pStatement);
+
+        results = buildPerformanceReturn(rsSearch, false);
+
         dbConnector.close();
 
         return results;
@@ -404,6 +429,103 @@ public class BackendController {
         dateString = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
 
         return dateString;
+    }
+
+    // Return shopping basket object
+    public void getBasket(User user) {
+
+    }
+
+    /**
+     * Add a ticket to a users basket
+     * @param concessionID 1 for Standard 2 for child
+     * @param performanceID Performance ID the ticket is for
+     * @param user Completed user object for the purchaser (this should include name, etc)
+     * @param qty Quantity of tickets requested
+     * @param location Location of tickets, circle or stalls
+     */
+    public Boolean addToBasket(int concessionID, int performanceID, User user, int qty, String location) {
+        PreparedStatement pStatementInsert;
+        PreparedStatement pStatementSeatLocation;
+        ResultSet seatResults;
+        ArrayList<Integer> seatNumbers;
+        int seatID = 0;
+        Boolean seatFound = false;
+
+        int seatAvailability = 0;
+        dbConnector.connect();    
+
+        // Check Ticket availability
+        // Remove case sensitivity
+        switch (location) {
+            case "stalls":
+                seatAvailability = getAvailableTickets("Stalls", performanceID);
+                seatID = 0;
+                break;
+            case "circle":
+                seatAvailability = getAvailableTickets("Circle", performanceID);
+                seatID = 80;
+                break;
+            default:
+                break;
+        }
+
+        // Only add the tickets if there's seats available
+        if (seatAvailability - qty >= 0) {
+            for (int j = 0; j < qty; j++) {
+                pStatementSeatLocation = sBuilder.buildSeatNumberStatement(dbConnector.getConn(), performanceID, location);
+                seatResults = dbConnector.runQuery(pStatementSeatLocation);
+                seatNumbers = new ArrayList<Integer>();
+
+                // Build Array List of seat numbers sold or reserved
+                if (seatResults != null) {
+                    try {
+                        while (seatResults.next()) {
+                            seatNumbers.add(seatResults.getInt(1));
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    seatID = 1;
+                }
+
+                // TODO
+                // Does not work with a max - 1 availability
+                for (int i = 0; i < seatNumbers.size(); i++) {
+                    if ((i + 1) < seatNumbers.size()) {
+                        if ((seatNumbers.get(i) + 1 != seatNumbers.get(i + 1)) && seatFound == false) {
+                            seatID = seatNumbers.get(i) + 1;
+                            seatFound = true;
+                        }
+                    }
+                }
+
+                if (seatNumbers.size() == 0) {
+                    seatID++;
+                    seatNumbers.add(seatID);
+                    Collections.sort(seatNumbers);
+                    seatFound = true;
+                }
+
+                if (seatFound == false) {
+                    seatID = seatNumbers.get(seatNumbers.size() - 1) + 1;
+                }
+
+                pStatementInsert = sBuilder.buildAddToBasketStatement(dbConnector.getConn(), concessionID, performanceID, seatID, user.getUserID());
+
+                dbConnector.runQuery(pStatementInsert);
+            }
+
+            dbConnector.close();
+            return true;
+        } else {
+            dbConnector.close();
+            return false;
+        }
+
+        
     }
 
 }
