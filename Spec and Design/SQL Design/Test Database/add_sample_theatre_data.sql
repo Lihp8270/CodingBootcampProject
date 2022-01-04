@@ -85,7 +85,12 @@ insert into music_performers (production_id, performer_id, music_role)
 insert into seat (id, location) 
 	values
 	(1,'stalls'),
-	(2,'stalls')
+	(2,'stalls'),
+    (3,'stalls'),
+    (4,'stalls'),
+    (5,'circle'),
+    (6,'circle')
+    
 ;
 
 insert into customer (customer_name, customer_email, customer_password) value ('bob','bob@gmail','bob123');
