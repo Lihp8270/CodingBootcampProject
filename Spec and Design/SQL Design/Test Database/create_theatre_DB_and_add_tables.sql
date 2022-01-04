@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS theatre.ticket (
   seat_id INT NOT NULL,
   customer_id INT NOT NULL,
   ticket_status ENUM('basket', 'purchased') NOT NULL,
+  sale_price Decimal NOT NULL DEFAULT 99,
   created TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   INDEX concession_id_idx (concession_id ASC) ,
