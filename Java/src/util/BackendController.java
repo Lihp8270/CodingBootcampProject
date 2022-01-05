@@ -236,8 +236,6 @@ public class BackendController {
         return performers;
     }
 
-    // TEST
-    // TEST
     private ArrayList<Integer> findPerformersID(int performanceID) {
         ArrayList<Integer> performers = new ArrayList<Integer>();
 
@@ -271,8 +269,8 @@ public class BackendController {
         // TODO
         // Get maxStalls and maxCircle from the database
 
-        PreparedStatement maxStallsStatement;
-        PreparedStatement maxCircleStatement;
+        // PreparedStatement maxStallsStatement;
+        // PreparedStatement maxCircleStatement;
 
         int maxStalls = 80;
         int maxCircle = 120;
@@ -288,7 +286,6 @@ public class BackendController {
         if (validEntry == false) {
             return 9999;
         }
-
         pStatement = sBuilder.buildGetTicketsStatement(dbConnector.getConn(), location, performanceID);
         ticketsRS = dbConnector.runQuery(pStatement);
 
@@ -321,7 +318,6 @@ public class BackendController {
         PreparedStatement pStatement;
         Boolean returnResult = false;
 
-        dbConnector.connect();
         pStatement = sBuilder.buildGetCountOfProductionStatement(dbConnector.getConn(), performerID, performanceID);
 
         assignedShowsRS = dbConnector.runQuery(pStatement);
@@ -338,8 +334,6 @@ public class BackendController {
             }
         }
 
-        dbConnector.close();
-
         return returnResult;
     }
 
@@ -354,7 +348,6 @@ public class BackendController {
         PreparedStatement pStatement;
         Boolean returnResult = false;
 
-        dbConnector.connect();
         pStatement = sBuilder.buildGetCountOfMusicStatement(dbConnector.getConn(), performerID, performanceID);
 
         assignedShowsRS = dbConnector.runQuery(pStatement);
@@ -371,8 +364,6 @@ public class BackendController {
             }
         }
 
-        dbConnector.close();
-
         return returnResult;
     }
 
@@ -385,7 +376,6 @@ public class BackendController {
         ResultSet productionRolesRS;
         PreparedStatement pStatement;
 
-        dbConnector.connect();
         pStatement = sBuilder.buildGetProductionRolesStatement(dbConnector.getConn(), performer.getPerformerID(), performanceID);
 
         productionRolesRS = dbConnector.runQuery(pStatement);
@@ -400,7 +390,6 @@ public class BackendController {
             }
         }
 
-        dbConnector.close();
     }
 
     /**
@@ -412,7 +401,6 @@ public class BackendController {
         ResultSet musicRolesRS;
         PreparedStatement pStatement;
 
-        dbConnector.connect();
         pStatement = sBuilder.buildGetMusicRolesStatement(dbConnector.getConn(), performer.getPerformerID(), performanceID);
 
         musicRolesRS = dbConnector.runQuery(pStatement);
@@ -427,7 +415,6 @@ public class BackendController {
             }
         }
 
-        dbConnector.close();
     }
 
     /**
