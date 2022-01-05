@@ -10,14 +10,10 @@ import java.util.ArrayList;
 public class FrontendController {
 	
 	BackendController bController;
-	ArrayList<Performance> allShows;
-	//ArrayList<Performance> allPerfs;
 	
 	public FrontendController() {
-		BackendController bController = new BackendController();
+		bController = new BackendController();
         User user = new User(bController.createNewUser());
-        //allShows = new ArrayList<Performance>();
-        allShows = bController.getAllShows();
         	
 	}
     
@@ -27,25 +23,28 @@ public class FrontendController {
     }
 	
 	public void run() {
-		// display menu
-		//displayShows();
-		displayPerformances();
+		//System.out.print("\033[H\\033[2J");  
+		//display menu
+		displayShows();
+		//displayPerformances();
+		//searchShowByTitle();
+		
+	
 		
 	}
 	
 	public void displayShows() {
-		for (Performance p : allShows) {
+		ArrayList<Performance> allShows = bController.getAllShows();
+		for (Performance show : allShows) {
 			System.out.println(
-       					p.getTitle() + " "
-       					+ p.getType()
+       					  show.getTitle() + " "
+       					+ show.getType()
 					);				
       }
 	}
 	
 	public void displayPerformances() {
-		//ArrayList<Performance> allPerfs;// = new ArrayList<Performance>();
 		ArrayList<Performance> allPerfs = bController.getAllPerformances();
-		
 		for (Performance perf : allPerfs) {
 			System.out.print(
     			
@@ -59,6 +58,13 @@ public class FrontendController {
     					+ perf.getPrice()
     					+  "\n");
 		}
+	}
+	
+	public void searchShowByTitle() {
+		ArrayList<Performance> allShows = bController.getAllShows();
+		for (Performance show : allShows) {
+						
+      }
 	}
 	
 
