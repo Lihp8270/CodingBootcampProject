@@ -214,16 +214,42 @@ public class BackendController {
     private ArrayList<String> findPerformers(int performanceID) {
         ArrayList<String> performers = new ArrayList<String>();
 
-
         ResultSet pResultSet = null;
         
         pStatement = sBuilder.buildGetPerformersStatement(dbConnector.getConn(), performanceID);
         pResultSet = dbConnector.runQuery(pStatement);
 
+        
+
         if (pResultSet != null) {
             try {
                 while (pResultSet.next()) {
                     performers.add(pResultSet.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return performers;
+    }
+
+    // TEST
+    // TEST
+    private ArrayList<Integer> findPerformersID(int performanceID) {
+        ArrayList<Integer> performers = new ArrayList<Integer>();
+
+        ResultSet pResultSet = null;
+        
+        pStatement = sBuilder.buildGetPerformersIDStatement(dbConnector.getConn(), performanceID);
+        pResultSet = dbConnector.runQuery(pStatement);
+
+        
+
+        if (pResultSet != null) {
+            try {
+                while (pResultSet.next()) {
+                    performers.add(pResultSet.getInt(1));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -240,6 +266,9 @@ public class BackendController {
      * @return returns number of available tickets or 9999 on error
      */
     private int getAvailableTickets(String location, int performanceID) {
+        // TODO
+        // Get maxStalls and maxCircle from the database
+
         int maxStalls = 80;
         int maxCircle = 120;
         int ticketsFound = 0;
@@ -275,6 +304,9 @@ public class BackendController {
         }
     }
 
+
+    // Move to formatter class
+
     /**
      * Creates a usable string for searching "Like"
      * @param searchTerm Search term to modify
@@ -282,6 +314,105 @@ public class BackendController {
      */
     private String createLikeSearchString(String searchTerm) {
         return "%" + searchTerm + "%";
+    }
+
+    // TEST
+    private Boolean isPerformerProduction(int performerID, int performanceID) {
+        ResultSet assignedShowsRS;
+        PreparedStatement pStatement;
+        Boolean returnResult = false;
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildGetCountOfProductionStatement(dbConnector.getConn(), performerID, performanceID);
+
+        assignedShowsRS = dbConnector.runQuery(pStatement);
+
+        if (assignedShowsRS != null) {
+            try {
+                while (assignedShowsRS.next()) {
+                    if (assignedShowsRS.getInt(1) > 0){
+                        returnResult = true;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbConnector.close();
+
+        return returnResult;
+    }
+
+    private Boolean isPerformerMusic(int performerID, int performanceID) {
+        ResultSet assignedShowsRS;
+        PreparedStatement pStatement;
+        Boolean returnResult = false;
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildGetCountOfMusicStatement(dbConnector.getConn(), performerID, performanceID);
+
+        assignedShowsRS = dbConnector.runQuery(pStatement);
+
+        if (assignedShowsRS != null) {
+            try {
+                while (assignedShowsRS.next()) {
+                    if (assignedShowsRS.getInt(1) > 0){
+                        returnResult = true;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbConnector.close();
+
+        return returnResult;
+    }
+
+    private void addProductionRoles(Performer performer, int performanceID) {
+        ResultSet productionRolesRS;
+        PreparedStatement pStatement;
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildGetProductionRolesStatement(dbConnector.getConn(), performer.getPerformerID(), performanceID);
+
+        productionRolesRS = dbConnector.runQuery(pStatement);
+
+        if (productionRolesRS != null) {
+            try {
+                while (productionRolesRS.next()) {
+                    performer.addProductionRole(productionRolesRS.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbConnector.close();
+    }
+
+    private void addMusicRoles(Performer performer, int performanceID) {
+        ResultSet musicRolesRS;
+        PreparedStatement pStatement;
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildGetMusicRolesStatement(dbConnector.getConn(), performer.getPerformerID(), performanceID);
+
+        musicRolesRS = dbConnector.runQuery(pStatement);
+
+        if (musicRolesRS != null) {
+            try {
+                while (musicRolesRS.next()) {
+                    performer.addMusicRole(musicRolesRS.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbConnector.close();
     }
 
     /**
@@ -329,11 +460,25 @@ public class BackendController {
                     switch (rsSearch.getString(3)) {
                         case "Theatre":
                             nonConcertType = new NonConcertWithMusic("Theatre", productionLanguage);
+                            ArrayList<Integer> theatrePerformersID = findPerformersID(performanceID);
+                            ArrayList<String> theatrePerformersNames = findPerformers(performanceID);
 
                             // Get Performers list
-                            ArrayList<String> theatrePerformers = findPerformers(performanceID);
-                            for (int i = 0; i < theatrePerformers.size(); i++) {
-                                Performer performer = new Performer(theatrePerformers.get(i));
+                            // ArrayList<String> theatrePerformers = findPerformers(performanceID);
+
+                            for (int i = 0; i < theatrePerformersID.size(); i++) {
+                                Performer performer = new Performer(theatrePerformersNames.get(i), theatrePerformersID.get(i));
+
+                                if (isPerformerProduction(theatrePerformersID.get(i), performanceID)) {
+                                    performer.performerIsProduction(true);
+                                    addProductionRoles(performer, performanceID);
+                                }
+
+                                if (isPerformerMusic(theatrePerformersID.get(i), performanceID)) {
+                                    performer.performerIsMusic(true);
+                                    addMusicRoles(performer, performanceID);
+                                }
+
                                 nonConcertType.addPerformer(performer);
                             }
 
@@ -344,10 +489,32 @@ public class BackendController {
                         case "Musical":
                             nonConcertType = new NonConcertWithMusic("Musical", productionLanguage);
 
-                            // Get Performers list
-                            ArrayList<String> musicalPerformers = findPerformers(performanceID);
-                            for (int i = 0; i < musicalPerformers.size(); i++) {
-                                Performer performer = new Performer(musicalPerformers.get(i));
+                            // Get list of performers IDs and Names
+                            ArrayList<Integer> musicalPerformersID = findPerformersID(performanceID);
+                            ArrayList<String> musicalPerformersNames = findPerformers(performanceID);
+
+                            for (int i = 0; i < musicalPerformersID.size(); i++) {
+                                Performer performer = new Performer(musicalPerformersNames.get(i), musicalPerformersID.get(i));
+
+                                // Check if performer is show role
+                                    // If TRUE, set flag in performer, and populate ArrayList
+                                if (isPerformerProduction(musicalPerformersID.get(i), performanceID)) {
+                                    performer.performerIsProduction(true);                               
+                                    addProductionRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsProduction(false);
+                                }
+
+                                // Check if performer is music role
+                                    // If TRUE, set flag in performer and populate ArrayList
+                                if (isPerformerMusic(musicalPerformersID.get(i), performanceID)) {
+                                    // Set flag and populate arraylist
+                                    performer.performerIsMusic(true);
+                                    addMusicRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsMusic(false);
+                                }
+
                                 nonConcertType.addPerformer(performer);
                             }
 
@@ -357,31 +524,67 @@ public class BackendController {
                             break;
                         case "Opera":
                             nonConcertType = new NonConcertWithMusic("Opera", productionLanguage);
+                            ArrayList<Integer> operaPerformersID = findPerformersID(performanceID);
+                            ArrayList<String> operaPerformersNames = findPerformers(performanceID);
 
                             // Get Performers list
-                            ArrayList<String> operaPerformers = findPerformers(performanceID);
-                            for (int i = 0; i < operaPerformers.size(); i++) {
-                                Performer performer = new Performer(operaPerformers.get(i));
+
+                            for (int i = 0; i < operaPerformersID.size(); i++) {
+                                Performer performer = new Performer(operaPerformersNames.get(i), operaPerformersID.get(i));
+
+                                if (isPerformerProduction(operaPerformersID.get(i), performanceID)) {
+                                    performer.performerIsProduction(true);
+                                    addProductionRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsProduction(false);
+                                }
+
+                                if (isPerformerMusic(operaPerformersID.get(i), performanceID)) {
+                                    performer.performerIsMusic(true);
+                                    addMusicRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsMusic(false);
+                                }
+
                                 nonConcertType.addPerformer(performer);
                             }
 
                             // Add Show Type to the performance
                             newPerformance.addShowType(nonConcertType);
+
                             
                             break;
                         case "Concert":
                             concertType = new Concert("Concert");
+                            ArrayList<Integer> concertPerformersID = findPerformersID(performanceID);
+                            ArrayList<String> concertPerformersNames = findPerformers(performanceID);
 
                             // Get Performers list
-                            ArrayList<String> concertPerformers = findPerformers(performanceID);
-                            for (int i = 0; i < concertPerformers.size(); i++) {
-                                Performer performer = new Performer(concertPerformers.get(i));
-                                concertType.addPerformer(performer);
+
+                            for (int i = 0; i < concertPerformersID.size(); i++) {
+                                Performer performer = new Performer(concertPerformersNames.get(i), concertPerformersID.get(i));
+
+                                if (isPerformerProduction(concertPerformersID.get(i), performanceID)) {
+                                    performer.performerIsProduction(true);
+                                    addProductionRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsProduction(false);
+                                }
+
+                                if (isPerformerMusic(concertPerformersID.get(i), performanceID)) {
+                                    performer.performerIsMusic(true);
+                                    addMusicRoles(performer, performanceID);
+                                } else {
+                                    performer.performerIsMusic(false);
+                                }
+
+                                nonConcertType.addPerformer(performer);
                             }
 
                             // Add Show Type to the performance
-                            newPerformance.addShowType(concertType);
+                            newPerformance.addShowType(nonConcertType);
 
+                            
                             break;
                         default:
                         
@@ -444,6 +647,8 @@ public class BackendController {
      * @param qty Quantity of tickets requested
      * @param location Location of tickets, circle or stalls
      */
+
+     // Return error value, ENUM
     public Boolean addToBasket(int concessionID, int performanceID, User user, int qty, String location) {
         PreparedStatement pStatementInsert;
         PreparedStatement pStatementSeatLocation;
@@ -491,8 +696,6 @@ public class BackendController {
                     seatID = 1;
                 }
 
-                // TODO
-                // Does not work with a max - 1 availability
                 for (int i = 0; i < seatNumbers.size(); i++) {
                     if ((i + 1) < seatNumbers.size()) {
                         if ((seatNumbers.get(i) + 1 != seatNumbers.get(i + 1)) && seatFound == false) {
@@ -524,8 +727,8 @@ public class BackendController {
             dbConnector.close();
             return false;
         }
-
-        
     }
+
+    // Format price as String £x.xx
 
 }

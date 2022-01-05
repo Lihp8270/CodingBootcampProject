@@ -8,7 +8,14 @@ public class Performance {
     private String time;
     private String date;
     private int duration;
+    // TO DO
+    
+    // Prices Class
+    // ArrayList<String>prices returned as String £x.xx
+    // ArrayList<String>concessionName;
     private double price;
+    //
+    //
     private int stallsAvailable;
     private int circleAvailable;
 

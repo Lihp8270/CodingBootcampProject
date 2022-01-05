@@ -17,8 +17,30 @@ public class NonConcertWithMusic extends ShowType {
         performers.add(performer);
     }
 
+    public ArrayList<Performer> getMusicPerformers() {
+        ArrayList<Performer> musicList = new ArrayList<Performer>();
+        for (int i = 0; i < performers.size(); i++) {
+            if (performers.get(i).isMusicPerformer()) {
+                musicList.add(performers.get(i));
+            }
+        }
+
+        return musicList;
+    }
+
+    public ArrayList<Performer> getProductionPerformers() {
+        ArrayList<Performer> productionList = new ArrayList<Performer>();
+        for (int i = 0; i < performers.size(); i++) {
+            if (performers.get(i).isProductionPerformer()) {
+                productionList.add(performers.get(i));
+            }
+        }
+        
+        return productionList;
+    }
+
     /**
-     * Accessor for show performers
+     * Accessor for all show performers
      * @return returns an ArrayList of performers
      */
     public ArrayList<Performer> getPerformers() {

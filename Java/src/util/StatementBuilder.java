@@ -14,6 +14,9 @@ public class StatementBuilder {
     private String getPerformers;
     private String insertTempUser;
     private String getNewestUser;
+    // TEST
+    private String getPerformersID;
+    // TEST
     private PreparedStatement pStatement;
 
     public StatementBuilder() {
@@ -21,7 +24,11 @@ public class StatementBuilder {
         searchAll = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id  JOIN production_category ON production.category_id = production_category.id WHERE performance_date >= ? GROUP BY production.id";
 
         searchTickets = "SELECT COUNT(location) FROM performance JOIN production ON performance.production_id = production.id JOIN ticket ON performance.id = ticket.performance_id JOIN seat ON ticket.seat_id = seat.id WHERE seat.location = ? AND performance.id = ?";
-        getPerformers = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
+        getPerformers = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ? UNION SELECT performer_name FROM performer JOIN music_performers ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
+        // TEST
+        // getPerformersID = "SELECT performer.id FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
+        getPerformersID = "SELECT performer.id FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ? UNION SELECT performer.id FROM performer JOIN music_performers ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
+        // TEST
         insertTempUser = "INSERT INTO customer (id) VALUES (default)";
         getNewestUser = "SELECT MAX(id) FROM customer";
     }
@@ -79,6 +86,72 @@ public class StatementBuilder {
 
         return pStatement;
     }
+
+    // TEST
+    public PreparedStatement buildGetCountOfProductionStatement(Connection conn, int performerID, int performanceID) {
+        String searchQuery = "SELECT COUNT(performer.id) FROM production_performers JOIN performer ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performerID);
+            pStatement.setInt(2, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
+    public PreparedStatement buildGetCountOfMusicStatement(Connection conn, int performerID, int performanceID) {
+        String searchQuery = "SELECT COUNT(performer.id) FROM music_performers JOIN performer ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performerID);
+            pStatement.setInt(2, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
+    public PreparedStatement buildGetProductionRolesStatement(Connection conn, int performerID, int performanceID) {
+        String searchQuery = "SELECT production_role FROM production_performers JOIN performer ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performerID);
+            pStatement.setInt(2, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
+    public PreparedStatement buildGetMusicRolesStatement(Connection conn, int performerID, int performanceID) {
+        String searchQuery = "SELECT music_role FROM music_performers JOIN performer ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(searchQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performerID);
+            pStatement.setInt(2, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+    // TEST
 
     /**
      * Search by maximum duration
@@ -179,12 +252,31 @@ public class StatementBuilder {
                 ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
                 ResultSet.CONCUR_UPDATABLE);
             pStatement.setInt(1, performanceID);
+            pStatement.setInt(2, performanceID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return pStatement;
     }
+
+    // TEST
+    // TEST
+    public PreparedStatement buildGetPerformersIDStatement(Connection conn, int performanceID) {
+        try {
+            pStatement = conn.prepareStatement(getPerformersID,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, performanceID);
+            pStatement.setInt(2, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+    // TEST
+    // TEST
 
     /**
      * Find all shows

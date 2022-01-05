@@ -9,6 +9,11 @@ public abstract class ShowType {
         this.type = type;
     }
 
+    // TODO
+    // PRIORITY 1
+    // getProductionPerformers();
+    // getMusicPerformers();
+
     /**
      * Accessor for the show type
      * @return Returns the show type as a String
@@ -19,6 +24,8 @@ public abstract class ShowType {
 
     public abstract String getLanguage();
     public abstract ArrayList<Performer> getPerformers();
+    public abstract ArrayList<Performer> getMusicPerformers();
+    public abstract ArrayList<Performer> getProductionPerformers();
 
     @Override
     public String toString() {
