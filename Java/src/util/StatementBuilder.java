@@ -25,10 +25,8 @@ public class StatementBuilder {
 
         searchTickets = "SELECT COUNT(location) FROM performance JOIN production ON performance.production_id = production.id JOIN ticket ON performance.id = ticket.performance_id JOIN seat ON ticket.seat_id = seat.id WHERE seat.location = ? AND performance.id = ?";
         getPerformers = "SELECT performer_name FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ? UNION SELECT performer_name FROM performer JOIN music_performers ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
-        // TEST
-        // getPerformersID = "SELECT performer.id FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
         getPerformersID = "SELECT performer.id FROM performer JOIN production_performers ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ? UNION SELECT performer.id FROM performer JOIN music_performers ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performance.id = ?";
-        // TEST
+
         insertTempUser = "INSERT INTO customer (id) VALUES (default)";
         getNewestUser = "SELECT MAX(id) FROM customer";
     }
@@ -87,7 +85,13 @@ public class StatementBuilder {
         return pStatement;
     }
 
-    // TEST
+    /**
+     * Build prepared statement to count the number of production roles
+     * @param conn pass Connection after DB COnnect
+     * @param performerID Performer ID to search
+     * @param performanceID performane ID to search 
+     * @return returns a PreparedStatement ready for execution
+     */
     public PreparedStatement buildGetCountOfProductionStatement(Connection conn, int performerID, int performanceID) {
         String searchQuery = "SELECT COUNT(performer.id) FROM production_performers JOIN performer ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
 
@@ -104,6 +108,13 @@ public class StatementBuilder {
         return pStatement;
     }
 
+    /**
+     * Build prepared statement to count the number of music roles
+     * @param conn pass Connection after DB COnnect
+     * @param performerID Performer ID to search
+     * @param performanceID performane ID to search 
+     * @return returns a PreparedStatement ready for execution
+     */
     public PreparedStatement buildGetCountOfMusicStatement(Connection conn, int performerID, int performanceID) {
         String searchQuery = "SELECT COUNT(performer.id) FROM music_performers JOIN performer ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
 
@@ -120,6 +131,13 @@ public class StatementBuilder {
         return pStatement;
     }
 
+    /**
+     * Build prepared statement to get the production roles of a given performer
+     * @param conn pass Connection after DB COnnect
+     * @param performerID Performer ID to search
+     * @param performanceID performane ID to search 
+     * @return returns a PreparedStatement ready for execution
+     */
     public PreparedStatement buildGetProductionRolesStatement(Connection conn, int performerID, int performanceID) {
         String searchQuery = "SELECT production_role FROM production_performers JOIN performer ON production_performers.performer_id = performer.id JOIN production ON production_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
 
@@ -136,6 +154,13 @@ public class StatementBuilder {
         return pStatement;
     }
 
+    /**
+     * Build prepared statement to get the music roles of a given performer
+     * @param conn pass Connection after DB COnnect
+     * @param performerID Performer ID to search
+     * @param performanceID performane ID to search 
+     * @return returns a PreparedStatement ready for execution
+     */
     public PreparedStatement buildGetMusicRolesStatement(Connection conn, int performerID, int performanceID) {
         String searchQuery = "SELECT music_role FROM music_performers JOIN performer ON music_performers.performer_id = performer.id JOIN production ON music_performers.production_id = production.id JOIN performance ON production.id = performance.production_id WHERE performer.id = ? AND performance.id = ?";
 
@@ -151,7 +176,6 @@ public class StatementBuilder {
 
         return pStatement;
     }
-    // TEST
 
     /**
      * Search by maximum duration

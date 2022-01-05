@@ -9,11 +9,6 @@ public abstract class ShowType {
         this.type = type;
     }
 
-    // TODO
-    // PRIORITY 1
-    // getProductionPerformers();
-    // getMusicPerformers();
-
     /**
      * Accessor for the show type
      * @return Returns the show type as a String

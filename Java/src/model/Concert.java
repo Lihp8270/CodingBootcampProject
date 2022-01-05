@@ -30,6 +30,10 @@ public class Concert extends ShowType {
         return "";
     }
 
+    /**
+     * Accessor for music performers
+     * @return Returns an Array List of performer objects
+     */
     public ArrayList<Performer> getMusicPerformers() {
         ArrayList<Performer> musicList = new ArrayList<Performer>();
         for (int i = 0; i < performers.size(); i++) {
@@ -41,6 +45,10 @@ public class Concert extends ShowType {
         return musicList;
     }
 
+    /**
+     * Accessor for production performers
+     * @return Returns an Array List of performer objects
+     */
     public ArrayList<Performer> getProductionPerformers() {
         ArrayList<Performer> productionList = new ArrayList<Performer>();
         for (int i = 0; i < performers.size(); i++) {

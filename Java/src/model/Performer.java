@@ -26,6 +26,10 @@ public class Performer {
         return name;
     }
 
+    /**
+     * Accessor for performer ID
+     * @return returns ID of the performer as an integer
+     */
     public int getPerformerID() {
         return performerID;
     }
@@ -46,34 +50,66 @@ public class Performer {
         return productionRoles;
     }
 
+    /**
+     * Checks whether given performer is a music performer in any capacity
+     * @return true or false
+     */
     public Boolean isMusicPerformer() {
         return isMusicPerformer;
     }
 
+    /**
+     * Checks whether given performer is a production performer in any capacity
+     * @return true or false
+     */
     public Boolean isProductionPerformer() {
         return isProductionPerformer;
     }
 
+    /**
+     * Set the music performer flag
+     * @param set true or false
+     */
     public void performerIsMusic(Boolean set) {
         isMusicPerformer = set;
     }
 
+    /**
+     * Set the production performer flag
+     * @param set true or false
+     */
     public void performerIsProduction(Boolean set) {
         isProductionPerformer = set;
     }
 
+    /**
+     * Adds a production role to the performer
+     * @param role Role as a string to add
+     */
     public void addProductionRole(String role) {
         productionRoles.add(role);
     }
     
+    /**
+     * Adds a music role to the performer
+     * @param role Role as a string to add
+     */
     public void addMusicRole(String role) {
         musicRoles.add(role);
     }
 
+    /**
+     * Returns number of production roles the performer has
+     * @return size of array list as an integer
+     */
     public int numOfProductionRoles() {
         return productionRoles.size();
     }
 
+    /**
+     * Returns number of music roles the performer has
+     * @return size of array list as an integer
+     */
     public int numOfMusicRoles() {
         return musicRoles.size();
     }
