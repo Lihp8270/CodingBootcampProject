@@ -271,6 +271,9 @@ public class BackendController {
         // TODO
         // Get maxStalls and maxCircle from the database
 
+        PreparedStatement maxStallsStatement;
+        PreparedStatement maxCircleStatement;
+
         int maxStalls = 80;
         int maxCircle = 120;
         int ticketsFound = 0;
