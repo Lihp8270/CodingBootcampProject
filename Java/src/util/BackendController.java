@@ -20,10 +20,12 @@ public class BackendController {
     private DatabaseConnector dbConnector;
     private StatementBuilder sBuilder;
     private PreparedStatement pStatement;
+    private StringFormatter sFormatter;
     
     public BackendController() {
         dbConnector = new DatabaseConnector();
         sBuilder = new StatementBuilder();
+        sFormatter = new StringFormatter();
         pStatement = null;
     }
 
@@ -57,7 +59,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
         PreparedStatement pStatement = null;
-        searchTerm = createLikeSearchString(searchTerm);
+        searchTerm = sFormatter.createLikeSearchString(searchTerm);
 
         dbConnector.connect();
         pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "title", searchTerm);
@@ -100,7 +102,7 @@ public class BackendController {
         ResultSet rsSearch = null;
         String dateString;
         
-        dateString = createDateString(year, month, date);
+        dateString = sFormatter.createDateString(year, month, date);
 
         dbConnector.connect();
         pStatement = sBuilder.buildDateSearchFieldStatement(dbConnector.getConn(), dateString);
@@ -120,7 +122,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
 
-        searchTerm = createLikeSearchString(searchTerm);
+        searchTerm = sFormatter.createLikeSearchString(searchTerm);
         
         dbConnector.connect();
         pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "type", searchTerm);
@@ -140,7 +142,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
 
-        searchTerm = createLikeSearchString(searchTerm);
+        searchTerm = sFormatter.createLikeSearchString(searchTerm);
         
         dbConnector.connect();
         pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "time", searchTerm);
@@ -160,7 +162,7 @@ public class BackendController {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
         PreparedStatement pStatement = null;
-        searchTerm = createLikeSearchString(searchTerm);
+        searchTerm = sFormatter.createLikeSearchString(searchTerm);
 
         dbConnector.connect();
         pStatement = sBuilder.buildStringSearchFieldStatement(dbConnector.getConn(), "title", searchTerm);
@@ -305,18 +307,12 @@ public class BackendController {
     }
 
 
-    // Move to formatter class
-
     /**
-     * Creates a usable string for searching "Like"
-     * @param searchTerm Search term to modify
-     * @return returns searchable String
+     * Check if performer is a production performer in a given performance
+     * @param performerID performer ID to search
+     * @param performanceID performance ID to search
+     * @return returns true or false
      */
-    private String createLikeSearchString(String searchTerm) {
-        return "%" + searchTerm + "%";
-    }
-
-    // TEST
     private Boolean isPerformerProduction(int performerID, int performanceID) {
         ResultSet assignedShowsRS;
         PreparedStatement pStatement;
@@ -344,6 +340,12 @@ public class BackendController {
         return returnResult;
     }
 
+    /**
+     * Check if performer is a music performer in a given performance
+     * @param performerID performer ID to search
+     * @param performanceID performance ID to search
+     * @return returns true or false
+     */
     private Boolean isPerformerMusic(int performerID, int performanceID) {
         ResultSet assignedShowsRS;
         PreparedStatement pStatement;
@@ -371,6 +373,11 @@ public class BackendController {
         return returnResult;
     }
 
+    /**
+     * Adds production roles to a given performer
+     * @param performer performer object to add roles to
+     * @param performanceID performance ID to get roles from
+     */
     private void addProductionRoles(Performer performer, int performanceID) {
         ResultSet productionRolesRS;
         PreparedStatement pStatement;
@@ -393,6 +400,11 @@ public class BackendController {
         dbConnector.close();
     }
 
+    /**
+     * Adds music roles to a given performer
+     * @param performer performer object to add roles to
+     * @param performanceID performance ID to get roles from
+     */
     private void addMusicRoles(Performer performer, int performanceID) {
         ResultSet musicRolesRS;
         PreparedStatement pStatement;
@@ -619,20 +631,21 @@ public class BackendController {
         return results;
     }
 
-    /**
-     * Builds a date string to use in SQL Search
-     * @param year YYYY
-     * @param month MM
-     * @param date DD
-     * @return Returns a usable date string
-     */
-    private String createDateString(int year, int month, int date) {
-        String dateString;
+    // TO DO REMOVE IF StringFormatter works
+    // /**
+    //  * Builds a date string to use in SQL Search
+    //  * @param year YYYY
+    //  * @param month MM
+    //  * @param date DD
+    //  * @return Returns a usable date string
+    //  */
+    // private String createDateString(int year, int month, int date) {
+    //     String dateString;
 
-        dateString = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
+    //     dateString = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
 
-        return dateString;
-    }
+    //     return dateString;
+    // }
 
     // TODO
     // Return shopping basket object

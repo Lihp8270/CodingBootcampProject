@@ -14,9 +14,7 @@ public class StatementBuilder {
     private String getPerformers;
     private String insertTempUser;
     private String getNewestUser;
-    // TEST
     private String getPerformersID;
-    // TEST
     private PreparedStatement pStatement;
 
     public StatementBuilder() {
@@ -284,8 +282,12 @@ public class StatementBuilder {
         return pStatement;
     }
 
-    // TEST
-    // TEST
+    /**
+     * Builds get performers ID Statement
+     * @param conn Pass connection after database connect
+     * @param performanceID performance ID to search
+     * @return returns prepared statement
+     */
     public PreparedStatement buildGetPerformersIDStatement(Connection conn, int performanceID) {
         try {
             pStatement = conn.prepareStatement(getPerformersID,
@@ -299,8 +301,6 @@ public class StatementBuilder {
 
         return pStatement;
     }
-    // TEST
-    // TEST
 
     /**
      * Find all shows
