@@ -578,11 +578,11 @@ public class BackendController {
                                     performer.performerIsMusic(false);
                                 }
 
-                                nonConcertType.addPerformer(performer);
+                                concertType.addPerformer(performer);
                             }
 
                             // Add Show Type to the performance
-                            newPerformance.addShowType(nonConcertType);
+                            newPerformance.addShowType(concertType);
 
                             
                             break;
@@ -634,6 +634,7 @@ public class BackendController {
         return dateString;
     }
 
+    // TODO
     // Return shopping basket object
     public void getBasket(User user) {
 
@@ -648,6 +649,7 @@ public class BackendController {
      * @param location Location of tickets, circle or stalls
      */
 
+     // TODO
      // Return error value, ENUM
     public Boolean addToBasket(int concessionID, int performanceID, User user, int qty, String location) {
         PreparedStatement pStatementInsert;
@@ -729,6 +731,7 @@ public class BackendController {
         }
     }
 
+    // TODO
     // Format price as String £x.xx
 
 }
