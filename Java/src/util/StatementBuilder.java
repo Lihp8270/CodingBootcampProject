@@ -376,4 +376,19 @@ public class StatementBuilder {
         return pStatement;
     }
     
+    public PreparedStatement getMaxTicketsStatement(Connection conn, String location) {
+        String maxTicketsString = "SELECT COUNT(id) FROM seat WHERE location = ?";
+
+        try {
+            pStatement = conn.prepareStatement(maxTicketsString,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+                pStatement.setString(1, location);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
 }

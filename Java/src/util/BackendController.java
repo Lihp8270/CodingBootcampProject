@@ -266,14 +266,10 @@ public class BackendController {
      * @return returns number of available tickets or 9999 on error
      */
     private int getAvailableTickets(String location, int performanceID) {
-        // TODO
-        // Get maxStalls and maxCircle from the database
+        PreparedStatement maxTicketsStatement;
+        ResultSet maxTicketsRS;
+        int maxTickets = 0;
 
-        // PreparedStatement maxStallsStatement;
-        // PreparedStatement maxCircleStatement;
-
-        int maxStalls = 80;
-        int maxCircle = 120;
         int ticketsFound = 0;
         boolean validEntry = false;
         ResultSet ticketsRS;
@@ -286,6 +282,20 @@ public class BackendController {
         if (validEntry == false) {
             return 9999;
         }
+
+        maxTicketsStatement = sBuilder.getMaxTicketsStatement(dbConnector.getConn(), location);
+        maxTicketsRS = dbConnector.runQuery(maxTicketsStatement);
+
+        if (maxTicketsRS != null) {
+            try {
+                while (maxTicketsRS.next()) {
+                    maxTickets = maxTicketsRS.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         pStatement = sBuilder.buildGetTicketsStatement(dbConnector.getConn(), location, performanceID);
         ticketsRS = dbConnector.runQuery(pStatement);
 
@@ -299,11 +309,13 @@ public class BackendController {
             }
         }
 
-        if (location == "Stalls") {
-            return maxStalls - ticketsFound;
-        } else {
-            return maxCircle - ticketsFound;
-        }
+        return maxTickets - ticketsFound;
+
+        // if (location == "Stalls") {
+        //     return maxStalls - ticketsFound;
+        // } else {
+        //     return maxCircle - ticketsFound;
+        // }
     }
 
 
