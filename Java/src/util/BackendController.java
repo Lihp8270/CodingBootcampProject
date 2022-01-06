@@ -11,6 +11,7 @@ import model.Concert;
 import model.NonConcertWithMusic;
 import model.Performer;
 import model.User;
+import model.Price;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -234,9 +235,7 @@ public class BackendController {
         ResultSet pResultSet = null;
         
         pStatement = sBuilder.buildGetPerformersStatement(dbConnector.getConn(), performanceID);
-        pResultSet = dbConnector.runQuery(pStatement);
-
-        
+        pResultSet = dbConnector.runQuery(pStatement);     
 
         if (pResultSet != null) {
             try {
@@ -258,8 +257,6 @@ public class BackendController {
         
         pStatement = sBuilder.buildGetPerformersIDStatement(dbConnector.getConn(), performanceID);
         pResultSet = dbConnector.runQuery(pStatement);
-
-        
 
         if (pResultSet != null) {
             try {
@@ -441,7 +438,79 @@ public class BackendController {
                 e.printStackTrace();
             }
         }
+    }
 
+    /**
+     * Create an array list of prices
+     * @param performanceID Performance ID to get prices for
+     * @return returns an array list of price objects
+     */
+    private ArrayList<Price> getPriceArrayList(int performanceID) {
+        ArrayList<Price> newPriceList = new ArrayList<Price>();
+
+        PreparedStatement concessionStatement;
+
+        ResultSet concessionRS;
+
+        ArrayList<Integer> availableConcessionIDs = new ArrayList<Integer>();
+        ArrayList<Double> availableConcessionRates = new ArrayList<Double>();
+        ArrayList<String> availableConcessionNames = new ArrayList<String>();
+
+        // Get base price
+        Double basePrice = getBasePrice(performanceID);
+
+        // Get concession IDs
+        concessionStatement = sBuilder.buildConcessionStatement(dbConnector.getConn());
+        concessionRS = dbConnector.runQuery(concessionStatement);
+
+        if (concessionRS != null) {
+            try {
+                while (concessionRS.next()) {
+                    availableConcessionIDs.add(concessionRS.getInt(1));
+                    availableConcessionRates.add(concessionRS.getDouble(3));
+                    availableConcessionNames.add(concessionRS.getString(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < availableConcessionIDs.size(); i++) {
+            Double newPriceAsDouble = basePrice * availableConcessionRates.get(i);
+            String newPriceAsString = sFormatter.formatPrice(newPriceAsDouble);
+
+            Price newPrice = new Price(availableConcessionIDs.get(i), availableConcessionNames.get(i), newPriceAsDouble, newPriceAsString);
+
+            newPriceList.add(newPrice);
+        }
+        
+        return newPriceList;
+    }
+
+    /**
+     * Get base price of a performance
+     * @param performanceID performanceID as Integer
+     * @return returns the base price of a performance as a double
+     */
+    private double getBasePrice(int performanceID) {
+        PreparedStatement pStatement;
+        ResultSet basePriceRS;
+        Double basePrice = 0.00;
+
+        pStatement = sBuilder.buildGetBasePriceStatement(dbConnector.getConn(), performanceID);
+        basePriceRS = dbConnector.runQuery(pStatement);
+
+        if (basePriceRS != null) {
+            try {
+                while (basePriceRS.next()) {
+                    basePrice = basePriceRS.getDouble(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return basePrice;
     }
 
     /**
@@ -457,7 +526,7 @@ public class BackendController {
         String time;
         String date;
         int duration;
-        double price;
+        ArrayList<Price> prices;
         int stallsAvailable;
         int circleAvailable;
         String productionLanguage;
@@ -478,7 +547,6 @@ public class BackendController {
                     time = rsSearch.getString(5);
                     date = rsSearch.getString(6);
                     duration = rsSearch.getInt(7);
-                    price = rsSearch.getDouble(8);
                     productionLanguage = rsSearch.getString(9);
                     productionID = rsSearch.getInt(10);
 
@@ -486,16 +554,15 @@ public class BackendController {
                     stallsAvailable = getAvailableTickets("Stalls", performanceID);
                     circleAvailable = getAvailableTickets("Circle", performanceID);
 
-                    Performance newPerformance = new Performance(performanceID, title, description, time, date, duration, price, stallsAvailable, circleAvailable, productionID);
+                    prices = getPriceArrayList(performanceID);
+
+                    Performance newPerformance = new Performance(performanceID, title, description, time, date, duration, stallsAvailable, circleAvailable, productionID, prices);     
 
                     switch (rsSearch.getString(3)) {
                         case "Theatre":
                             nonConcertType = new NonConcertWithMusic("Theatre", productionLanguage);
                             ArrayList<Integer> theatrePerformersID = findPerformersID(performanceID);
                             ArrayList<String> theatrePerformersNames = findPerformers(performanceID);
-
-                            // Get Performers list
-                            // ArrayList<String> theatrePerformers = findPerformers(performanceID);
 
                             for (int i = 0; i < theatrePerformersID.size(); i++) {
                                 Performer performer = new Performer(theatrePerformersNames.get(i), theatrePerformersID.get(i));
@@ -559,7 +626,6 @@ public class BackendController {
                             ArrayList<String> operaPerformersNames = findPerformers(performanceID);
 
                             // Get Performers list
-
                             for (int i = 0; i < operaPerformersID.size(); i++) {
                                 Performer performer = new Performer(operaPerformersNames.get(i), operaPerformersID.get(i));
 
@@ -582,7 +648,6 @@ public class BackendController {
 
                             // Add Show Type to the performance
                             newPerformance.addShowType(nonConcertType);
-
                             
                             break;
                         case "Concert":
@@ -612,10 +677,10 @@ public class BackendController {
                                 concertType.addPerformer(performer);
                             }
 
+                           
                             // Add Show Type to the performance
                             newPerformance.addShowType(concertType);
 
-                            
                             break;
                         default:
                         
@@ -649,22 +714,6 @@ public class BackendController {
     
         return results;
     }
-
-    // TO DO REMOVE IF StringFormatter works
-    // /**
-    //  * Builds a date string to use in SQL Search
-    //  * @param year YYYY
-    //  * @param month MM
-    //  * @param date DD
-    //  * @return Returns a usable date string
-    //  */
-    // private String createDateString(int year, int month, int date) {
-    //     String dateString;
-
-    //     dateString = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
-
-    //     return dateString;
-    // }
 
     // TODO
     // Return shopping basket object
@@ -762,8 +811,5 @@ public class BackendController {
             return false;
         }
     }
-
-    // TODO
-    // Format price as String £x.xx
 
 }

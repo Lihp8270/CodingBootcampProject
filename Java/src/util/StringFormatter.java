@@ -1,10 +1,12 @@
 package util;
 
-public class StringFormatter {
+import java.text.DecimalFormat;
 
+public class StringFormatter {
+    DecimalFormat df;
 
     public StringFormatter() {
-
+        df = new DecimalFormat("0.00");
     }
 
     /**
@@ -29,6 +31,15 @@ public class StringFormatter {
      */
     public String createLikeSearchString(String searchTerm) {
         return "%" + searchTerm + "%";
+    }
+
+    /**
+     * Formates price from double to string with £
+     * @param price Double to convert
+     * @return Returns formatted string
+     */
+    public String formatPrice(Double price) {
+        return "£" + df.format(price);
     }
     
 }

@@ -407,4 +407,33 @@ public class StatementBuilder {
         return pStatement;
     }
 
+    public PreparedStatement buildGetBasePriceStatement(Connection conn, int performanceID) {
+        String basePriceSearch = "SELECT price FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE performance.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(basePriceSearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+                pStatement.setInt(1, performanceID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;        
+    }
+
+    public PreparedStatement buildConcessionStatement(Connection conn) {
+        String concessionIDsSearch = "SELECT * FROM theatre.concession";
+
+        try {
+            pStatement = conn.prepareStatement(concessionIDsSearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
 }

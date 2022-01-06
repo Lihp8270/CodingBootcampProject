@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Performance {
     private int performanceID;
     private String title;
@@ -9,14 +11,7 @@ public class Performance {
     private String date;
     private int duration;
     private int productionID;
-    // TO DO
-    
-    // Prices Class
-    // ArrayList<String>prices returned as String £x.xx
-    // ArrayList<String>concessionName;
-    private double price;
-    //
-    //
+    private ArrayList<Price> prices;
     private int stallsAvailable;
     private int circleAvailable;
 
@@ -28,23 +23,32 @@ public class Performance {
      * @param time
      * @param date
      * @param duration
-     * @param price
      * @param stallsAvailable
      * @param circleAvailable
      * @param productionID
      */
+    // public Performance(int performanceID, String title, String description, String time, String date,
+    //         int duration, String price, int stallsAvailable, int circleAvailable, int productionID) {
     public Performance(int performanceID, String title, String description, String time, String date,
-            int duration, double price, int stallsAvailable, int circleAvailable, int productionID) {
+        int duration, int stallsAvailable, int circleAvailable, int productionID, ArrayList<Price> prices) {
         this.performanceID = performanceID;
         this.title = title;
         this.description = description;
         this.time = time;
         this.date = date;
         this.duration = duration;
-        this.price = price;
         this.stallsAvailable = stallsAvailable;
         this.circleAvailable = circleAvailable;
         this.productionID = productionID;
+        this.prices = prices;
+    }
+
+    /**
+     * Accessor for price objects
+     * @return array list of price objects
+     */
+    public ArrayList<Price> getPrices() {
+        return prices;
     }
 
     /**
@@ -121,11 +125,11 @@ public class Performance {
 
     /**
      * Accessor for performance price
-     * @return Full price of the performance as a double
+     * @return Full price of the performance as a formatted String
      */
-    public double getPrice() {
-        return price;
-    }
+    // public String getPrice() {
+    //     return price;
+    // }
 
     /**
      * Accessor for stalls tickets
