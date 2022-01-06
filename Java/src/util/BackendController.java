@@ -50,6 +50,21 @@ public class BackendController {
         return results;
     }
 
+    public ArrayList<Performance> getShowsFromProductionID(int productionID) {
+        ArrayList<Performance> results = new ArrayList<Performance>();
+        ResultSet rsSearch = null;
+
+        dbConnector.connect();
+
+        pStatement = sBuilder.buildSearchProdIDStatement(dbConnector.getConn(), productionID);
+        rsSearch = dbConnector.runQuery(pStatement);
+        results = buildPerformanceReturn(rsSearch, false);
+
+        dbConnector.close();
+
+        return results;
+    }
+
     /**
      * Returns all scheduled performances
      * @return Returns an array list of performance objects

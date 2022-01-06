@@ -283,6 +283,22 @@ public class StatementBuilder {
         return pStatement;
     }
 
+    public PreparedStatement buildSearchProdIDStatement(Connection conn, int productionID) {
+        String prodSearch = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE production.id = ? AND performance_date >= ? GROUP BY performance.id";
+
+        try {
+            pStatement = conn.prepareStatement(prodSearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, productionID);
+            pStatement.setDate(2, Date.valueOf(LocalDate.now()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement;
+    }
+
     /**
      * Builds get performers ID Statement
      * @param conn Pass connection after database connect
