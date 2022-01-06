@@ -448,6 +448,7 @@ public class BackendController {
         String productionLanguage;
         Concert concertType = null;
         NonConcertWithMusic nonConcertType = null;
+        int productionID;
 
         ArrayList<Performance> results = new ArrayList<Performance>();
 
@@ -464,12 +465,13 @@ public class BackendController {
                     duration = rsSearch.getInt(7);
                     price = rsSearch.getDouble(8);
                     productionLanguage = rsSearch.getString(9);
+                    productionID = rsSearch.getInt(10);
 
                     // If these return 9999 stop search process
                     stallsAvailable = getAvailableTickets("Stalls", performanceID);
                     circleAvailable = getAvailableTickets("Circle", performanceID);
 
-                    Performance newPerformance = new Performance(performanceID, title, description, time, date, duration, price, stallsAvailable, circleAvailable);
+                    Performance newPerformance = new Performance(performanceID, title, description, time, date, duration, price, stallsAvailable, circleAvailable, productionID);
 
                     switch (rsSearch.getString(3)) {
                         case "Theatre":

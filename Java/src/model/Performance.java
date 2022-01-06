@@ -8,6 +8,7 @@ public class Performance {
     private String time;
     private String date;
     private int duration;
+    private int productionID;
     // TO DO
     
     // Prices Class
@@ -30,9 +31,10 @@ public class Performance {
      * @param price
      * @param stallsAvailable
      * @param circleAvailable
+     * @param productionID
      */
     public Performance(int performanceID, String title, String description, String time, String date,
-            int duration, double price, int stallsAvailable, int circleAvailable) {
+            int duration, double price, int stallsAvailable, int circleAvailable, int productionID) {
         this.performanceID = performanceID;
         this.title = title;
         this.description = description;
@@ -42,6 +44,7 @@ public class Performance {
         this.price = price;
         this.stallsAvailable = stallsAvailable;
         this.circleAvailable = circleAvailable;
+        this.productionID = productionID;
     }
 
     /**
@@ -50,6 +53,14 @@ public class Performance {
      */
     public void addShowType(ShowType type) {
         this.type = type;
+    }
+
+    /**
+     * Accessor for production ID
+     * @return returns productionID as an integer
+     */
+    public int getProductionID() {
+        return productionID;
     }
 
     /**

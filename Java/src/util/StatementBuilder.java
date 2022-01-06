@@ -186,7 +186,7 @@ public class StatementBuilder {
     public PreparedStatement buildDurationSearchFieldStatement(Connection conn, int maxDuration) {
         String searchQuery;
 
-        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE duration <= ? AND performance_date >= ? GROUP BY performance.id";
+        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE duration <= ? AND performance_date >= ? GROUP BY performance.id";
 
         try {
             pStatement = conn.prepareStatement(searchQuery,
@@ -210,7 +210,7 @@ public class StatementBuilder {
     public PreparedStatement buildDateSearchFieldStatement(Connection conn, String dateString) {
         String searchQuery;
 
-        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE performance_date = ? GROUP BY performance.id";
+        searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE performance_date = ? GROUP BY performance.id";
 
         try {
             pStatement = conn.prepareStatement(searchQuery,
@@ -237,13 +237,13 @@ public class StatementBuilder {
 
         switch (searchField) {
             case "title":
-                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title LIKE ? AND performance_date >= ? GROUP BY performance.id";
+                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE title LIKE ? AND performance_date >= ? GROUP BY performance.id";
                 break;
             case "type":
-                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE category_name LIKE ? AND performance_date >= ? GROUP BY performance.id";
+                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE category_name LIKE ? AND performance_date >= ? GROUP BY performance.id";
                 break;
             case "time":
-                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE time_slot LIKE ? AND performance_date >= ? GROUP BY performance.id";
+                searchQuery = "SELECT performance.id, title, category_name, production_description, time_slot, performance_date, duration, price, production_language, production.id FROM performance JOIN production ON performance.production_id = production.id JOIN production_category ON production.category_id = production_category.id WHERE time_slot LIKE ? AND performance_date >= ? GROUP BY performance.id";
                 break;
         
             default:
