@@ -138,22 +138,27 @@ public class BackendController {
     /**
      * Search shows by Date
      * @param ddmmyyy string format
-     * @return Returns an ArrayList as a Performance
+     * @return Returns an ArrayList as a Performance.  Returns null with invalid date
      */
     public ArrayList<Performance> getShowsFromDate(String ddmmyyyy) {
-        int year;
-        int month;
-        int date;
+        if (iValidator.checkValidDate(ddmmyyyy)) {
+            int year;
+            int month;
+            int date;
 
-        if (ddmmyyyy.length() == 0) {
-            return getShowsFromDate();
+            if (ddmmyyyy.length() == 0) {
+                return getShowsFromDate();
+            } else {
+                year = sFormatter.getDateInts("year", ddmmyyyy);
+                month = sFormatter.getDateInts("month", ddmmyyyy);
+                date = sFormatter.getDateInts("date", ddmmyyyy);
+        
+                return getShowsFromDateSearch(year, month, date);
+            }
         } else {
-            year = sFormatter.getDateInts("year", ddmmyyyy);
-            month = sFormatter.getDateInts("month", ddmmyyyy);
-            date = sFormatter.getDateInts("date", ddmmyyyy);
-    
-            return getShowsFromDateSearch(year, month, date);
+            return null;
         }
+
     }
 
     /**
