@@ -1,9 +1,15 @@
 package util;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
 public class InputValidator {
+    private StringFormatter sFormatter;
     
     public InputValidator() {
-
+        sFormatter = new StringFormatter();
     }
 
     /**
@@ -19,6 +25,22 @@ public class InputValidator {
         } else {
             return false;
         }
+    }
+
+    public Boolean checkValidDate(String ddmmyyyy) {
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+
+        if (ddmmyyyy.length() != 8) {
+            return false;
+        } else {
+            try {
+                LocalDate.parse(ddmmyyyy, dtFormatter);
+            } catch (DateTimeException e) {
+                return false;
+            }
+            return true;
+        }
+        
     }
 
 }
