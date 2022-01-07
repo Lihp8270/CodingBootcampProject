@@ -53,12 +53,25 @@ public class StringFormatter {
     }
 
     /**
-     * Formates price from double to string with £
+     * Formats price from double to string with £
      * @param price Double to convert
      * @return Returns formatted string
      */
     public String formatPrice(Double price) {
         return "£" + df.format(price);
+    }
+
+    /**
+     * Add leading zero to date values
+     * @param value 
+     * @return returns value with leading zero
+     */
+    public String doubleDigitDate(String value) {
+        if (value.length() == 1) {
+            return "0" + value;
+        } else {
+            return value;
+        }
     }
     
 }

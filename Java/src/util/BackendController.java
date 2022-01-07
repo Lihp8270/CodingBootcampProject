@@ -120,7 +120,12 @@ public class BackendController {
      * @return Returns an ArrayList as a Performance
      */
     public ArrayList<Performance> getShowsFromDate(int year, int month, int date) {
-        return getShowsFromDateSearch(year, month, date);
+        if (iValidator.checkValidDate(year, month, date)) {
+            return getShowsFromDateSearch(year, month, date);
+        } else {
+            ArrayList<Performance> emptyArrayList = new ArrayList<Performance>();
+            return emptyArrayList;
+        }
     }
 
     /**

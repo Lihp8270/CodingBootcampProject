@@ -45,6 +45,23 @@ public class InputValidator {
     }
 
     /**
+     * Check if date is valid
+     * @param year as integer
+     * @param month as integer
+     * @param date as integer 
+     * @return true / false
+     */
+    public Boolean checkValidDate(int year, int month, int date) {
+        Integer checkDate = date;
+        Integer checkMonth = month;
+        Integer checkYear = year;
+
+        String checkDateString = sFormatter.doubleDigitDate(checkDate.toString()) + sFormatter.doubleDigitDate(checkMonth.toString()) + sFormatter.doubleDigitDate(checkYear.toString());
+
+        return checkValidDate(checkDateString);
+    }
+
+    /**
      * Check if date string is valid
      * @param ddmmyyyy ddmmyyyy
      * @return Returns true or false
