@@ -111,7 +111,7 @@ public class BackendController {
     }
 
     // TODO Input Validation
-    
+
     /**
      * Search shows by Date
      * @param year year as an integer 4 digits YYYY
@@ -140,7 +140,7 @@ public class BackendController {
      * @param ddmmyyy string format
      * @return Returns an ArrayList as a Performance
      */
-    public ArrayList<Performance> getShowsFomDate(String ddmmyyyy) {
+    public ArrayList<Performance> getShowsFromDate(String ddmmyyyy) {
         int year;
         int month;
         int date;
