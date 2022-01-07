@@ -81,7 +81,7 @@ insert into music_performers (production_id, performer_id, music_role)
 ;
 
 
-
+/*
 insert into seat (id, location) 
 	values
 	(1,'stalls'),
@@ -92,6 +92,33 @@ insert into seat (id, location)
     (6,'circle')
     
 ;
+*/
+
+DELIMITER //
+CREATE PROCEDURE bulk_stalls()
+BEGIN
+    DECLARE i int DEFAULT 1;
+    WHILE i <= 80 DO
+        INSERT INTO seat (id, location) VALUES (i, 'stalls');
+        SET i = i + 1;
+    END WHILE;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE bulk_circle()
+BEGIN
+    DECLARE i int DEFAULT 81;
+    WHILE i <= 200 DO
+        INSERT INTO seat (id, location) VALUES (i, 'circle');
+        SET i = i + 1;
+    END WHILE;
+END //
+DELIMITER ;
+CALL bulk_stalls();
+CALL bulk_circle();
+
 
 insert into customer (customer_name, customer_email, customer_password) value ('bob','bob@gmail','bob123');
 insert into concession (concession_name, discount)
