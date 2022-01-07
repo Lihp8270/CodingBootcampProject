@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import java.time.LocalDate;
+
 public class Performance {
     private int performanceID;
     private String title;
@@ -27,8 +29,6 @@ public class Performance {
      * @param circleAvailable
      * @param productionID
      */
-    // public Performance(int performanceID, String title, String description, String time, String date,
-    //         int duration, String price, int stallsAvailable, int circleAvailable, int productionID) {
     public Performance(int performanceID, String title, String description, String time, String date,
         int duration, int stallsAvailable, int circleAvailable, int productionID, ArrayList<Price> prices) {
         this.performanceID = performanceID;
@@ -111,8 +111,18 @@ public class Performance {
      * Accessor for performance Date
      * @return returns date as a String
      */
-    public String getDate() {
+    public String getDateString() {
         return date;
+    }
+
+    /**
+     * Accessor for show Date
+     * @return returns date as LocalDate object
+     */
+    public LocalDate getDate() {
+        LocalDate ld = LocalDate.parse(getDateString());
+
+        return ld;
     }
 
     /**
