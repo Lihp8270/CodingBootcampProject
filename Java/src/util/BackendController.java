@@ -744,7 +744,7 @@ public class BackendController {
         return returnValue;
     }
 
-    public ShoppingBasket getNewBasket(User user) {
+    public ShoppingBasket getBasket(User user) {
         ShoppingBasket usersBasket = new ShoppingBasket();
         PreparedStatement pStatement;
         ResultSet basketRS;
