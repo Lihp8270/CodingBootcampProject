@@ -1,3 +1,6 @@
+// TODO Remove from Basket Priority 3
+// TODO Checkout basket
+
 package util;
 
 import java.util.ArrayList;
@@ -107,6 +110,10 @@ public class BackendController {
         return results;
     }
 
+    // TODO Input Validation
+    // TODO Input ddmmyyyy
+    // TODO Blank Input for Today
+    // After Purchase mechanism
     /**
      * Search shows by Date
      * @param year year as an integer 4 digits YYYY
@@ -323,12 +330,6 @@ public class BackendController {
         }
 
         return maxTickets - ticketsFound;
-
-        // if (location == "Stalls") {
-        //     return maxStalls - ticketsFound;
-        // } else {
-        //     return maxCircle - ticketsFound;
-        // }
     }
 
 
@@ -743,7 +744,7 @@ public class BackendController {
         return returnValue;
     }
 
-    public ShoppingBasket getBasket(User user) {
+    public ShoppingBasket getNewBasket(User user) {
         ShoppingBasket usersBasket = new ShoppingBasket();
         PreparedStatement pStatement;
         ResultSet basketRS;
