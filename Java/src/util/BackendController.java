@@ -1,4 +1,3 @@
-// TODO Remove from Basket Priority 3
 package util;
 
 import java.util.ArrayList;
@@ -146,11 +145,15 @@ public class BackendController {
         int month;
         int date;
 
-        year = sFormatter.getDateInts("year", ddmmyyyy);
-        month = sFormatter.getDateInts("month", ddmmyyyy);
-        date = sFormatter.getDateInts("date", ddmmyyyy);
-
-        return getShowsFromDateSearch(year, month, date);
+        if (ddmmyyyy.length() == 0) {
+            return getShowsFromDate();
+        } else {
+            year = sFormatter.getDateInts("year", ddmmyyyy);
+            month = sFormatter.getDateInts("month", ddmmyyyy);
+            date = sFormatter.getDateInts("date", ddmmyyyy);
+    
+            return getShowsFromDateSearch(year, month, date);
+        }
     }
 
     /**
