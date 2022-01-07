@@ -4,48 +4,149 @@ import model.User;
 import model.Performance;
 import model.Performer;
 import util.BackendController;
+import util.ConsoleSurface;
+import util.Menu;
+import util.MenuItem;
+import util.Page;
+import util.PerformanceSelector;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class FrontendController {
 	
+	Page currentPage;
+	Page welcomePage;
+	Page basketPage;
+	Page browseShowsPage;
+	Page searchPage;
+	Page productionPage;
+	
 	BackendController bController;
+	User user;
+	Scanner sc;
 	
 	public FrontendController() {
 		bController = new BackendController();
-        User user = new User(bController.createNewUser());
+        user = new User(bController.createNewUser());
+        sc = new Scanner(System.in);
+        setup();
         	
 	}
     
-    public static void main(String[] args) {
+	public static void main(String[] args) {
     	FrontendController browser = new FrontendController();
 		browser.run();
     }
 	
-	public void run() {
-		//System.out.print("\033[H\\033[2J");  
-		//display menu
-		displayShows();
-		//displayPerformances();
-		//searchShowByTitle();
+    private void setup() {
+    	
+    	welcomePage = new Page("Welcome");
+    	basketPage = new Page("Basket");
+    	browseShowsPage = new Page("Browse Shows");
+    	searchPage = new Page("Search");
+    	Page productionPage = new Page("Show Page");
+    	
+
+    	MenuItem exit = new MenuItem("Exit", () -> exitFrontend());
+		MenuItem viewBasket = new MenuItem("View your Basket", () -> currentPage = basketPage );
+		MenuItem gotoWelcomePage = new MenuItem("Return to Start", () -> welcomeScreen() );
+		MenuItem gotoBrowsePage = new MenuItem("Browse Shows", () -> browseScreen() );
+		MenuItem SearchShowTitle = new MenuItem("Search for Show",() -> searchTitle() );
+		MenuItem SearchShowDate = new MenuItem("Search by Date",()-> searchDate());
+		MenuItem gotoSearchPage = new MenuItem("Search", ()-> currentPage = searchPage);
+		
+		
+		// welcome page
+		Menu wm = welcomePage.getMenu();
+		
+		wm.addMenuItem("1", exit);
+		wm.addMenuItem("2", viewBasket);
+		wm.addMenuItem("3", gotoBrowsePage);
+		wm.addMenuItem("4", gotoSearchPage);
+		
+		initPage(welcomePage);
+
+		
+		// basket page
+		Menu bm = basketPage.getMenu();
+		
+		bm.addMenuItem("1",gotoWelcomePage);
+		
+		initPage(basketPage);
+		//bs.drawBoxAt(0, 0, bs.getWidth()-1, bs.getHeight()-1);
+		//bs.putStringBoxAt(30, 10, "Basket");
+		//bs.putHMenuAt(0, 20, bm);
+		
+		// Browse shows page
+		Menu brm = browseShowsPage.getMenu();
+		
+		
+		brm.addMenuItem("1",gotoWelcomePage);
+		brm.addMenuItem("2", viewBasket);
+		initPage(browseShowsPage);
 		
 	
+		// Search page
+		Menu sm = searchPage.getMenu();
+		
+		sm.addMenuItem("1", gotoWelcomePage);
+		sm.addMenuItem("2", viewBasket);
+		sm.addMenuItem("3", SearchShowTitle);
+		sm.addMenuItem("4", SearchShowDate);
+		
+		initPage(searchPage);
+
+		// finish and set current page
+		//currentPage = welcomePage;
+		welcomeScreen();
 		
 	}
 	
+	
+	private void exitFrontend() {
+		// TODO Auto-generated method stub
+		System.out.println("Bye!");
+		System.exit(0);
+	}
+
+	public void run() {
+	
+		String userInput="";
+		while (true) {
+			//currentPage.show();
+			
+			//initPage(currentPage);
+			currentPage.show();
+			userInput = sc.nextLine();
+			currentPage.getMenu().runItem(userInput);
+			
+		}
+	}
+	
 	public void displayShows() {
+		//delete
 		ArrayList<Performance> allShows = bController.getAllShows();
 		for (Performance show : allShows) {
 			System.out.println(
+						  
        					  show.getTitle() + " "
-       					+ show.getType()
+       					+ show.getType() + " "
+       					+ show.getProductionID()
 					);				
       }
 	}
 	
-	public void displayPerformances() {
-		ArrayList<Performance> allPerfs = bController.getAllPerformances();
-		for (Performance perf : allPerfs) {
+	public void displayPerformanceList(ArrayList<Performance> perfs) {
+		//delete
+		
+		//ArrayList<Performance> allPerfs = bController.getAllPerformances();
+		for (Performance perf : perfs) {
 			System.out.print(
     			
     			perf.getPerformanceID() +" "
@@ -55,111 +156,162 @@ public class FrontendController {
     					+ perf.getType() + " "
     					+ perf.getStallsAvailable() + " "
     					+ perf.getCircleAvailable() + " "
-    					+ perf.getPrice()
+    					
     					+  "\n");
 		}
 	}
 	
-	public void searchShowByTitle() {
-		ArrayList<Performance> allShows = bController.getAllShows();
-		for (Performance show : allShows) {
-						
-      }
+
+	
+	public void exitFrontEnd() {
+		System.out.println("Bye!");
+		System.exit(0);
 	}
 	
+	public void browseScreen() {
+		currentPage = browseShowsPage;
+		ArrayList<Performance> allShows = bController.getAllShows();
+		ConsoleSurface s = browseShowsPage.getScreen();
+		s.drawBoxAt(5, 5, 40, 12);
+		
+		for (int i=0; i < allShows.size(); i++) {
+			s.putStringAt(6, 6+i, allShows.get(i).getTitle());
+		}
+		
+	}
+	
+	public void searchTitle() {
+		currentPage = searchPage;
+		initPage(currentPage);
+		ConsoleSurface s = searchPage.getScreen();
+		System.out.print("Please enter your search: ");
+		String searchTerm = sc.nextLine();
+		ArrayList<Performance> results = bController.getShowsFromTitle(searchTerm);
+		s.drawBoxAt(5, 5, s.getWidth()-11, 12);
+		PerformanceSelector selection = new PerformanceSelector();
+		
+		
+		if (results.size()>0) {
+			selection.addPerformances(results);
+			
+			//System.out.println(selection.toMap());
+			HashMap<String, Performance> sm = selection.toMap();
+			String line = "";
+			int yOffset = 0;
+			for (String k : sm.keySet()) {
+				line = "";
+				line += k + ": "  + sm.get(k).getTitle();
+				s.putStringAt(6 ,6 + yOffset, line);
+				yOffset ++; 
+				   
+			}
+			
+//			for (int i=0; i < results.size(); i++) {
+//				//s.putStringAt(6, 6+i, results.get(i).getTitle());
+//				selection.addItem(results.get(i));
+//				
+//			}
+		} else {
+			s.putStringBoxAt(35, 10, "No Shows found.");
+		}				
+      }
+	
+	public void searchDate() {
+		//TODO
+		currentPage = searchPage;
+		initPage(currentPage);
+		ConsoleSurface s = searchPage.getScreen();
+		int d = 1;
+		int m = 1;
+		int y = 2022;
+		System.out.print("Please enter a date (ddmmyyyy): ");
+		String searchTerm = sc.nextLine();
+		if(searchTerm.matches("[0-9]+") && searchTerm.length() == 8) {
+			System.out.println(searchTerm);
+			d = Integer.valueOf(searchTerm.substring(0, 2));
+			m = Integer.valueOf(searchTerm.substring(2, 4));
+			y = Integer.valueOf(searchTerm.substring(4));
+			System.out.println(d+" "+m+ " "+y);
+		} else {
+			System.out.println("Not VALID");
+		}
+		
+		ArrayList<Performance> results = bController.getShowsFromDate(y,m,d);
+		s.drawBoxAt(5, 5, 40, 12);
+		
+		if (results.size()>0) {
+			
+			for (int i=0; i < results.size(); i++) {
+				s.putStringAt(6, 6+i, results.get(i).getTitle());
+			}
+		} else {
+			s.putStringBoxAt(35, 10, "No Shows found.");
+		}	
+		
+	}
+	
+	public static void clrscr(){
+	    // Clears Screen in java
+		// Works in Windows (and Linux?)
+		// https://stackoverflow.com/questions/2979383/how-to-clear-the-console
+	    try {
+	        if (System.getProperty("os.name").contains("Windows"))
+	            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+	        else
+	            Runtime.getRuntime().exec("clear");
+	    } catch (IOException | InterruptedException ex) {}
+	}
+	
+	
 
-    	
-    	
-    	
-        // TEMP FOR TESTING
-        //BackendController bController = new BackendController();
-        //User user = new User(bController.createNewUser());
-        //ArrayList<Performance> results = new ArrayList<Performance>();
-        //ArrayList<Performance> allShows = new ArrayList<Performance>();
-        //ArrayList<Performance> allPerfs = new ArrayList<Performance>();
-        //results = bController.getShowsFromTitle("Oliver!");
-        //allShows = bController.getAllShows();
-        //allPerfs = bController.getAllPerformances();
-        // results = bController.getShowsFromType("Theat");
-        // results = bController.getShowsFromTime("evening");
-        // results = bController.getShowsFromMaxDuration(140);
-
-       
-
-
-        // Get All Performances ADD THIS SEARCH
-
-        //results = bController.getShowsFromDate(2022, 01, 06);
-//
-//        System.out.print("USER ID:");
-//        System.out.println(user.getUserID());
-//        System.out.println("---------");
-//
-//        for (Performance p : allShows) {
-//        	System.out.println(
-//        					p.getTitle());
-//        }
-//        System.out.println("========================");
-//        
-//        
-//        //System.out.println(results);
-//        for (Performance p : results) {
-//     
-//        	System.out.print(
-//        					p.getPerformanceID() +" "
-//        					+ p.getDate() + " "
-//        					+ p.getTime() + " "
-//        					+ p.getTitle() + " "
-//        					+ p.getType() + " "
-//        					+ p.getStallsAvailable() + " "
-//        					+ p.getCircleAvailable() + " "
-//        					+ p.getPrice()
-//        					+  "\n");
-//        	for (Performer actor : p.getType().getPerformers()) {
-//        		System.out.println(actor.getName());
-//        	}
-//        	System.out.println();
-//        }
-//        
-//        for (Performance perf : allPerfs) {
-//        	System.out.print(
-//        			
-//        			perf.getPerformanceID() +" "
-//        					+ perf.getDate() + " "
-//        					+ perf.getTime() + " "
-//        					+ perf.getTitle() + " "
-//        					+ perf.getType() + " "
-//        					+ perf.getStallsAvailable() + " "
-//        					+ perf.getCircleAvailable() + " "
-//        					+ perf.getPrice()
-//        					+  "\n");
-//        }
-        
-        
-        
-//        for (int i = 0; i < results.size(); i++) {
-//            System.out.println("Title");
-//            System.out.println(results.get(i).getTitle());
-//            System.out.println("---------");
-//            System.out.println("Type");
-//            System.out.println(results.get(i).getType());
-//            System.out.println("---------");
-//            System.out.println("Language");
-//            System.out.println(results.get(i).getType().getLanguage());
-//            System.out.println("---------");
-//            System.out.println("Date");
-//            System.out.println(results.get(i).getDate());
-//            System.out.println("---------");
-//            System.out.println("Time");
-//            System.out.println(results.get(i).getTime());
-//            System.out.println("---------");
-//            System.out.println("Performers");
-//            for (int j = 0; j < results.get(i).getType().getPerformers().size(); j++) {
-//                System.out.println(results.get(i).getType().getPerformers().get(j).getName());
-//            }
-//            System.out.println("---------");
-//            System.out.println("---------");
-//            System.out.println("---------");
-//        }
-//    }
+	
+	private void initPage(Page p) {
+		Menu pm = p.getMenu();
+		ConsoleSurface ps = p.getScreen();
+		String date =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		ps.clear();
+		ps.drawBoxAt(0, 0, ps.getWidth()-1, ps.getHeight()-1);
+		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
+		
+		ps.putStringBoxAt((ps.getWidth()/2)-16, 0, "    -~=@  Theatre Royal  @=~-    ");
+		ps.putStringBoxAt(0, 0, date);
+		ps.putStringBoxAt(ps.getWidth()-basket.length()-2, 0, basket);
+		ps.putHMenuAt(0, 20, pm);
+		
+	}
+	
+	private void welcomeScreen() {
+		currentPage = welcomePage;
+		initPage(welcomePage);
+		ConsoleSurface s = welcomePage.getScreen();
+		String t1 = "_____  _     ____   __   _____  ___   ____      ___   ___   _      __    _    ";
+		String t2 = " | |  | |_| | |_   / /\\   | |  | |_) | |_      | |_) / / \\ \\ \\_/  / /\\  | |  ";
+		String t3 = " |_|  |_| | |_|__ /_/--\\  |_|  |_| \\ |_|__     |_| \\ \\_\\_/  |_|  /_/--\\ |_|__ ";
+		int cx = (s.getWidth()/2) -t1.length()/2;
+		int cy = (s.getHeight()/2)-2;
+		s.putStringAt(cx, cy+1, t1);
+		s.putStringAt(cx, cy+2, t2);
+		s.putStringAt(cx, cy+3, t3);
+		//welcomePage.show();
+	}
+	
+	
+	private void initBrowseShowsPage() {
+		
+	}
+	
+	private void initProductionPage() {
+		
+	}
+	
+	private void initSearchPage() {
+		
+	}
+	
+	private void initBasketPage() {
+		
+	}
 }
+	
+
+

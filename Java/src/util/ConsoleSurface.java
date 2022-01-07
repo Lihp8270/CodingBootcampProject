@@ -1,8 +1,12 @@
 package util;
 
+import java.util.HashMap;
+
+import model.Performance;
+
 public class ConsoleSurface {
-	int width = 80;
-	int height = 25;
+	private int width = 100;
+	private int height = 23;
 	String default_char = " ";
 	String grid [][];
 	public ConsoleSurface() {
@@ -11,6 +15,22 @@ public class ConsoleSurface {
 	}
 	
 	
+	public int getWidth() {
+		return width;
+	}
+
+
+	
+
+
+	public int getHeight() {
+		return height;
+	}
+
+
+
+
+
 	/**
 	 * Place a string at position x,y
 	 * @param x
@@ -119,6 +139,31 @@ public class ConsoleSurface {
 		}
 	}
 	
+	public void putHMenuAt(int x, int y, Menu menu) {
+		String menuLine;
+		int xOffset = 0;
+		HashMap<String, String> menumap = menu.toMap();
+		for (String k : menumap.keySet()) {
+			menuLine = "";
+			menuLine += k + ": "  + menumap.get(k)+ " ";
+			putStringBoxAt(x + xOffset, y, menuLine);
+			xOffset += menuLine.length() +1;  
+		}
+	}
+	
+	public void putSelectionAt(int x, int y, PerformanceSelector selection) {
+		HashMap<String, Performance> sm = selection.toMap();
+		String line = "";
+		int yOffset = 0;
+		for (String k : sm.keySet()) {
+			line = "";
+			line += k + ": "  + sm.get(k).getTitle();
+			putStringAt(x ,y + yOffset, line);
+			yOffset ++; 
+			   
+		}
+	}
+	
 	/**
 	 * fill surface with spaces
 	 * @param default_char
@@ -131,6 +176,10 @@ public class ConsoleSurface {
 			}
 		}
 		
+	}
+	
+	public void clear() {
+		init(default_char);
 	}
 	
 	
