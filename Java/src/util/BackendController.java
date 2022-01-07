@@ -743,8 +743,6 @@ public class BackendController {
         return returnValue;
     }
 
-    // TODO
-    // Return shopping basket object
     public ShoppingBasket getBasket(User user) {
         ShoppingBasket usersBasket = new ShoppingBasket();
         PreparedStatement pStatement;
