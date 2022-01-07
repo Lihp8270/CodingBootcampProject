@@ -14,7 +14,6 @@ public class ShoppingBasket {
     private ArrayList<LocalDate> showDate;
     private ArrayList<String> showTime;
     private ArrayList<Integer> seatNumber;
-    private int sizeOfBasket;
 
     public ShoppingBasket() {
         showName = new ArrayList<String>();
