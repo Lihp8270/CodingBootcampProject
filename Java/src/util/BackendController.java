@@ -4,6 +4,8 @@ package util;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -18,6 +20,7 @@ import model.ShoppingBasket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+
 
 public class BackendController {
     private DatabaseConnector dbConnector;
@@ -369,7 +372,6 @@ public class BackendController {
 
         return maxTickets - ticketsFound;
     }
-
 
     /**
      * Check if performer is a production performer in a given performance
@@ -781,6 +783,16 @@ public class BackendController {
 
         return returnValue;
     }
+
+    // public Boolean removeFromBasket(User user, int concessionID, int performanceID) {
+    //     PreparedStatement pStatement;
+
+    //         dbConnector.connect();
+    //         pStatement = sBuilder.buildRemoveFromBasketStatement(dbConnector.getConn(), user.getUserID(), concessionID, performanceID);
+    //         dbConnector.runQuery(pStatement);
+    //         dbConnector.close();
+
+    // }
 
     /**
      * Check out the users basket
