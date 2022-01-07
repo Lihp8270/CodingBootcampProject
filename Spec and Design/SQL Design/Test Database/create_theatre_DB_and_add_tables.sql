@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS theatre.customer (
   address_line_1 VARCHAR(45),
   address_line_2 VARCHAR(45),
   postcode VARCHAR(45),
+  temp_status boolean NOT NULL DEFAULT 1,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id))
 ;
 
