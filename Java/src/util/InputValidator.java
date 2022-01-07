@@ -6,6 +6,11 @@ public class InputValidator {
 
     }
 
+    /**
+     * Check valid input of credit card
+     * @param creditCard credit card number as a string
+     * @return true for valid, false invalid
+     */
     public Boolean checkValidCreditCard(String creditCard) {
         creditCard = creditCard.replaceAll("\\s", "");
 

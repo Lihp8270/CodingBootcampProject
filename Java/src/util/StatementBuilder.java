@@ -54,7 +54,55 @@ public class StatementBuilder {
         return pStatement;
     }
 
-   public PreparedStatement buildBasketRetrieveStatement(Connection conn, int userID) {
+    /**
+     * Checkout and set tickets to purchased for a given user
+     * @param conn Pass connection after DB Connects
+     * @param userID User ID whose tickets to set as purchased
+     * @return Returns a prepared Statement
+     */
+    public PreparedStatement buildCheckoutStatement(Connection conn, int userID) {
+        String checkoutQuery = "UPDATE ticket SET ticket_status = 'purchased' WHERE customer_id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(checkoutQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, userID);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return pStatement;
+    }
+
+    /**
+     * Set user as permanent
+     * @param conn Pass connection after db connects
+     * @param userID User ID to set as permanent
+     * @return returns a prepared statement
+     */
+    public PreparedStatement buildPermanentUserStatement(Connection conn, int userID) {
+        String permanentUserQuery = "UPDATE customer SET customer.temp_status = false WHERE customer.id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(permanentUserQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, userID);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return pStatement;
+    }
+
+    /**
+     * Retrive shopping basket
+     * @param conn Pass connection after db connect
+     * @param userID Uesr ID for basket retrieval
+     * @return PreparedStatement
+     */
+    public PreparedStatement buildBasketRetrieveStatement(Connection conn, int userID) {
        String basketSearch = "SELECT title, production_description, sale_price, location, concession_name, performance_date, time_slot, seat.id FROM ticket JOIN performance ON ticket.performance_id = performance.id JOIN production ON performance.production_id = production.id JOIN seat ON ticket.seat_id = seat.id JOIN concession ON ticket.concession_id = concession.id WHERE customer_id = ? and ticket_status = 'basket'";
 
        try {

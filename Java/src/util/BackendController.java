@@ -1,6 +1,4 @@
 // TODO Remove from Basket Priority 3
-// TODO Checkout basket
-
 package util;
 
 import java.util.ArrayList;
@@ -26,11 +24,13 @@ public class BackendController {
     private StatementBuilder sBuilder;
     private PreparedStatement pStatement;
     private StringFormatter sFormatter;
+    private InputValidator iValidator;
     
     public BackendController() {
         dbConnector = new DatabaseConnector();
         sBuilder = new StatementBuilder();
         sFormatter = new StringFormatter();
+        iValidator = new InputValidator();
         pStatement = null;
     }
 
@@ -744,6 +744,38 @@ public class BackendController {
         return returnValue;
     }
 
+    /**
+     * Check out the users basket
+     * @param user UserID making the purchase
+     * @param creditCard Valid Credit card number
+     * @return True for successful - False for invalid Credit Card number
+     */
+    public Boolean checkoutBasket(User user, String creditCard) {
+        PreparedStatement checkoutStatement;
+        PreparedStatement setUserPerm;
+
+        if (iValidator.checkValidCreditCard(creditCard)) {
+            dbConnector.connect();
+
+            checkoutStatement = sBuilder.buildCheckoutStatement(dbConnector.getConn(), user.getUserID());
+            setUserPerm = sBuilder.buildPermanentUserStatement(dbConnector.getConn(), user.getUserID());
+    
+            dbConnector.runQuery(setUserPerm);
+            dbConnector.runQuery(checkoutStatement);
+    
+            dbConnector.close();
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get shopping basket from database
+     * @param user User object to get basket items from
+     * @return Returns a ShoppingBasket object of shows that the user has added to basket
+     */
     public ShoppingBasket getBasket(User user) {
         ShoppingBasket usersBasket = new ShoppingBasket();
         PreparedStatement pStatement;
