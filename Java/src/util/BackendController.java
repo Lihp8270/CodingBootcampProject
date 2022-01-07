@@ -12,6 +12,7 @@ import model.NonConcertWithMusic;
 import model.Performer;
 import model.User;
 import model.Price;
+import model.ShoppingBasket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -715,10 +716,69 @@ public class BackendController {
         return results;
     }
 
+    /**
+     * Access concession multiplier from a given concession ID
+     * @param concessionID concessionID as an int
+     * @return returns a double containing concession multiplier
+     */
+    private Double getConcessionMultiplier(int concessionID) {
+        PreparedStatement concessionSearchStatment;
+        ResultSet concessionRS;
+
+        Double returnValue = 0.00;
+
+        concessionSearchStatment = sBuilder.buildGetConcessionMultiplierStatement(dbConnector.getConn(), concessionID);
+        concessionRS = dbConnector.runQuery(concessionSearchStatment);
+
+        if (concessionRS != null) {
+            try {
+                while (concessionRS.next()) {
+                    returnValue = concessionRS.getDouble(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return returnValue;
+    }
+
     // TODO
     // Return shopping basket object
-    public void getBasket(User user) {
+    public ShoppingBasket getBasket(User user) {
+        ShoppingBasket usersBasket = new ShoppingBasket();
+        PreparedStatement pStatement;
+        ResultSet basketRS;
 
+        dbConnector.connect();
+
+        pStatement = sBuilder.buildBasketRetrieveStatement(dbConnector.getConn(), user.getUserID());
+        basketRS = dbConnector.runQuery(pStatement);
+
+        if (basketRS != null) {
+            try {
+                while (basketRS.next()) {
+                    String showName = basketRS.getString(1);
+                    String showDesc = basketRS.getString(2);
+                    Double salePriceDouble = basketRS.getDouble(3);
+                    String location = basketRS.getString(4);
+                    String concessionName = basketRS.getString(5);
+                    LocalDate showDate = basketRS.getDate(6).toLocalDate();
+                    String showTime = basketRS.getString(7);
+                    int seatNumber = basketRS.getInt(8);
+
+                    String salePriceString = sFormatter.formatPrice(salePriceDouble);
+
+                    usersBasket.insertIntoBasket(showName, showDesc, salePriceDouble, salePriceString, location, concessionName, showDate, showTime, seatNumber);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbConnector.close();
+
+        return usersBasket;
     }
 
     /**
@@ -729,9 +789,6 @@ public class BackendController {
      * @param qty Quantity of tickets requested
      * @param location Location of tickets, circle or stalls
      */
-
-     // TODO
-     // Return error value, ENUM
     public Boolean addToBasket(int concessionID, int performanceID, User user, int qty, String location) {
         PreparedStatement pStatementInsert;
         PreparedStatement pStatementSeatLocation;
@@ -744,7 +801,6 @@ public class BackendController {
         dbConnector.connect();    
 
         // Check Ticket availability
-        // Remove case sensitivity
         switch (location) {
             case "stalls":
                 seatAvailability = getAvailableTickets("Stalls", performanceID);
@@ -799,7 +855,13 @@ public class BackendController {
                     seatID = seatNumbers.get(seatNumbers.size() - 1) + 1;
                 }
 
-                pStatementInsert = sBuilder.buildAddToBasketStatement(dbConnector.getConn(), concessionID, performanceID, seatID, user.getUserID());
+                // Get unit price
+                Double basePrice = getBasePrice(performanceID);
+                Double concessionMultiplier = getConcessionMultiplier(concessionID);
+
+                Double pricePerUnit = basePrice * concessionMultiplier;
+
+                pStatementInsert = sBuilder.buildAddToBasketStatement(dbConnector.getConn(), concessionID, performanceID, seatID, user.getUserID(), pricePerUnit);
 
                 dbConnector.runQuery(pStatementInsert);
             }
