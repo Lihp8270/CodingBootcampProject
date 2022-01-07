@@ -90,7 +90,7 @@ public class StatementBuilder {
      * @return PreparedStatement
      */
     public PreparedStatement buildBasketRetrieveStatement(Connection conn, int userID) {
-       String basketSearch = "SELECT title, production_description, sale_price, location, concession_name, performance_date, time_slot, seat.id FROM ticket JOIN performance ON ticket.performance_id = performance.id JOIN production ON performance.production_id = production.id JOIN seat ON ticket.seat_id = seat.id JOIN concession ON ticket.concession_id = concession.id WHERE customer_id = ? and ticket_status = 'basket'";
+       String basketSearch = "SELECT title, production_description, sale_price, location, concession_name, performance_date, time_slot, seat.id, performance_id FROM ticket JOIN performance ON ticket.performance_id = performance.id JOIN production ON performance.production_id = production.id JOIN seat ON ticket.seat_id = seat.id JOIN concession ON ticket.concession_id = concession.id WHERE customer_id = ? and ticket_status = 'basket'";
 
        try {
         pStatement = conn.prepareStatement(basketSearch,
@@ -103,6 +103,52 @@ public class StatementBuilder {
 
     return pStatement;
    }
+
+   /**
+    * Remove a ticket from the users basket
+    * @param conn Pass connection after DB Connects
+    * @param userID User ID to remove from basket
+    * @param performanceID performance ID to remove
+    * @param seatID seat ID number to remove
+    * @return returns a prepared statement
+    */
+    public PreparedStatement buildRemoveFromBasketStatement(Connection conn, int userID, int performanceID, int seatID) {
+        String removeQuery = "DELETE FROM ticket WHERE customer_id = ? AND performance_id = ? AND seat_id = ? AND ticket_status = 'basket'";
+
+        try {
+            pStatement = conn.prepareStatement(removeQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, userID);
+            pStatement.setInt(2, performanceID);
+            pStatement.setInt(3, seatID);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    
+        return pStatement;
+    }
+
+    /**
+    * Remove all tickets from a users basket
+    * @param conn Pass connection after DB Connects
+    * @param userID User ID to remove from basket
+    * @return returns a prepared statement
+    */
+    public PreparedStatement buildRemoveAllFromBasketStatement(Connection conn, int userID) {
+        String removeQuery = "DELETE FROM ticket WHERE customer_id = ? AND ticket_status = 'basket'";
+
+        try {
+            pStatement = conn.prepareStatement(removeQuery,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+            pStatement.setInt(1, userID);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    
+        return pStatement;
+    }
 
     /**
      * Build Add to basket prepared statement
@@ -423,7 +469,7 @@ public class StatementBuilder {
      */
     public PreparedStatement buildInsertTempUserStatement(Connection conn) {
         String insertTempUser = "INSERT INTO customer (id) VALUES (default)";
-        
+
         try {
             pStatement = conn.prepareStatement(insertTempUser,
                 ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet

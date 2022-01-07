@@ -4,8 +4,6 @@ package util;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -784,15 +782,33 @@ public class BackendController {
         return returnValue;
     }
 
-    // public Boolean removeFromBasket(User user, int concessionID, int performanceID) {
-    //     PreparedStatement pStatement;
+    /**
+     * Remove single ticket from a basket
+     * @param user User object who owns basket
+     * @param performanceID Performance ID to remove
+     * @param seatID seatID to remove
+     */
+    public void removeFromBasket(User user, int performanceID, int seatID) {
+        PreparedStatement pStatement;
 
-    //         dbConnector.connect();
-    //         pStatement = sBuilder.buildRemoveFromBasketStatement(dbConnector.getConn(), user.getUserID(), concessionID, performanceID);
-    //         dbConnector.runQuery(pStatement);
-    //         dbConnector.close();
+        dbConnector.connect();
+        pStatement = sBuilder.buildRemoveFromBasketStatement(dbConnector.getConn(), user.getUserID(), performanceID, seatID);
+        dbConnector.runQuery(pStatement);
+        dbConnector.close();
+    }
 
-    // }
+    /**
+     * Remove all tickets from a users basket
+     * @param user user to remove basket items from
+     */
+    public void removeAllFromBasket(User user) {
+        PreparedStatement pStatement;
+
+        dbConnector.connect();
+        pStatement = sBuilder.buildRemoveAllFromBasketStatement(dbConnector.getConn(), user.getUserID());
+        dbConnector.runQuery(pStatement);
+        dbConnector.close();
+    }
 
     /**
      * Check out the users basket
@@ -847,10 +863,11 @@ public class BackendController {
                     LocalDate showDate = basketRS.getDate(6).toLocalDate();
                     String showTime = basketRS.getString(7);
                     int seatNumber = basketRS.getInt(8);
+                    int performanceID = basketRS.getInt(9);
 
                     String salePriceString = sFormatter.formatPrice(salePriceDouble);
 
-                    usersBasket.insertIntoBasket(showName, showDesc, salePriceDouble, salePriceString, location, concessionName, showDate, showTime, seatNumber);
+                    usersBasket.insertIntoBasket(showName, showDesc, salePriceDouble, salePriceString, location, concessionName, showDate, showTime, seatNumber, performanceID);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

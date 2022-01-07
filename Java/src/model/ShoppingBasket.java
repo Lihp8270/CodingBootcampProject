@@ -14,6 +14,7 @@ public class ShoppingBasket {
     private ArrayList<LocalDate> showDate;
     private ArrayList<String> showTime;
     private ArrayList<Integer> seatNumber;
+    private ArrayList<Integer> performanceID;
 
     public ShoppingBasket() {
         showName = new ArrayList<String>();
@@ -25,6 +26,7 @@ public class ShoppingBasket {
         showDate = new ArrayList<LocalDate>();
         showTime = new ArrayList<String>();
         seatNumber = new ArrayList<Integer>();
+        performanceID = new ArrayList<Integer>();
     }
 
     /**
@@ -40,7 +42,7 @@ public class ShoppingBasket {
      * @param seatNumber
      */
     public void insertIntoBasket(String showName, String showDesc, Double salePriceDouble, String salePriceString, String location,
-    String concessionName, LocalDate showDate, String showTime, int seatNumber) {
+    String concessionName, LocalDate showDate, String showTime, int seatNumber, int performanceID) {
 
         this.showName.add(showName);
         this.showDesc.add(showDesc);
@@ -51,6 +53,7 @@ public class ShoppingBasket {
         this.showDate.add(showDate);
         this.showTime.add(showTime);
         this.seatNumber.add(seatNumber);
+        this.performanceID.add(performanceID);
     }
 
     /**
@@ -59,6 +62,14 @@ public class ShoppingBasket {
      */
     public int getSizeOfBasket() {
         return showName.size();
+    }
+
+    /**
+     * Returns the size of the basket
+     * @return Size of basket measured by ArrayList.size()
+     */
+    public ArrayList<Integer> getPerformanceID() {
+        return performanceID;
     }
 
     /**
