@@ -111,9 +111,7 @@ public class BackendController {
     }
 
     // TODO Input Validation
-    // TODO Input ddmmyyyy
-    // TODO Blank Input for Today
-    // After Purchase mechanism
+    
     /**
      * Search shows by Date
      * @param year year as an integer 4 digits YYYY
@@ -122,6 +120,46 @@ public class BackendController {
      * @return Returns an ArrayList as a Performance
      */
     public ArrayList<Performance> getShowsFromDate(int year, int month, int date) {
+        return getShowsFromDateSearch(year, month, date);
+    }
+
+    /**
+     * Search shows for today
+     * @return returns an ArrayList of performances
+     */
+    public ArrayList<Performance> getShowsFromDate() {
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+        int date = LocalDate.now().getDayOfMonth();
+
+        return getShowsFromDateSearch(year, month, date);
+    }
+
+    /**
+     * Search shows by Date
+     * @param ddmmyyy string format
+     * @return Returns an ArrayList as a Performance
+     */
+    public ArrayList<Performance> getShowsFomDate(String ddmmyyyy) {
+        int year;
+        int month;
+        int date;
+
+        year = sFormatter.getDateInts("year", ddmmyyyy);
+        month = sFormatter.getDateInts("month", ddmmyyyy);
+        date = sFormatter.getDateInts("date", ddmmyyyy);
+
+        return getShowsFromDateSearch(year, month, date);
+    }
+
+    /**
+     * Search shows by Date
+     * @param year year as an integer 4 digits YYYY
+     * @param month Month as a 2 digit integer MM
+     * @param date Date as a 2 digit integer DD
+     * @return Returns an ArrayList as a Performance
+     */
+    private ArrayList<Performance> getShowsFromDateSearch(int year, int month, int date) {
         ArrayList<Performance> results = new ArrayList<Performance>();
         ResultSet rsSearch = null;
         String dateString;

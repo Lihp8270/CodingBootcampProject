@@ -8,6 +8,25 @@ public class StringFormatter {
     public StringFormatter() {
         df = new DecimalFormat("0.00");
     }
+    
+    /**
+     * Get date integers from a string in format ddmmyyyy
+     * @param mode date, month, year
+     * @param ddmmyyyy input string
+     * @return returns selected integer
+     */
+    public Integer getDateInts(String mode, String ddmmyyyy) {
+        switch (mode.toLowerCase()) {
+            case ("date"):
+                return Integer.parseInt(ddmmyyyy.substring(0, 2));
+            case ("month"):
+                return Integer.parseInt(ddmmyyyy.substring(2, 4));    
+            case ("year"):
+                return Integer.parseInt(ddmmyyyy.substring(4, 8));
+            default:
+                return 0;
+        }
+    }
 
     /**
      * Builds a date string to use in SQL Search
