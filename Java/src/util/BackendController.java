@@ -156,7 +156,8 @@ public class BackendController {
                 return getShowsFromDateSearch(year, month, date);
             }
         } else {
-            return null;
+            ArrayList<Performance> emptyArrayList = new ArrayList<Performance>();
+            return emptyArrayList;
         }
 
     }
