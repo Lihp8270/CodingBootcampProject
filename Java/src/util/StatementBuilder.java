@@ -52,8 +52,22 @@ public class StatementBuilder {
         }
 
         return pStatement;
-
     }
+
+   public PreparedStatement buildBasketRetrieveStatement(Connection conn, int userID) {
+       String basketSearch = "SELECT title, production_description, sale_price, location, concession_name, performance_date, time_slot, seat.id FROM ticket JOIN performance ON ticket.performance_id = performance.id JOIN production ON performance.production_id = production.id JOIN seat ON ticket.seat_id = seat.id JOIN concession ON ticket.concession_id = concession.id WHERE customer_id = ? and ticket_status = 'basket'";
+
+       try {
+        pStatement = conn.prepareStatement(basketSearch,
+            ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+            ResultSet.CONCUR_UPDATABLE);
+        pStatement.setInt(1, userID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    return pStatement;
+   }
 
     /**
      * Build Add to basket prepared statement
@@ -64,9 +78,9 @@ public class StatementBuilder {
      * @param customerID Customer ID as an integer 
      * @return Prepared Statement
      */
-    public PreparedStatement buildAddToBasketStatement(Connection conn, int concessionID, int performanceID, int seatID, int customerID) {
+    public PreparedStatement buildAddToBasketStatement(Connection conn, int concessionID, int performanceID, int seatID, int customerID, double salePrice) {
 
-        String insertQuery = "INSERT INTO ticket (concession_id, performance_id, seat_id, customer_id, ticket_status) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO ticket (concession_id, performance_id, seat_id, customer_id, ticket_status, sale_price) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             pStatement = conn.prepareStatement(insertQuery,
@@ -77,6 +91,7 @@ public class StatementBuilder {
             pStatement.setInt(3, seatID);
             pStatement.setInt(4, customerID);
             pStatement.setString(5, "basket");
+            pStatement.setDouble(6, salePrice);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -420,6 +435,27 @@ public class StatementBuilder {
         }
 
         return pStatement;        
+    }
+
+    /**
+     * Returns a single result containing concession multiplier
+     * @param conn Pass Connection after DB Connect
+     * @param concessionID Concencession ID to search
+     * @return
+     */
+    public PreparedStatement buildGetConcessionMultiplierStatement(Connection conn, int concessionID) {
+        String concessionSearch = "SELECT discount FROM concession WHERE id = ?";
+
+        try {
+            pStatement = conn.prepareStatement(concessionSearch,
+                ResultSet.TYPE_SCROLL_SENSITIVE, // allows us to move forward and back in the ResultSet
+                ResultSet.CONCUR_UPDATABLE);
+                pStatement.setInt(1, concessionID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pStatement; 
     }
 
     public PreparedStatement buildConcessionStatement(Connection conn) {
