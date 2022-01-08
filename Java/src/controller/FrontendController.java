@@ -66,6 +66,7 @@ public class FrontendController {
 		MenuItem SearchShowDate = new MenuItem("Search Dates",()-> searchDate());
 		MenuItem gotoSearchPage = new MenuItem("Search", ()-> currentPage = searchPage);
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
+		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
 		
 		selector = new PerformanceSelector();
 		
@@ -169,7 +170,7 @@ public class FrontendController {
 		
 		//PerformanceSelector selection = new PerformanceSelector();
 		
-		//selector.clear();
+		selector.clear();
 		if (results.size()>0) {
 			selector.addPerformances(results);
 			
@@ -187,6 +188,8 @@ public class FrontendController {
 		selector.selectItem(l);
 		s.putSelectionAt(2, 4, selector);
 		bController.addToBasket(1, selector.getSelected().getPerformanceID(), user, 1, "Stalls");
+		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
+		s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
 	}
 	
 	public void searchDate() {
@@ -261,6 +264,11 @@ public class FrontendController {
 	public void basketScreen() {
 		currentPage = basketPage;
 		initPage(basketPage);
+	}
+	
+	public void searchScreen() {
+		currentPage = searchPage;
+		initPage(searchPage);
 	}
 	
 	
