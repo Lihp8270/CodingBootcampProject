@@ -55,7 +55,6 @@ public class BackendController {
         return results;
     }
 
-    // TODO Input Validation
     /**
      * Search shows from production ID
      * @param productionID production ID to search for
@@ -98,7 +97,6 @@ public class BackendController {
         return results;
     }
 
-    // TODO Input Validation
     /**
      * Search shows by max duration
      * @param maxDuration Maximum show duration in minutes as an integer
@@ -200,7 +198,6 @@ public class BackendController {
         }
     }
 
-    // TODO Input Validation
     /**
      * Search by Show Type
      * @param searchTerm Search term to search type from
@@ -221,7 +218,6 @@ public class BackendController {
         return results;
     }
 
-    // TODO Input Validation
     /**
      * Search by show time
      * @param searchTerm evening or matinee
@@ -242,7 +238,6 @@ public class BackendController {
         return results;
     }
 
-    // TODO Input Validation
     /**
      * Search shows by title, using "Like"  Does not require a complete title name
      * @param searchTerm Search term to search the title for 
@@ -298,7 +293,6 @@ public class BackendController {
         }
     }
 
-    // TODO Input Validation
     /**
      * Finds list of performers from given performanceID
      * @param performanceID
@@ -325,7 +319,6 @@ public class BackendController {
         return performers;
     }
 
-    // TODO Input Validation
     /**
      * Finds performers ID number
      * @param performanceID
@@ -352,7 +345,6 @@ public class BackendController {
         return performers;
     }
 
-    // TODO Input Validation
     /**
      * Find number of tickets sold for a performance
      * @param location Only available options are Circle or Stalls
@@ -406,7 +398,6 @@ public class BackendController {
         return maxTickets - ticketsFound;
     }
 
-    // TODO Input Validation
     /**
      * Check if performer is a production performer in a given performance
      * @param performerID performer ID to search
@@ -437,7 +428,6 @@ public class BackendController {
         return returnResult;
     }
 
-    // TODO Input Validation
     /**
      * Check if performer is a music performer in a given performance
      * @param performerID performer ID to search
@@ -468,7 +458,6 @@ public class BackendController {
         return returnResult;
     }
 
-    // TODO Input Validation
     /**
      * Adds production roles to a given performer
      * @param performer performer object to add roles to
@@ -494,7 +483,6 @@ public class BackendController {
 
     }
 
-    // TODO Input Validation
     /**
      * Adds music roles to a given performer
      * @param performer performer object to add roles to
@@ -519,7 +507,6 @@ public class BackendController {
         }
     }
 
-    // TODO Input Validation
     /**
      * Create an array list of prices
      * @param performanceID Performance ID to get prices for
@@ -567,7 +554,6 @@ public class BackendController {
         return newPriceList;
     }
 
-    // TODO Input Validation
     /**
      * Get base price of a performance
      * @param performanceID performanceID as Integer
@@ -594,7 +580,6 @@ public class BackendController {
         return basePrice;
     }
 
-    // TODO Input Validation
     /**
      * Used to build performance search terms.  This method will Only include results which are AFTER today, or are evening shows on the day of showing
      * @param rsSearch Pass a result set
@@ -797,7 +782,6 @@ public class BackendController {
         return results;
     }
 
-    // TODO Input Validation
     /**
      * Access concession multiplier from a given concession ID
      * @param concessionID concessionID as an int
@@ -825,7 +809,6 @@ public class BackendController {
         return returnValue;
     }
 
-    // TODO Input Validation
     /**
      * Remove single ticket from a basket
      * @param user User object who owns basket
@@ -841,7 +824,6 @@ public class BackendController {
         dbConnector.close();
     }
 
-    // TODO Input Validation
     /**
      * Remove all tickets from a users basket
      * @param user user to remove basket items from
@@ -855,7 +837,6 @@ public class BackendController {
         dbConnector.close();
     }
 
-    // TODO Input Validation
     /**
      * Check out the users basket
      * @param user UserID making the purchase
@@ -883,7 +864,6 @@ public class BackendController {
         }
     }
 
-    // TODO Input Validation
     /**
      * Get shopping basket from database
      * @param user User object to get basket items from
@@ -926,7 +906,6 @@ public class BackendController {
         return usersBasket;
     }
 
-    // TODO Input Validation
     /**
      * Add a ticket to a users basket
      * @param concessionID 1 for Standard 2 for child
@@ -934,6 +913,7 @@ public class BackendController {
      * @param user Completed user object for the purchaser (this should include name, etc)
      * @param qty Quantity of tickets requested
      * @param location Location of tickets, circle or stalls
+     * @return returns true for successful addition, or false if it fails
      */
     public Boolean addToBasket(int concessionID, int performanceID, User user, int qty, String location) {
         PreparedStatement pStatementInsert;
@@ -947,7 +927,7 @@ public class BackendController {
         dbConnector.connect();    
 
         // Check Ticket availability
-        switch (location) {
+        switch (location.toLowerCase()) {
             case "stalls":
                 seatAvailability = getAvailableTickets("Stalls", performanceID);
                 seatID = 0;
@@ -957,7 +937,8 @@ public class BackendController {
                 seatID = 80;
                 break;
             default:
-                break;
+                dbConnector.close();
+                return false;
         }
 
         // Only add the tickets if there's seats available
@@ -976,7 +957,6 @@ public class BackendController {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
                 } else {
                     seatID = 1;
                 }
