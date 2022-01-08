@@ -73,5 +73,16 @@ public class StringFormatter {
             return value;
         }
     }
+
+    /**
+     * Removes whitepsace from a given string
+     * @param value String to remove whitespace from
+     * @return returns string with no whitespace
+     */
+    public String removeWhiteSpace(String value) {
+        value = value.replaceAll("\\s", "");
+
+        return value;
+    }
     
 }

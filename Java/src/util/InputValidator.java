@@ -13,9 +13,9 @@ public class InputValidator {
      * @return true for valid, false invalid
      */
     public Boolean checkValidCreditCard(String creditCard) {
-        creditCard = creditCard.replaceAll("\\s", "");
+        creditCard = sFormatter.removeWhiteSpace(creditCard);
 
-        if (creditCard.matches("[0-9]+") && creditCard.length() == 16) {
+        if (creditCard.matches("[0-9]+") && (creditCard.length() >= 13 && creditCard.length() <= 19)) {
             return true;
         } else {
             return false;
