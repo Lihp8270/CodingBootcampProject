@@ -162,9 +162,14 @@ public class ConsoleSurface {
 		for (String k : sm.keySet()) {
 			int xOffset = 1;
 			line = "";
-			line += k + ": "  + sm.get(k).getTitle();
+			String a = " ";
+			if(sel.getSelected()!=null) {
+			if(sm.get(k).getPerformanceID()==sel.getSelected().getPerformanceID()) {
+				a="*";
+			}}
+			line += k + ": "+a  + sm.get(k).getTitle();
 			putStringAt(x+xOffset ,y + yOffset, line);
-			xOffset+= 4 + sel.title.getWidth();
+			xOffset+= 5 + sel.title.getWidth();
 			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getType());
 			xOffset+= sel.type.getWidth();
 			

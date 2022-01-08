@@ -8,6 +8,7 @@ public class PerformanceSelector {
 	
 	private char startChar = 'A';
 	private char currentChar;
+	private Performance selected;
 	
 	protected SelectorColumn title = new SelectorColumn("Show");
 	protected SelectorColumn type = new SelectorColumn("Show Type");
@@ -33,16 +34,16 @@ public class PerformanceSelector {
 	}
 	
 	/**
-	 * Return the performance id for a selection
+	 * 
 	 * @param letter letter id of chosen performance
-	 * @return
+	 * 
 	 */
-	public int selectItem(String letter) {
-		int id = -1;
+	public void selectItem(String letter) {
+		
 		if (items.containsKey(letter)) {
-		id = items.get(letter).getPerformanceID();
+		selected = items.get(letter);
 		}
-		return id;
+		
 	}
 	
 	public HashMap<String, Performance> toMap() {
@@ -71,6 +72,11 @@ public class PerformanceSelector {
 
 	public void clear() {
 		items.clear();
+		currentChar=startChar;
+	}
+
+	public Performance getSelected() {
+		return selected;
 	}
 	
 	
