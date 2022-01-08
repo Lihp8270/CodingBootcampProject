@@ -85,6 +85,7 @@ public class FrontendController {
 		Menu bm = basketPage.getMenu();
 		
 		bm.addMenuItem("1",gotoWelcomePage);
+		bm.addMenuItem("2", gotoCheckout);
 		
 		initPage(basketPage);
 
@@ -190,6 +191,15 @@ public class FrontendController {
 		bController.addToBasket(1, selector.getSelected().getPerformanceID(), user, 1, "Stalls");
 		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
 		s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
+	}
+	
+	public void checkout() {
+		System.out.print("Enter your Card Number: ");
+		String cc = sc.nextLine();
+		if (bController.checkoutBasket(user, cc)) {
+			System.out.println("OK!");
+		}
+		
 	}
 	
 	public void searchDate() {
