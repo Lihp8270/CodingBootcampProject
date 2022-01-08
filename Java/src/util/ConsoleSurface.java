@@ -151,14 +151,43 @@ public class ConsoleSurface {
 		}
 	}
 	
-	public void putSelectionAt(int x, int y, PerformanceSelector selection) {
-		HashMap<String, Performance> sm = selection.toMap();
+	public void putSelectionAt(int x, int y, PerformanceSelector sel) {
+		drawBoxAt(x, y, getWidth()-5, 14);
+		drawBoxAt(x, y, getWidth()-5, 2);
+		drawBoxAt(x+3,y,sel.title.getWidth()+1,2);
+		HashMap<String, Performance> sm = sel.toMap();
 		String line = "";
-		int yOffset = 0;
+		int yOffset = 3;
+		
 		for (String k : sm.keySet()) {
+			int xOffset = 1;
 			line = "";
 			line += k + ": "  + sm.get(k).getTitle();
-			putStringAt(x ,y + yOffset, line);
+			putStringAt(x+xOffset ,y + yOffset, line);
+			xOffset+= 4 + sel.title.getWidth();
+			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getType());
+			xOffset+= sel.type.getWidth();
+			
+			putStringAt(x+xOffset,y+yOffset,sm.get(k).getTime());
+			xOffset+= sel.time.getWidth();
+			
+			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDateString());
+			xOffset+= sel.date.getWidth();
+			
+			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDuration()+"");
+			xOffset+= sel.duration.getWidth();
+			
+			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getLanguage());
+			xOffset+= sel.language.getWidth();
+			
+			String totSeats = "" + (sm.get(k).getStallsAvailable() + sm.get(k).getCircleAvailable());
+			putStringAt(x+xOffset,y+yOffset,totSeats);
+			xOffset+= sel.seats.getWidth();
+			
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getpr);
+//			xOffset+= sel.price.getWidth();
+			
+			
 			yOffset ++; 
 			   
 		}

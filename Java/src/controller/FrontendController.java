@@ -187,30 +187,14 @@ public class FrontendController {
 		System.out.print("Please enter your search: ");
 		String searchTerm = sc.nextLine();
 		ArrayList<Performance> results = bController.getShowsFromTitle(searchTerm);
-		s.drawBoxAt(5, 5, s.getWidth()-11, 12);
-		PerformanceSelector selection = new PerformanceSelector();
 		
+		PerformanceSelector selection = new PerformanceSelector();
 		
 		if (results.size()>0) {
 			selection.addPerformances(results);
 			
-			//System.out.println(selection.toMap());
-			HashMap<String, Performance> sm = selection.toMap();
-			String line = "";
-			int yOffset = 0;
-			for (String k : sm.keySet()) {
-				line = "";
-				line += k + ": "  + sm.get(k).getTitle();
-				s.putStringAt(6 ,6 + yOffset, line);
-				yOffset ++; 
-				   
-			}
+			s.putSelectionAt(2, 4, selection);
 			
-//			for (int i=0; i < results.size(); i++) {
-//				//s.putStringAt(6, 6+i, results.get(i).getTitle());
-//				selection.addItem(results.get(i));
-//				
-//			}
 		} else {
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}				
@@ -221,22 +205,12 @@ public class FrontendController {
 		currentPage = searchPage;
 		initPage(currentPage);
 		ConsoleSurface s = searchPage.getScreen();
-		int d = 1;
-		int m = 1;
-		int y = 2022;
-		System.out.print("Please enter a date (ddmmyyyy): ");
+
+		System.out.print("Enter a date (ddmmyyyy) or press return for Today: ");
 		String searchTerm = sc.nextLine();
-		if(searchTerm.matches("[0-9]+") && searchTerm.length() == 8) {
-			System.out.println(searchTerm);
-			d = Integer.valueOf(searchTerm.substring(0, 2));
-			m = Integer.valueOf(searchTerm.substring(2, 4));
-			y = Integer.valueOf(searchTerm.substring(4));
-			System.out.println(d+" "+m+ " "+y);
-		} else {
-			System.out.println("Not VALID");
-		}
+
 		
-		ArrayList<Performance> results = bController.getShowsFromDate(y,m,d);
+		ArrayList<Performance> results = bController.getShowsFromDate(searchTerm);
 		s.drawBoxAt(5, 5, 40, 12);
 		
 		if (results.size()>0) {
