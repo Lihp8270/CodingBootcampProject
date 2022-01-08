@@ -21,11 +21,15 @@ import java.util.Scanner;
 public class FrontendController {
 	
 	Page currentPage;
+	
 	Page welcomePage;
 	Page basketPage;
 	Page browseShowsPage;
 	Page searchPage;
 	Page productionPage;
+	Page buyTicketsPage;
+	
+	PerformanceSelector selector;
 	
 	BackendController bController;
 	User user;
@@ -50,17 +54,21 @@ public class FrontendController {
     	basketPage = new Page("Basket");
     	browseShowsPage = new Page("Browse Shows");
     	searchPage = new Page("Search");
+    	buyTicketsPage = new Page("Buy Tickets");
     	Page productionPage = new Page("Show Page");
     	
 
     	MenuItem exit = new MenuItem("Exit", () -> exitFrontend());
-		MenuItem viewBasket = new MenuItem("View your Basket", () -> currentPage = basketPage );
+		MenuItem viewBasket = new MenuItem("View Basket", () -> basketScreen() );
 		MenuItem gotoWelcomePage = new MenuItem("Return to Start", () -> welcomeScreen() );
 		MenuItem gotoBrowsePage = new MenuItem("Browse Shows", () -> browseScreen() );
-		MenuItem SearchShowTitle = new MenuItem("Search for Show",() -> searchTitle() );
-		MenuItem SearchShowDate = new MenuItem("Search by Date",()-> searchDate());
+		MenuItem SearchShowTitle = new MenuItem("Search Shows",() -> searchTitle() );
+		MenuItem SearchShowDate = new MenuItem("Search Dates",()-> searchDate());
 		MenuItem gotoSearchPage = new MenuItem("Search", ()-> currentPage = searchPage);
+		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
+		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
 		
+		selector = new PerformanceSelector();
 		
 		// welcome page
 		Menu wm = welcomePage.getMenu();
@@ -77,12 +85,10 @@ public class FrontendController {
 		Menu bm = basketPage.getMenu();
 		
 		bm.addMenuItem("1",gotoWelcomePage);
+		bm.addMenuItem("2", gotoCheckout);
 		
 		initPage(basketPage);
-		//bs.drawBoxAt(0, 0, bs.getWidth()-1, bs.getHeight()-1);
-		//bs.putStringBoxAt(30, 10, "Basket");
-		//bs.putHMenuAt(0, 20, bm);
-		
+
 		// Browse shows page
 		Menu brm = browseShowsPage.getMenu();
 		
@@ -99,8 +105,16 @@ public class FrontendController {
 		sm.addMenuItem("2", viewBasket);
 		sm.addMenuItem("3", SearchShowTitle);
 		sm.addMenuItem("4", SearchShowDate);
+		sm.addMenuItem("5", selectPerformance);
 		
 		initPage(searchPage);
+		
+		//buy Ticket page
+		Menu tm = buyTicketsPage.getMenu();
+		tm.addMenuItem("1", gotoWelcomePage);
+		tm.addMenuItem("2", viewBasket);
+		tm.addMenuItem("3", gotoSearchPage);
+		
 
 		// finish and set current page
 		//currentPage = welcomePage;
@@ -129,40 +143,7 @@ public class FrontendController {
 		}
 	}
 	
-	public void displayShows() {
-		//delete
-		ArrayList<Performance> allShows = bController.getAllShows();
-		for (Performance show : allShows) {
-			System.out.println(
-						  
-       					  show.getTitle() + " "
-       					+ show.getType() + " "
-       					+ show.getProductionID()
-					);				
-      }
-	}
-	
-	public void displayPerformanceList(ArrayList<Performance> perfs) {
-		//delete
-		
-		//ArrayList<Performance> allPerfs = bController.getAllPerformances();
-		for (Performance perf : perfs) {
-			System.out.print(
-    			
-    			perf.getPerformanceID() +" "
-    					+ perf.getDate() + " "
-    					+ perf.getTime() + " "
-    					+ perf.getTitle() + " "
-    					+ perf.getType() + " "
-    					+ perf.getStallsAvailable() + " "
-    					+ perf.getCircleAvailable() + " "
-    					
-    					+  "\n");
-		}
-	}
-	
 
-	
 	public void exitFrontEnd() {
 		System.out.println("Bye!");
 		System.exit(0);
@@ -188,17 +169,38 @@ public class FrontendController {
 		String searchTerm = sc.nextLine();
 		ArrayList<Performance> results = bController.getShowsFromTitle(searchTerm);
 		
-		PerformanceSelector selection = new PerformanceSelector();
+		//PerformanceSelector selection = new PerformanceSelector();
 		
+		selector.clear();
 		if (results.size()>0) {
-			selection.addPerformances(results);
+			selector.addPerformances(results);
 			
-			s.putSelectionAt(2, 4, selection);
+			s.putSelectionAt(2, 4, selector);
 			
 		} else {
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}				
       }
+	
+	public void makeSelection() {
+		ConsoleSurface s = searchPage.getScreen();
+		System.out.print("Enter Letter of Show to Select: ");
+		String l = sc.nextLine();
+		selector.selectItem(l);
+		s.putSelectionAt(2, 4, selector);
+		bController.addToBasket(1, selector.getSelected().getPerformanceID(), user, 1, "Stalls");
+		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
+		s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
+	}
+	
+	public void checkout() {
+		System.out.print("Enter your Card Number: ");
+		String cc = sc.nextLine();
+		if (bController.checkoutBasket(user, cc)) {
+			System.out.println("OK!");
+		}
+		
+	}
 	
 	public void searchDate() {
 		//TODO
@@ -267,6 +269,16 @@ public class FrontendController {
 		s.putStringAt(cx, cy+2, t2);
 		s.putStringAt(cx, cy+3, t3);
 		//welcomePage.show();
+	}
+	
+	public void basketScreen() {
+		currentPage = basketPage;
+		initPage(basketPage);
+	}
+	
+	public void searchScreen() {
+		currentPage = searchPage;
+		initPage(searchPage);
 	}
 	
 	
