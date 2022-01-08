@@ -149,25 +149,24 @@ public class BackendController {
      * @return Returns an ArrayList as a Performance.  Returns null with invalid date
      */
     public ArrayList<Performance> getShowsFromDate(String ddmmyyyy) {
+        if (ddmmyyyy.length() != 8) {
+            return getShowsFromDate();
+        }
+
         if (iValidator.checkValidDate(ddmmyyyy)) {
             int year;
             int month;
             int date;
 
-            if (ddmmyyyy.length() == 0) {
-                return getShowsFromDate();
-            } else {
-                year = sFormatter.getDateInts("year", ddmmyyyy);
-                month = sFormatter.getDateInts("month", ddmmyyyy);
-                date = sFormatter.getDateInts("date", ddmmyyyy);
-        
-                return getShowsFromDateSearch(year, month, date);
-            }
+            year = sFormatter.getDateInts("year", ddmmyyyy);
+            month = sFormatter.getDateInts("month", ddmmyyyy);
+            date = sFormatter.getDateInts("date", ddmmyyyy);
+    
+            return getShowsFromDateSearch(year, month, date);
         } else {
             ArrayList<Performance> emptyArrayList = new ArrayList<Performance>();
             return emptyArrayList;
         }
-
     }
 
     /**
