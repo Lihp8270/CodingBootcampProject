@@ -12,11 +12,61 @@ public class InputValidator {
      * @param creditCard credit card number as a string
      * @return true for valid, false invalid
      */
-    public Boolean checkValidCreditCard(String creditCard) {
-        creditCard = sFormatter.removeWhiteSpace(creditCard);
+    // public Boolean checkValidCreditCard(String creditCard) {
+    //     creditCard = sFormatter.removeWhiteSpace(creditCard);
 
+    //     if (creditCard.matches("[0-9]+") && (creditCard.length() >= 13 && creditCard.length() <= 19)) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    /**
+     * Check valid input of credit card using Luhn algorithm
+     * For front end testing use number 1111 2222 3333 4444 as this passes Luhn validation
+     * @param creditCard credit card number as a string
+     * @return true for valid, false for invalid
+     */
+    public Boolean checkValidCreditCard (String creditCard) {
+        // Remove all non numerics
+        creditCard = sFormatter.removeNonNumeric(creditCard);
+
+        // Check length
         if (creditCard.matches("[0-9]+") && (creditCard.length() >= 13 && creditCard.length() <= 19)) {
-            return true;
+            // Luhn algorithm
+            // Store credit card in array of integers
+            int[] creditCardInts = new int[creditCard.length()];
+
+            for (int i = 0; i < creditCard.length(); i++) {
+                creditCardInts[i] = Integer.parseInt(creditCard.substring(i, i+1));
+            }
+
+            // Double every other digit starting from the right, if greater than 9, do mod 10 and +1 to remainder
+            for (int i = creditCardInts.length - 2; i>= 0; i = i - 2) {
+                int tempValue = creditCardInts[i];
+
+                tempValue = tempValue * 2;
+                if (tempValue > 9 ) {
+                    tempValue = (tempValue % 10) + 1;
+                }
+
+                creditCardInts[i] = tempValue;
+            }
+
+            // Add up all digits
+            int total = 0;
+            for (int i = 0; i < creditCardInts.length; i++) {
+                total += creditCardInts[i];
+            }
+
+            // Check number is a multiple of 10
+            if (total % 10 == 0) {
+                return true;
+            } else {
+                return false;
+            }
+
         } else {
             return false;
         }

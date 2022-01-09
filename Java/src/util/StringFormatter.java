@@ -84,5 +84,16 @@ public class StringFormatter {
 
         return value;
     }
+
+    /**
+     * Removes all non-numeric characters
+     * @param value String to remove non-numeric Characters
+     * @return returns string with numeric characters only
+     */
+    public String removeNonNumeric(String value) {
+        value = value.replaceAll("[^0-9]", "");
+
+        return value;
+    }
     
 }
