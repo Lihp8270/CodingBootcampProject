@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.time.LocalDate;
 
+import util.StringFormatter;
+
 public class ShoppingBasket {
     private ArrayList<String> showName;
     private ArrayList<String> showDesc;
@@ -15,6 +17,7 @@ public class ShoppingBasket {
     private ArrayList<String> showTime;
     private ArrayList<Integer> seatNumber;
     private ArrayList<Integer> performanceID;
+    private StringFormatter sFormatter;
 
     public ShoppingBasket() {
         showName = new ArrayList<String>();
@@ -27,6 +30,8 @@ public class ShoppingBasket {
         showTime = new ArrayList<String>();
         seatNumber = new ArrayList<Integer>();
         performanceID = new ArrayList<Integer>();
+
+        sFormatter = new StringFormatter();
     }
 
     /**
@@ -142,6 +147,20 @@ public class ShoppingBasket {
      */
     public ArrayList<Integer> getSeatNumber() {
         return seatNumber;
+    }
+
+    /**
+     * Returns total price of the basket
+     * @return Formatted string £x.xx
+     */
+    public String getTotalPrice() {
+        double total = 0.00;
+
+        for (int i = 0; i < salePriceDouble.size(); i++) {
+            total = total + salePriceDouble.get(i);
+        }
+
+        return sFormatter.formatPrice(total);
     }
    
 }
