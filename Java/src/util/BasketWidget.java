@@ -1,18 +1,22 @@
 package util;
 
-import model.ShoppingBasket;
+
+import model.User;
 
 public class BasketWidget extends PageElement{
 
 	private String label;
-	private ShoppingBasket basket;
+	//private ShoppingBasket basket;
 	private int basketSize;
+	private BackendController bc;
+	private User user;
 	
 
-	public BasketWidget(ShoppingBasket basket) {
+	//public BasketWidget(ShoppingBasket basket) {
+	public BasketWidget(BackendController bc, User user) {
 		super();
-		this.basket = basket;
-		//this.setXY(0,0);
+		this.bc = bc;
+		this.user = user;
 		this.update();
 
 	}
@@ -26,8 +30,7 @@ public class BasketWidget extends PageElement{
 	}
 	
 	public void update() {
-		basketSize = basket.getSizeOfBasket();
-		//System.out.println(basketSize);
+		basketSize = bc.getBasket(user).getSizeOfBasket();
 		label = "Basket (" + basketSize +")";
 		setWidth(label.length()+2);
 		setHeight(3);
