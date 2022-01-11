@@ -4,11 +4,16 @@ import model.User;
 import model.Performance;
 import model.Performer;
 import util.BackendController;
+import util.BasketWidget;
 import util.ConsoleSurface;
+import util.DateWidget;
 import util.Menu;
 import util.MenuItem;
 import util.Page;
+import util.PageBackground;
 import util.PerformanceSelector;
+import util.TextBox;
+import util.TextLabel;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -64,7 +69,7 @@ public class FrontendController {
 		MenuItem gotoBrowsePage = new MenuItem("Browse Shows", () -> browseScreen() );
 		MenuItem SearchShowTitle = new MenuItem("Search Shows",() -> searchTitle() );
 		MenuItem SearchShowDate = new MenuItem("Search Dates",()-> searchDate());
-		MenuItem gotoSearchPage = new MenuItem("Search", ()-> currentPage = searchPage);
+		MenuItem gotoSearchPage = new MenuItem("Search", ()-> searchScreen());
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
 		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
 		
@@ -72,13 +77,32 @@ public class FrontendController {
 		
 		// welcome page
 		Menu wm = welcomePage.getMenu();
+		ConsoleSurface ws = welcomePage.getScreen();
 		
 		wm.addMenuItem("1", exit);
 		wm.addMenuItem("2", viewBasket);
 		wm.addMenuItem("3", gotoBrowsePage);
 		wm.addMenuItem("4", gotoSearchPage);
 		
-		initPage(welcomePage);
+		setDefaultElements(welcomePage);
+		
+		String t1 = "_____  _     ____   __   _____  ___   ____      ___   ___   _      __    _    ";
+		String t2 = " | |  | |_| | |_   / /\\   | |  | |_) | |_      | |_) / / \\ \\ \\_/  / /\\  | |  ";
+		String t3 = " |_|  |_| | |_|__ /_/--\\  |_|  |_| \\ |_|__     |_| \\ \\_\\_/  |_|  /_/--\\ |_|__ ";
+		int cx = (ws.getWidth()/2) -t1.length()/2;
+		int cy = (ws.getHeight()/2)-2;
+		
+		TextLabel banner1 = new TextLabel(t1);
+		TextLabel banner2 = new TextLabel(t2);
+		TextLabel banner3 = new TextLabel(t3);
+		
+		banner1.setXY(cx, cy+1);
+		banner2.setXY(cx, cy+2);
+		banner3.setXY(cx, cy+3);
+		
+		welcomePage.addElement(banner1);
+		welcomePage.addElement(banner2);
+		welcomePage.addElement(banner3);
 
 		
 		// basket page
@@ -87,7 +111,7 @@ public class FrontendController {
 		bm.addMenuItem("1",gotoWelcomePage);
 		bm.addMenuItem("2", gotoCheckout);
 		
-		initPage(basketPage);
+		setDefaultElements(basketPage);
 
 		// Browse shows page
 		Menu brm = browseShowsPage.getMenu();
@@ -95,7 +119,7 @@ public class FrontendController {
 		
 		brm.addMenuItem("1",gotoWelcomePage);
 		brm.addMenuItem("2", viewBasket);
-		initPage(browseShowsPage);
+		setDefaultElements(browseShowsPage);
 		
 	
 		// Search page
@@ -107,7 +131,7 @@ public class FrontendController {
 		sm.addMenuItem("4", SearchShowDate);
 		sm.addMenuItem("5", selectPerformance);
 		
-		initPage(searchPage);
+		setDefaultElements(searchPage);
 		
 		//buy Ticket page
 		Menu tm = buyTicketsPage.getMenu();
@@ -136,6 +160,8 @@ public class FrontendController {
 			//currentPage.show();
 			
 			//initPage(currentPage);
+			
+			//currentPage.draw();
 			currentPage.show();
 			userInput = sc.nextLine();
 			currentPage.getMenu().runItem(userInput);
@@ -163,7 +189,8 @@ public class FrontendController {
 	
 	public void searchTitle() {
 		currentPage = searchPage;
-		initPage(currentPage);
+		//initPage(currentPage);
+		currentPage.show();
 		ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Please enter your search: ");
 		String searchTerm = sc.nextLine();
@@ -189,8 +216,10 @@ public class FrontendController {
 		selector.selectItem(l);
 		s.putSelectionAt(2, 4, selector);
 		bController.addToBasket(1, selector.getSelected().getPerformanceID(), user, 1, "Stalls");
-		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
-		s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
+		//String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
+		//s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
+		currentPage.show();
+		//searchPage.show();
 	}
 	
 	public void checkout() {
@@ -205,7 +234,7 @@ public class FrontendController {
 	public void searchDate() {
 		//TODO
 		currentPage = searchPage;
-		initPage(currentPage);
+		//initPage(currentPage);
 		ConsoleSurface s = searchPage.getScreen();
 
 		System.out.print("Enter a date (ddmmyyyy) or press return for Today: ");
@@ -213,17 +242,16 @@ public class FrontendController {
 
 		
 		ArrayList<Performance> results = bController.getShowsFromDate(searchTerm);
-		s.drawBoxAt(5, 5, 40, 12);
-		
+		selector.clear();
 		if (results.size()>0) {
+			selector.addPerformances(results);
 			
-			for (int i=0; i < results.size(); i++) {
-				s.putStringAt(6, 6+i, results.get(i).getTitle());
-			}
+			s.putSelectionAt(2, 4, selector);
+			
 		} else {
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}	
-		
+
 	}
 	
 	public static void clrscr(){
@@ -241,24 +269,40 @@ public class FrontendController {
 	
 
 	
-	private void initPage(Page p) {
+	private void setDefaultElements(Page p) {
 		Menu pm = p.getMenu();
 		ConsoleSurface ps = p.getScreen();
-		String date =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		ps.clear();
-		ps.drawBoxAt(0, 0, ps.getWidth()-1, ps.getHeight()-1);
-		String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
 		
-		ps.putStringBoxAt((ps.getWidth()/2)-16, 0, "    -~=@  Theatre Royal  @=~-    ");
-		ps.putStringBoxAt(0, 0, date);
-		ps.putStringBoxAt(ps.getWidth()-basket.length()-2, 0, basket);
-		ps.putHMenuAt(0, 20, pm);
+		//ps.clear();
+		// add background to each page
+		PageBackground pb = new PageBackground();
+		p.addElement(pb);
+		//ps.drawBoxAt(0, 0, ps.getWidth()-1, ps.getHeight()-1);
+		
+		// add basket widget to each page
+		BasketWidget b = new BasketWidget(bController.getBasket(user));
+		b.setXY(ps.getWidth()-b.getWidth(), 0);
+		p.addElement(b);
+		
+		// add Title textbox to each page
+		TextBox tb = new TextBox("    -~=@  Theatre Royal  @=~-    ");
+		tb.setXY((ps.getWidth()/2) - tb.getWidth()/2, 0);
+		p.addElement(tb);
+		
+		
+		// add date widget to each page
+		DateWidget d = new DateWidget();
+		d.setXY(0, 0);
+		p.addElement(d);
+		
+		p.addElement(pm);
+		//ps.putHMenuAt(0, 20, pm);
 		
 	}
 	
 	private void welcomeScreen() {
 		currentPage = welcomePage;
-		initPage(welcomePage);
+		//initPage(welcomePage);
 		ConsoleSurface s = welcomePage.getScreen();
 		String t1 = "_____  _     ____   __   _____  ___   ____      ___   ___   _      __    _    ";
 		String t2 = " | |  | |_| | |_   / /\\   | |  | |_) | |_      | |_) / / \\ \\ \\_/  / /\\  | |  ";
@@ -273,12 +317,13 @@ public class FrontendController {
 	
 	public void basketScreen() {
 		currentPage = basketPage;
-		initPage(basketPage);
+		//initPage(basketPage);
 	}
 	
 	public void searchScreen() {
 		currentPage = searchPage;
-		initPage(searchPage);
+		//initPage(searchPage);
+		currentPage.show();
 	}
 	
 	

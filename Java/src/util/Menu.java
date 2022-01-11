@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Menu {
+public class Menu extends PageElement{
 	
 	private String name;
 	private HashMap <String, MenuItem> menuItems;
@@ -15,12 +15,15 @@ public class Menu {
 	 * @param name
 	 */
 	public Menu(String name) {
+		super();
 		this.name = name;
 		menuItems = new HashMap<String, MenuItem>();
+		update();
 	}
 	
 	public void addMenuItem (String itemCode, MenuItem item) {
 		menuItems.put(itemCode, item);
+		update();
 	}
 	
 	public void runItem(String i) {
@@ -52,6 +55,25 @@ public class Menu {
 			menuMap.put(item.getKey(), item.getValue().getDescription()) ;
 		}
 		return menuMap;
+	}
+
+	public void update() {
+		setHeight(3);
+	}
+	@Override
+	public void draw(ConsoleSurface s) {
+		// TODO Auto-generated method stub
+		String menuLine;
+		int xOffset = 0;
+		y = s.getHeight()-getHeight();
+		HashMap<String, String> menumap = toMap();
+		for (String k : menumap.keySet()) {
+			menuLine = "";
+			menuLine += k + ": "  + menumap.get(k)+ " ";
+			s.putStringBoxAt(x + xOffset, y, menuLine);
+			xOffset += menuLine.length() +1;  
+		}
+		
 	}
 
 }
