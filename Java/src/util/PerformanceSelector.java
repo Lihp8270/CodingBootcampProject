@@ -46,6 +46,7 @@ public class PerformanceSelector extends PageElement{
 		if (items.containsKey(letter)) {
 		selected = items.get(letter);
 		}
+		clear();
 		return selected;
 		
 	}

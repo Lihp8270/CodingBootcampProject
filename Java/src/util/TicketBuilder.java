@@ -57,6 +57,7 @@ public class TicketBuilder extends PageElement{
 		}else {
 			seatType = "stalls";
 		}
+		update();
 	}
 	
 	public void switchConcessionType() {
@@ -66,11 +67,15 @@ public class TicketBuilder extends PageElement{
 		}else {
 			concession=1;
 		}
+		update();
 	}
 	
 	public void sendToBasket() {
-		
+		//TODO
 		bc.addToBasket(concession, p.getPerformanceID(), user, ticketQty, seatType);
+		update();
+		this.ticketQty = 1;
+		
 	}
 	
 	public void setPerformance(Performance p) {
@@ -78,8 +83,13 @@ public class TicketBuilder extends PageElement{
 	}
 	
 	public void update() {
+		// need to get performance by performance id from bc to get available ticket counts after adding to basket
+		//int pid = p.getPerformanceID();
+		// setPerformance(bc....get);
+		
 		availStalls = p.getStallsAvailable();
 		availCircle = p.getCircleAvailable();
+		
 		
 	}
 	
