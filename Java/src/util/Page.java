@@ -1,15 +1,23 @@
 package util;
 
+import java.util.ArrayList;
+
 public class Page {
 	private ConsoleSurface screen;
 	private Menu menu;
 	private String pageName;
+	private ArrayList<PageElement> elements;
 	
 	public Page(String pageName) {
 		this.pageName = pageName;
 		screen = new ConsoleSurface();
 		menu = new Menu(pageName);
+		elements = new ArrayList<>();
 		
+	}
+	
+	public void addElement(PageElement element) {
+		elements.add(element);
 	}
 	
 	public ConsoleSurface getScreen() {
@@ -27,7 +35,16 @@ public class Page {
 	}
 	
 	public void show() {
+		draw();
 		screen.print();
+		
+	}
+	
+	public void draw() {
+		screen.clear();
+		for (PageElement e: elements) {
+			e.draw(screen);
+		}
 	}
 
 
