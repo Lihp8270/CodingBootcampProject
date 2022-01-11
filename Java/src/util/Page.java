@@ -7,6 +7,7 @@ public class Page {
 	private Menu menu;
 	private String pageName;
 	private ArrayList<PageElement> elements;
+	private PerformanceSelector pSelector;
 	
 	public Page(String pageName) {
 		this.pageName = pageName;
@@ -46,6 +47,16 @@ public class Page {
 			e.draw(screen);
 		}
 	}
+
+	public PerformanceSelector getpSelector() {
+		return pSelector;
+	}
+
+	public void setpSelector(PerformanceSelector pSelector) {
+		this.pSelector = pSelector;
+	}
+	
+	
 
 
 }

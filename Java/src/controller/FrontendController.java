@@ -34,7 +34,7 @@ public class FrontendController {
 	Page productionPage;
 	Page buyTicketsPage;
 	
-	PerformanceSelector selector;
+	//PerformanceSelector selector;
 	
 	BackendController bController;
 	User user;
@@ -73,7 +73,7 @@ public class FrontendController {
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
 		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
 		
-		selector = new PerformanceSelector();
+		//selector = new PerformanceSelector();
 		
 		// welcome page
 		Menu wm = welcomePage.getMenu();
@@ -132,6 +132,10 @@ public class FrontendController {
 		sm.addMenuItem("5", selectPerformance);
 		
 		setDefaultElements(searchPage);
+		
+		PerformanceSelector selector = new PerformanceSelector();
+		searchPage.setpSelector(selector);
+		searchPage.addElement(selector);
 		
 		//buy Ticket page
 		Menu tm = buyTicketsPage.getMenu();
@@ -198,11 +202,12 @@ public class FrontendController {
 		
 		//PerformanceSelector selection = new PerformanceSelector();
 		
-		selector.clear();
+		searchPage.getpSelector().clear();
 		if (results.size()>0) {
-			selector.addPerformances(results);
+			searchPage.getpSelector().addPerformances(results);
 			
-			s.putSelectionAt(2, 4, selector);
+			//s.putSelectionAt(2, 4, selector);
+			searchPage.show();
 			
 		} else {
 			s.putStringBoxAt(35, 10, "No Shows found.");
@@ -213,12 +218,10 @@ public class FrontendController {
 		ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
-		selector.selectItem(l);
-		s.putSelectionAt(2, 4, selector);
-		bController.addToBasket(1, selector.getSelected().getPerformanceID(), user, 1, "Stalls");
-		//String basket = "Basket (" + bController.getBasket(user).getSizeOfBasket() +")";
-		//s.putStringBoxAt(s.getWidth()-basket.length()-2, 0, basket);
-		currentPage.show();
+		searchPage.getpSelector().selectItem(l);
+		bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
+
+		//searchPage.show();
 		//searchPage.show();
 	}
 	
@@ -242,11 +245,11 @@ public class FrontendController {
 
 		
 		ArrayList<Performance> results = bController.getShowsFromDate(searchTerm);
-		selector.clear();
+		searchPage.getpSelector().clear();
 		if (results.size()>0) {
-			selector.addPerformances(results);
+			searchPage.getpSelector().addPerformances(results);
 			
-			s.putSelectionAt(2, 4, selector);
+			//s.putSelectionAt(2, 4, selector);
 			
 		} else {
 			s.putStringBoxAt(35, 10, "No Shows found.");
@@ -280,7 +283,8 @@ public class FrontendController {
 		//ps.drawBoxAt(0, 0, ps.getWidth()-1, ps.getHeight()-1);
 		
 		// add basket widget to each page
-		BasketWidget b = new BasketWidget(bController.getBasket(user));
+		
+		BasketWidget b = new BasketWidget(bController, user);
 		b.setXY(ps.getWidth()-b.getWidth(), 0);
 		p.addElement(b);
 		
