@@ -7,8 +7,10 @@ public class Page {
 	private Menu menu;
 	private String pageName;
 	private ArrayList<PageElement> elements;
+	
 	private PerformanceSelector pSelector;
-	private BasketContents bContents;
+	private BasketContents bContents; // dont need this?
+	private TicketBuilder tBuilder;
 	
 	public Page(String pageName) {
 		this.pageName = pageName;
@@ -55,6 +57,14 @@ public class Page {
 
 	public void setpSelector(PerformanceSelector pSelector) {
 		this.pSelector = pSelector;
+	}
+	
+	public void setTicketBuilder(TicketBuilder tBuilder) {
+		this.tBuilder = tBuilder;
+	}
+	
+	public TicketBuilder getTicketBuilder() {
+		return tBuilder;
 	}
 	
 	

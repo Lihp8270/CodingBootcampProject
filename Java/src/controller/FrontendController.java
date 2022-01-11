@@ -15,6 +15,7 @@ import util.PageBackground;
 import util.PerformanceSelector;
 import util.TextBox;
 import util.TextLabel;
+import util.TicketBuilder;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -74,6 +75,11 @@ public class FrontendController {
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
 		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
 		MenuItem emptyBasket = new MenuItem("Empty Basket", ()-> bController.removeAllFromBasket(user) );
+		
+		MenuItem addToBasket = new MenuItem("Add", ()-> buyTicketsPage.getTicketBuilder().sendToBasket() );
+		MenuItem switchSeat = new MenuItem("Seat", ()-> buyTicketsPage.getTicketBuilder().switchSeatType() );
+		MenuItem switchConcession = new MenuItem("Conc", ()-> buyTicketsPage.getTicketBuilder().switchConcessionType() );
+		MenuItem setTicketQty = new MenuItem("Qty", ()-> buyTicketsPage.getTicketBuilder().setTicketQty());
 		
 		//selector = new PerformanceSelector();
 		
@@ -147,7 +153,17 @@ public class FrontendController {
 		Menu tm = buyTicketsPage.getMenu();
 		tm.addMenuItem("1", gotoWelcomePage);
 		tm.addMenuItem("2", viewBasket);
-		tm.addMenuItem("3", gotoSearchPage);
+		tm.addMenuItem("3", addToBasket);
+		tm.addMenuItem("4", setTicketQty);
+		tm.addMenuItem("5", switchSeat);
+		tm.addMenuItem("6", switchConcession);
+		tm.addMenuItem("4", setTicketQty);
+		
+		setDefaultElements(buyTicketsPage);
+		TicketBuilder tBuilder = new TicketBuilder(bController, user);
+		buyTicketsPage.setTicketBuilder(tBuilder);
+		buyTicketsPage.addElement(tBuilder);
+		
 		
 
 		// finish and set current page
@@ -220,12 +236,16 @@ public class FrontendController {
       }
 	
 	public void makeSelection() {
+		Performance selectedP;
 		ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
-		searchPage.getpSelector().selectItem(l);
-		
-		bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
+		selectedP = searchPage.getpSelector().selectItem(l);
+		if (selectedP!=null) {
+			buyTicketsPage.getTicketBuilder().setPerformance(selectedP);
+			currentPage = buyTicketsPage;
+		}
+		//bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
 
 	}
 	

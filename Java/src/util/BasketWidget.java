@@ -31,7 +31,14 @@ public class BasketWidget extends PageElement{
 	
 	public void update() {
 		basketSize = bc.getBasket(user).getSizeOfBasket();
-		label = "Basket (" + basketSize +")";
+		
+		String pad= "";
+		
+		if (basketSize < 1000)  pad = "";
+		if (basketSize < 100)   pad = " ";
+		if (basketSize < 10)   pad = "  ";
+		
+		label = "Basket (" + basketSize +")" + pad;
 		setWidth(label.length()+2);
 		setHeight(3);
 	}

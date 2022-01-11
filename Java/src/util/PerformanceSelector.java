@@ -40,11 +40,13 @@ public class PerformanceSelector extends PageElement{
 	 * @param letter letter id of chosen performance
 	 * 
 	 */
-	public void selectItem(String letter) {
+	public Performance selectItem(String letter) {
 		
+		selected = null;
 		if (items.containsKey(letter)) {
 		selected = items.get(letter);
 		}
+		return selected;
 		
 	}
 	
