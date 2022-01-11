@@ -4,6 +4,7 @@ import model.User;
 import model.Performance;
 import model.Performer;
 import util.BackendController;
+import util.BasketContents;
 import util.BasketWidget;
 import util.ConsoleSurface;
 import util.DateWidget;
@@ -72,6 +73,7 @@ public class FrontendController {
 		MenuItem gotoSearchPage = new MenuItem("Search", ()-> searchScreen());
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
 		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
+		MenuItem emptyBasket = new MenuItem("Empty Basket", ()-> bController.removeAllFromBasket(user) );
 		
 		//selector = new PerformanceSelector();
 		
@@ -110,8 +112,12 @@ public class FrontendController {
 		
 		bm.addMenuItem("1",gotoWelcomePage);
 		bm.addMenuItem("2", gotoCheckout);
+		bm.addMenuItem("3", emptyBasket);
 		
 		setDefaultElements(basketPage);
+		BasketContents bc = new BasketContents(bController, user);
+		basketPage.addElement(bc);
+		
 
 		// Browse shows page
 		Menu brm = browseShowsPage.getMenu();
@@ -205,11 +211,10 @@ public class FrontendController {
 		searchPage.getpSelector().clear();
 		if (results.size()>0) {
 			searchPage.getpSelector().addPerformances(results);
-			
-			//s.putSelectionAt(2, 4, selector);
 			searchPage.show();
 			
 		} else {
+			//TODO
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}				
       }
@@ -219,10 +224,9 @@ public class FrontendController {
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
 		searchPage.getpSelector().selectItem(l);
+		
 		bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
 
-		//searchPage.show();
-		//searchPage.show();
 	}
 	
 	public void checkout() {
@@ -252,6 +256,8 @@ public class FrontendController {
 			//s.putSelectionAt(2, 4, selector);
 			
 		} else {
+			//searchPage.show();
+			// TODO
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}	
 

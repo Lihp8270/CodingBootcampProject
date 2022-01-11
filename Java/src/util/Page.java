@@ -8,6 +8,7 @@ public class Page {
 	private String pageName;
 	private ArrayList<PageElement> elements;
 	private PerformanceSelector pSelector;
+	private BasketContents bContents;
 	
 	public Page(String pageName) {
 		this.pageName = pageName;
