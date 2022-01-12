@@ -213,7 +213,7 @@ public class FrontendController {
 
 		String userInput="";
 		while (true) {
-			clearScreen();
+			//clearScreen();
 			currentPage.show();
 			userInput = sc.nextLine();
 			currentPage.getMenu().runItem(userInput);
@@ -283,7 +283,7 @@ public class FrontendController {
 	
 	public void makeSelection() {
 		Performance selectedP;
-		ConsoleSurface s = searchPage.getScreen();
+		//ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
 		selectedP = searchPage.getpSelector().selectItem(l.toUpperCase());

@@ -1,5 +1,6 @@
 package util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -46,6 +47,7 @@ public class Page {
 	}
 	
 	public void show() {
+		clearConsole();
 		draw();
 		screen.print();
 		
@@ -80,6 +82,18 @@ public class Page {
 
 	public ProductionPanel getProductionPanel() {
 		return pPanel;
+	}
+	
+	public static void clearConsole(){
+	    // Clears Screen in java
+		// Works in Windows (and Linux?)
+		// https://stackoverflow.com/questions/2979383/how-to-clear-the-console
+	    try {
+	        if (System.getProperty("os.name").contains("Windows"))
+	            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+	        else
+	            Runtime.getRuntime().exec("clear");
+	    } catch (IOException | InterruptedException ex) {}
 	}
 	
 
