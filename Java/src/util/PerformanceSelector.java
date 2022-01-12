@@ -92,10 +92,41 @@ public class PerformanceSelector extends PageElement{
 
 	@Override
 	public void draw(ConsoleSurface s) {
-		// TODO Auto-generated method stub
 		s.drawBoxAt(x, y, s.getWidth()-5, 14);
 		s.drawBoxAt(x, y, s.getWidth()-5, 2);
-		s.drawBoxAt(x+3,y,title.getWidth()+1,2);
+		int xOff = 3;
+		
+		s.drawBoxAt(x+xOff,y,title.getWidth()+1,2);
+		s.putStringAt(x+xOff+1, y+1, title.getLabel());
+		xOff+= title.getWidth()+1;
+		
+		s.drawBoxAt(x+xOff,y,type.getWidth()+1,2);
+		s.putStringAt(x+xOff+1, y+1, type.getLabel());
+		xOff+= type.getWidth()+1;
+		
+		s.drawBoxAt(x+xOff,y,time.getWidth(),2);
+		s.putStringAt(x+xOff+1, y+1, time.getLabel());
+		xOff+= time.getWidth();
+		
+		s.drawBoxAt(x+xOff,y,date.getWidth(),2);
+		s.putStringAt(x+xOff+1, y+1, date.getLabel());
+		xOff+= date.getWidth();
+		
+		s.drawBoxAt(x+xOff,y,duration.getWidth(),2);
+		s.putStringAt(x+xOff+1, y+1, duration.getLabel());
+		xOff+= duration.getWidth();
+		
+		s.drawBoxAt(x+xOff,y,language.getWidth(),2);
+		s.putStringAt(x+xOff+1, y+1, language.getLabel());
+		xOff+= language.getWidth();
+		
+		s.drawBoxAt(x+xOff,y,seats.getWidth(),2);
+		s.putStringAt(x+xOff+1, y+1, seats.getLabel());
+		xOff+= seats.getWidth();
+
+		//s.putStringAt(x+5, y+1, title.getLabel());
+		
+		
 		HashMap<String, Performance> sm = toMap();
 		String line = "";
 		int yOffset = 3;
@@ -111,6 +142,7 @@ public class PerformanceSelector extends PageElement{
 			line += k + ": "+a  + sm.get(k).getTitle();
 			s.putStringAt(x+xOffset ,y + yOffset, line);
 			xOffset+= 5 + title.getWidth();
+			
 			s.putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getType());
 			xOffset+= type.getWidth();
 			
@@ -130,8 +162,8 @@ public class PerformanceSelector extends PageElement{
 			s.putStringAt(x+xOffset,y+yOffset,totSeats);
 			xOffset+= seats.getWidth();
 			
-//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getpr);
-//			xOffset+= sel.price.getWidth();
+			//putStringAt(x+xOffset,y+yOffset,sm.get(k).);
+			//xOffset+= sel.price.getWidth();
 			
 			
 			yOffset ++; 
