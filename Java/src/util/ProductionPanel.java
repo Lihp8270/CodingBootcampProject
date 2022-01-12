@@ -52,20 +52,23 @@ public class ProductionPanel extends PageElement{
 		return p.getProductionID();
 	}
 	
+	
 	private void displayDescription(ConsoleSurface s) {
 		int px, py;
-		px = 10;
+		px = 15;
 		py = 5;
+		s.putStringAt((s.getWidth()/2)-title.length()/2, py, title);
+		s.putStringAt((s.getWidth()/2)-description.length()/2, py+1, description);
 		
 				
 	}
 	
 	private void displayMusicPerformers(ConsoleSurface s) {
 		int px, py;
-		px = 30;
+		px = 60;
 		py = 8;
 		for(Performer musician:musicPerformers) {
-			String musicianRole = musician.getName() + " as " + musician.getProductionRoles().get(0);
+			String musicianRole = musician.getName() + " as " + musician.getMusicRoles().get(0);
 			s.putStringAt(x+px, y+py, musicianRole);
 			py++;
 		}
@@ -78,6 +81,8 @@ public class ProductionPanel extends PageElement{
 		int px, py;
 		px = 10;
 		py = 8;
+		s.putStringAt(px+3, py, "Performers");
+		py++;
 		for(Performer actor:productionPerformers) {
 			String actorRole = actor.getName() + " as " + actor.getProductionRoles().get(0);
 			s.putStringAt(x+px, y+py, actorRole);
@@ -85,6 +90,28 @@ public class ProductionPanel extends PageElement{
 		}
 	}
 	
+	public void displayInfo(ConsoleSurface s) {
+		int px, py;
+		px= 10;
+		py = 18;
+		String info = "Show Type: " + showType + "  "
+					+ "Length of Show: " + duration + " minutes "
+					+ "Standard Seats: " + adultPrice + " "
+					+ "Childrens Seats:" + childPrice + " "
+				;
+		s.putStringAt((s.getWidth()/2)-info.length()/2, py, info);
+		
+	}
+	
+	public void displayLanguage(ConsoleSurface s) {
+		int py = 19;
+		
+		
+		if(!showType.equals("concert")) {
+			String l = "The Show will be performed in " + language;
+			s.putStringAt((s.getWidth()/2)-l.length()/2, py, l);
+		}
+	}
 	
 	@Override
 	public void draw(ConsoleSurface s) {
@@ -92,8 +119,12 @@ public class ProductionPanel extends PageElement{
 		//s.putStringBoxAt(x+10, y+7, p.getTitle());
 		//s.putStringBoxAt(x+10, y+3, "Show info, descriptSWion and performers");
 		
+		
+		displayDescription(s);
 		displayPerformers(s);
 		displayMusicPerformers(s);
+		displayInfo(s);
+		displayLanguage(s);
 
 		
 	}

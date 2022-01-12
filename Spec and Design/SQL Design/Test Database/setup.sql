@@ -225,7 +225,7 @@ insert into theatre.production (title, production_description, duration, categor
 	('Oliver!','Oliver! - The Musical', 120, 3, 30, 'English'),
 	('The Mousetrap','Whodunit?', 150, 4, 30,'English'),
 	('Matilda','Adapted from Roald Dahl\'s novel', 150, 3, 35,'English'),
-    ('La bohème','Mimì and Rodolfo\'s passion burns with a brilliant flame. In a city of lights, can love eclipse Death itself?', 130, 1, 40, 'Italian')
+    ('La bohème','In a city of lights, can love eclipse Death itself?', 130, 1, 40, 'Italian')
 ;
 
 insert into performer(performer_name)
