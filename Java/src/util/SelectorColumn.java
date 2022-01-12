@@ -25,9 +25,13 @@ public class SelectorColumn {
 	public int getWidth() {
 		return width;
 	}
-
+	
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	
+	public void resetWidth() {
+		this.width = label.length();
 	}
 	
 	public void setMinWidth(int newWidth) {

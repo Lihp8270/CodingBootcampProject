@@ -22,7 +22,7 @@ public class PerformanceSelector extends PageElement{
 	protected SelectorColumn date= new SelectorColumn("Date");
 	protected SelectorColumn time = new SelectorColumn("Time");
 	protected SelectorColumn duration = new SelectorColumn("Length");
-	protected SelectorColumn language = new SelectorColumn("Lang.");
+	protected SelectorColumn language = new SelectorColumn("Language ");
 	protected SelectorColumn seats = new SelectorColumn("Avail. Seats");
 	protected SelectorColumn price = new SelectorColumn("Ticket Price");
 	
@@ -64,9 +64,22 @@ public class PerformanceSelector extends PageElement{
 	}
 	
 	public void addPerformances(ArrayList<Performance> plist) {
+		resetWidths();
 		for (Performance p : plist) {
 			addItem(p);
 		}
+	}
+	
+	private void resetWidths() {
+		title.resetWidth();
+		type.resetWidth();
+		date.resetWidth();
+		time.resetWidth();
+		duration.resetWidth();
+		language.resetWidth();
+		seats.resetWidth();
+		price.resetWidth();
+		
 	}
 	
 	private void setColumnWidths(Performance p) {
@@ -74,7 +87,7 @@ public class PerformanceSelector extends PageElement{
 		type.setMinWidth(p.getType().getType().length());
 		date.setMinWidth(p.getDateString().length());
 		time.setMinWidth(p.getTime().length());
-		duration.setMinWidth(4);
+		duration.setMinWidth(6);
 		language.setMinWidth(p.getType().getLanguage().length());
 		seats.setMinWidth(4);
 		price.setMinWidth(4);
@@ -120,9 +133,9 @@ public class PerformanceSelector extends PageElement{
 		s.putStringAt(x+xOff+1, y+1, language.getLabel());
 		xOff+= language.getWidth();
 		
-		s.drawBoxAt(x+xOff,y,seats.getWidth(),2);
+		s.drawBoxAt(x+xOff,y,seats.getWidth()+1,2);
 		s.putStringAt(x+xOff+1, y+1, seats.getLabel());
-		xOff+= seats.getWidth();
+		xOff+= seats.getWidth()+1;
 
 		//s.putStringAt(x+5, y+1, title.getLabel());
 		
