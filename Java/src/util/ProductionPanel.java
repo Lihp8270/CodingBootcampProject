@@ -1,6 +1,9 @@
 package util;
 
+import java.util.ArrayList;
+
 import model.Performance;
+import model.Performer;
 /**
  * A PageElement object.
  * Displays the general information for a Performance, such as the description and performers.
@@ -10,13 +13,25 @@ import model.Performance;
 public class ProductionPanel extends PageElement{
 	
 	private Performance p;
-
+	private ArrayList<Performer> productionPerformers;
+	private ArrayList<Performer> musicPerformers;
+	private ArrayList<Performer> allPerformers;
+	private String description;
+	private String showType;
+	private String language;
+	private String duration;
+	private String adultPrice;
+	private String childPrice;
 	public ProductionPanel() {
 		super();
 	}
 	
 	public void setPerformance(Performance p) {
 		this.p = p;
+		
+		productionPerformers = p.getType().getProductionPerformers();
+		musicPerformers = p.getType().getMusicPerformers();
+		//System.out.println(p.getType());
 		//update();
 	}
 	
@@ -24,11 +39,26 @@ public class ProductionPanel extends PageElement{
 		return p.getProductionID();
 	}
 	
+	private void displayPerformers(ConsoleSurface s) {
+		int px, py;
+		px = 10;
+		py = 8;
+		for(Performer actor:productionPerformers) {
+			String actorRole = actor.getName() + " as " + actor.getProductionRoles().get(0);
+			s.putStringAt(x+px, y+py, actorRole);
+			py++;
+		}
+	}
+	
+	
 	@Override
 	public void draw(ConsoleSurface s) {
 		// TODO Auto-generated method stub
-		s.putStringBoxAt(x+10, y+7, p.getTitle());
-		s.putStringBoxAt(x+10, y+3, "Show info, description and performers");
+		//s.putStringBoxAt(x+10, y+7, p.getTitle());
+		//s.putStringBoxAt(x+10, y+3, "Show info, description and performers");
+		
+		displayPerformers(s);
+
 		
 	}
 
