@@ -16,6 +16,7 @@ public class TicketBuilder extends PageElement{
 	private int availStalls;
 	private int availCircle;
 	private Scanner sc;
+	private String showInfo;
 	
 	
 	
@@ -92,6 +93,7 @@ public class TicketBuilder extends PageElement{
 		
 		availStalls = p.getStallsAvailable();
 		availCircle = p.getCircleAvailable();
+		showInfo = p.getTitle() + " " + p.getTime() + " " + p.getDateString();
 		
 		
 	}
@@ -100,14 +102,24 @@ public class TicketBuilder extends PageElement{
 	@Override
 	public void draw(ConsoleSurface s) {
 		// TODO Auto-generated method stub
+		int xOff = 32;
 		update();
-		s.putStringBoxAt(x, y+0, "Show: "+p.getTitle());
-		s.putStringBoxAt(x, y+2, "Stalls: "+ availStalls);
-		s.putStringBoxAt(x, y+4, "circle: "+ availCircle);
-		s.putStringBoxAt(x, y+6, "Qty: "+ ticketQty);
-		s.putStringBoxAt(x, y+8, "Seat: "+ seatType);
-		s.putStringBoxAt(x, y+10, "Conc: "+ concession);
+		s.putStringBoxAt((s.getWidth()/2) - showInfo.length()/2, y+0, showInfo);
 		
+		
+		s.putStringBoxAt(x, y, "Available Seats");
+		s.drawBoxAt(x, y+2,16, 2);
+		s.drawBoxAt(x, y+4,16, 2);
+		s.putStringAt(x+1, y+3, "Stalls: "+ availStalls);
+		s.putStringAt(x+1, y+5, "circle: "+ availCircle);
+		
+		
+		s.drawBoxAt((s.getWidth()/2) - 35/2, y+9 ,35 , 6);
+		
+		s.putStringAt(xOff+x +10, y+10, "Your Selection");
+		s.putStringBoxAt(xOff+x, y+12, "Conc: "+ concession);
+		s.putStringBoxAt(xOff+x+10, y+12, "Seat: "+ seatType);
+		s.putStringBoxAt(xOff+x+25, y+12, "Qty: "+ ticketQty);
 		
 		
 	}

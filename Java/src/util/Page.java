@@ -11,6 +11,7 @@ public class Page {
 	private PerformanceSelector pSelector;
 	private BasketContents bContents; // dont need this?
 	private TicketBuilder tBuilder;
+	private ProductionPanel pPanel;
 	
 	public Page(String pageName) {
 		this.pageName = pageName;
@@ -65,6 +66,15 @@ public class Page {
 	
 	public TicketBuilder getTicketBuilder() {
 		return tBuilder;
+	}
+	
+	public void setProductionPanel(ProductionPanel pPanel) {
+		this.pPanel = pPanel;
+	}
+
+	public ProductionPanel getProductionPanel() {
+		// TODO Auto-generated method stub
+		return pPanel;
 	}
 	
 	
