@@ -5,6 +5,13 @@ import java.util.Scanner;
 import model.Performance;
 import model.User;
 
+/**
+ * A PageElement object.
+ * A ticket selection and submission form.
+ * Sets the concession type, seat type and ticket quantity for a Performance, for sending to a ShoppingBasket.
+ * @author JS
+ *
+ */
 public class TicketBuilder extends PageElement{
 	
 	private Performance p;
@@ -26,8 +33,8 @@ public class TicketBuilder extends PageElement{
 		this.user = user;
 		this.ticketQty = 1;
 		setXY(2,4);
-		availStalls = 0; //p.getStallsAvailable();
-		availCircle = 0; //p.getCircleAvailable();
+		availStalls = 0;
+		availCircle = 0;
 		seatType = "stalls";
 		concessionID = 1;
 		conc = "Adult";
