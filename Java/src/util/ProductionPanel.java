@@ -24,6 +24,7 @@ public class ProductionPanel extends PageElement{
 	private String duration;
 	private String adultPrice;
 	private String childPrice;
+	private boolean hasMusic;
 	public ProductionPanel() {
 		super();
 	}
@@ -34,6 +35,7 @@ public class ProductionPanel extends PageElement{
 		title = p.getTitle();
 		productionPerformers = p.getType().getProductionPerformers();
 		musicPerformers = p.getType().getMusicPerformers();
+		hasMusic = musicPerformers.size()>0;
 		description = p.getDescription();
 		showType = p.getType().getType();
 		language = p.getType().getLanguage();
@@ -81,7 +83,11 @@ public class ProductionPanel extends PageElement{
 		int px, py;
 		px = 10;
 		py = 8;
-		s.putStringAt(px+3, py, "Performers");
+		if (!hasMusic) {
+			px = (s.getWidth()/2)-13;
+		}
+		
+		s.putStringAt(px+7, py, "Performers");
 		py++;
 		for(Performer actor:productionPerformers) {
 			String actorRole = actor.getName() + " as " + actor.getProductionRoles().get(0);
