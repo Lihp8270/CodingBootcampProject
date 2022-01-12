@@ -13,6 +13,8 @@ public class Performer {
     public Performer(String name, int performerID) {
         productionRoles = new ArrayList<String>();
         musicRoles = new ArrayList<String>();
+        isMusicPerformer = false;
+        isProductionPerformer = false;
         
         this.performerID = performerID;
         this.name = name;
