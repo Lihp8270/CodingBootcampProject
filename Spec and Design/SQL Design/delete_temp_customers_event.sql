@@ -1,3 +1,4 @@
+/*
 -- show variables where variable_name='event_scheduler';
 use theatre;
 drop event if exists every_2_days_remove_temp_customers;
@@ -11,3 +12,4 @@ do begin
     where timestampdiff(day, created, now())>2 AND temp_status !=0 ;
 end$$
 delimiter ;
+*/

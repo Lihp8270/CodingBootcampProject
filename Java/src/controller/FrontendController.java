@@ -4,6 +4,7 @@ import model.User;
 import model.Performance;
 import model.Performer;
 import util.BackendController;
+import util.BasketContents;
 import util.BasketWidget;
 import util.ConsoleSurface;
 import util.DateWidget;
@@ -14,6 +15,7 @@ import util.PageBackground;
 import util.PerformanceSelector;
 import util.TextBox;
 import util.TextLabel;
+import util.TicketBuilder;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -44,14 +46,30 @@ public class FrontendController {
 		bController = new BackendController();
         user = new User(bController.createNewUser());
         sc = new Scanner(System.in);
+
         setup();
         	
 	}
     
 	public static void main(String[] args) {
     	FrontendController browser = new FrontendController();
-		browser.run();
+    	
+		browser.run(); // comment out to run test
+		
+		// browser.test(); // uncomment to run test
+		
     }
+	
+	public void test() {
+		System.out.println(bController.addToBasket(1, 4, user, 10, "stalls"));
+		System.out.println(bController.getBasket(user).getSizeOfBasket());
+		
+		System.out.println(bController.addToBasket(1, 4, user, 10, "stalls"));
+		System.out.println(bController.getBasket(user).getSizeOfBasket());
+		
+		bController.removeAllFromBasket(user);
+
+	}
 	
     private void setup() {
     	
@@ -72,6 +90,12 @@ public class FrontendController {
 		MenuItem gotoSearchPage = new MenuItem("Search", ()-> searchScreen());
 		MenuItem selectPerformance = new MenuItem("(letter) Select", () -> makeSelection() );
 		MenuItem gotoCheckout = new MenuItem("Checkout", () -> checkout() );
+		MenuItem emptyBasket = new MenuItem("Empty Basket", ()-> bController.removeAllFromBasket(user) );
+		
+		MenuItem addToBasket = new MenuItem("Add", ()-> buyTicketsPage.getTicketBuilder().sendToBasket() );
+		MenuItem switchSeat = new MenuItem("Seat", ()-> buyTicketsPage.getTicketBuilder().switchSeatType() );
+		MenuItem switchConcession = new MenuItem("Conc", ()-> buyTicketsPage.getTicketBuilder().switchConcessionType() );
+		MenuItem setTicketQty = new MenuItem("Qty", ()-> buyTicketsPage.getTicketBuilder().setTicketQty());
 		
 		//selector = new PerformanceSelector();
 		
@@ -110,8 +134,12 @@ public class FrontendController {
 		
 		bm.addMenuItem("1",gotoWelcomePage);
 		bm.addMenuItem("2", gotoCheckout);
+		bm.addMenuItem("3", emptyBasket);
 		
 		setDefaultElements(basketPage);
+		BasketContents bc = new BasketContents(bController, user);
+		basketPage.addElement(bc);
+		
 
 		// Browse shows page
 		Menu brm = browseShowsPage.getMenu();
@@ -141,7 +169,17 @@ public class FrontendController {
 		Menu tm = buyTicketsPage.getMenu();
 		tm.addMenuItem("1", gotoWelcomePage);
 		tm.addMenuItem("2", viewBasket);
-		tm.addMenuItem("3", gotoSearchPage);
+		tm.addMenuItem("3", addToBasket);
+		tm.addMenuItem("4", setTicketQty);
+		tm.addMenuItem("5", switchSeat);
+		tm.addMenuItem("6", switchConcession);
+		tm.addMenuItem("4", setTicketQty);
+		
+		setDefaultElements(buyTicketsPage);
+		TicketBuilder tBuilder = new TicketBuilder(bController, user);
+		buyTicketsPage.setTicketBuilder(tBuilder);
+		buyTicketsPage.addElement(tBuilder);
+		
 		
 
 		// finish and set current page
@@ -159,13 +197,12 @@ public class FrontendController {
 
 	public void run() {
 	
+		
+		//bController.addToBasket(1, 4, user, 10, "stalls");
+		
 		String userInput="";
 		while (true) {
-			//currentPage.show();
-			
-			//initPage(currentPage);
-			
-			//currentPage.draw();
+		
 			currentPage.show();
 			userInput = sc.nextLine();
 			currentPage.getMenu().runItem(userInput);
@@ -205,24 +242,26 @@ public class FrontendController {
 		searchPage.getpSelector().clear();
 		if (results.size()>0) {
 			searchPage.getpSelector().addPerformances(results);
-			
-			//s.putSelectionAt(2, 4, selector);
 			searchPage.show();
 			
 		} else {
+			//TODO
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}				
       }
 	
 	public void makeSelection() {
+		Performance selectedP;
 		ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
-		searchPage.getpSelector().selectItem(l);
-		bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
+		selectedP = searchPage.getpSelector().selectItem(l);
+		if (selectedP!=null) {
+			buyTicketsPage.getTicketBuilder().setPerformance(selectedP);
+			currentPage = buyTicketsPage;
+		}
+		//bController.addToBasket(1, searchPage.getpSelector().getSelected().getPerformanceID(), user, 1, "Stalls");
 
-		//searchPage.show();
-		//searchPage.show();
 	}
 	
 	public void checkout() {
@@ -252,6 +291,8 @@ public class FrontendController {
 			//s.putSelectionAt(2, 4, selector);
 			
 		} else {
+			//searchPage.show();
+			// TODO
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}	
 
