@@ -25,6 +25,7 @@ public class ProductionPanel extends PageElement{
 	private String adultPrice;
 	private String childPrice;
 	private boolean hasMusic;
+	private boolean isConcert;
 	public ProductionPanel() {
 		super();
 	}
@@ -44,6 +45,7 @@ public class ProductionPanel extends PageElement{
 		
 		adultPrice = prices.get(0).getPriceAsString();
 		childPrice = prices.get(1).getPriceAsString();
+		isConcert = showType.equals("Concert");
 
 		
 	
@@ -69,16 +71,19 @@ public class ProductionPanel extends PageElement{
 		int px, py;
 		px = 60;
 		py = 8;
+		if (isConcert) {
+			px = (s.getWidth()/2)-13;
+		}
+		s.putStringAt(px+7, py, "Live Music by");
+		py++;
 		for(Performer musician:musicPerformers) {
-			String musicianRole = musician.getName() + " as " + musician.getMusicRoles().get(0);
-			s.putStringAt(x+px, y+py, musicianRole);
+			String musicianRole = musician.getName();// + " as " + musician.getMusicRoles().get(0);
+			s.putStringAt(x+px+6, y+py, musicianRole);
 			py++;
 		}
 	}
 	
-	
-	
-	
+
 	private void displayPerformers(ConsoleSurface s) {
 		int px, py;
 		px = 10;
@@ -127,8 +132,12 @@ public class ProductionPanel extends PageElement{
 		
 		
 		displayDescription(s);
+		if (!isConcert) {
 		displayPerformers(s);
-		displayMusicPerformers(s);
+		}
+		if (hasMusic) {
+			displayMusicPerformers(s);
+		}
 		displayInfo(s);
 		displayLanguage(s);
 

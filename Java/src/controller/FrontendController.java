@@ -267,7 +267,7 @@ public class FrontendController {
 		int showID = productionPage.getProductionPanel().getShowID();
 		ArrayList<Performance> results = bController.getShowsFromProductionID(showID);
 		searchPage.getpSelector().clear();
-		System.out.println("Showid " +showID);
+		//System.out.println("Showid " +showID);
 		if (results.size()>0) {
 			currentPage = searchPage;
 			searchPage.getpSelector().addPerformances(results);

@@ -225,7 +225,8 @@ insert into theatre.production (title, production_description, duration, categor
 	('Oliver!','Oliver! - The Musical', 120, 3, 30, 'English'),
 	('The Mousetrap','Whodunit?', 150, 4, 30,'English'),
 	('Matilda','Adapted from Roald Dahl\'s novel', 150, 3, 35,'English'),
-    ('La bohème','In a city of lights, can love eclipse Death itself?', 130, 1, 40, 'Italian')
+    ('La bohème','In a city of lights, can love eclipse Death itself?', 130, 1, 40, 'Italian'),
+    ('Queen','2022 Tour', 150, 2, 60,'English')
 ;
 
 insert into performer(performer_name)
@@ -255,7 +256,13 @@ insert into performer(performer_name)
     ('Cesira Ferrani'),
     ('Tieste Wilmant'),
     
-    ('La Scala Orchestra')
+    ('La Scala Orchestra'),
+    
+    ('Freddie Mercury'),
+    ('Brian May'),
+    ('Roger Taylor'),
+    ('John Deacon')
+    
     
 ;
 
@@ -289,7 +296,11 @@ insert into production_performers (production_id, performer_id, production_role)
 
 insert into music_performers (production_id, performer_id, music_role)
 	values
-    (4,22, 'Orchestra')
+    (4,22, 'Orchestra'),
+    (5,23, 'Lead Singer'),
+    (5,24, 'Band'),
+    (5,25, 'Band'),
+    (5,26, 'Band')
 ;
 
 
@@ -350,7 +361,9 @@ insert into performance( performance_date, time_slot, production_id)
     (date_add(curdate(), interval 3 day), 'evening', 3),
     
 	(date_add(curdate(), interval 4 day), 'matinee', 4),
-    (date_add(curdate(), interval 4 day), 'evening', 4)
+    (date_add(curdate(), interval 4 day), 'evening', 4),
+    
+    (date_add(curdate(), interval 5 day), 'evening', 5)
     
 ;
 /*
