@@ -286,7 +286,7 @@ public class FrontendController {
 		ConsoleSurface s = searchPage.getScreen();
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
-		selectedP = searchPage.getpSelector().selectItem(l);
+		selectedP = searchPage.getpSelector().selectItem(l.toUpperCase());
 		if (selectedP!=null) {
 			buyTicketsPage.getTicketBuilder().setPerformance(selectedP);
 			currentPage = buyTicketsPage;
@@ -298,7 +298,7 @@ public class FrontendController {
 		Performance selectedShow;
 		System.out.print("Enter Letter of Show to Select: ");
 		String l = sc.nextLine();
-		selectedShow = browseShowsPage.getpSelector().selectItem(l);
+		selectedShow = browseShowsPage.getpSelector().selectItem(l.toUpperCase());
 		if (selectedShow!=null) {
 			productionPage.getProductionPanel().setPerformance(selectedShow);
 			currentPage = productionPage;
