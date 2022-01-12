@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * Used by the Menu class to store runnable commands.
+ * @author JS
+ *
+ */
 public class MenuItem {
 	
 	String description;

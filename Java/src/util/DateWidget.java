@@ -3,6 +3,12 @@ package util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 
+ * @author JS
+ * A PageElement object.
+ * Displays the current date 
+ */
 public class DateWidget extends PageElement {
 	
 	String dateLabel;

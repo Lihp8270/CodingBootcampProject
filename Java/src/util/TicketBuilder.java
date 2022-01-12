@@ -19,11 +19,7 @@ public class TicketBuilder extends PageElement{
 	private String showInfo;
 	private String conc;
 	
-	
-	
-	
-	
-	
+
 	public TicketBuilder(BackendController bc, User user) {
 		
 		this.bc = bc;

@@ -3,7 +3,14 @@ package util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Performance;
-// Creates a hashmap of performance objects and assigns a letter
+
+/**
+ * A PageElement object.
+ * Displays a list of Performance objects.
+ * Allows a Performance to be selected by the letter printed next to it
+ * @author JS
+ *
+ */
 public class PerformanceSelector extends PageElement{
 	
 	private char startChar = 'A';

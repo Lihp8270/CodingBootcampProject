@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * A PageElement can be arranged and displayed on a Page object's ConsoleSurface.
+ * @author JS
+ *	
+ */
 public abstract class PageElement {
 	
 	protected int x,y;

@@ -2,6 +2,12 @@ package util;
 
 import java.util.ArrayList;
 
+/**
+ * Page object has a Menu and PageElements which are displayed on a Page's ConsoleSurface.
+ * The Page.draw() method calls the draw() method of each PageElement.
+ * @author JS
+ *
+ */
 public class Page {
 	private ConsoleSurface screen;
 	private Menu menu;
@@ -9,7 +15,7 @@ public class Page {
 	private ArrayList<PageElement> elements;
 	
 	private PerformanceSelector pSelector;
-	private BasketContents bContents; // dont need this?
+	//private BasketContents bContents; // dont need this?
 	private TicketBuilder tBuilder;
 	private ProductionPanel pPanel;
 	
@@ -73,11 +79,8 @@ public class Page {
 	}
 
 	public ProductionPanel getProductionPanel() {
-		// TODO Auto-generated method stub
 		return pPanel;
 	}
 	
-	
-
 
 }

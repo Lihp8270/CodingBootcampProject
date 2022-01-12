@@ -1,9 +1,13 @@
 package util;
 
 
+/**
+ * A PageElement object.
+ * A simple background with a border for a Page.
+ * @author JS
+ *
+ */
 public class PageBackground extends PageElement {
-	
-	
 	
 	public PageBackground() {
 		super();
@@ -16,6 +20,4 @@ public class PageBackground extends PageElement {
 		s.drawBoxAt(0, 0, s.getWidth()-1, s.getHeight()-1);
 
 	}
-
-
 }
