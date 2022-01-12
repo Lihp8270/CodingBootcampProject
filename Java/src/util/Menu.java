@@ -4,7 +4,12 @@ package util;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * A PageElement object.
+ * A collection of MenuItem objects.
+ * @author JS
+ *
+ */
 public class Menu extends PageElement{
 	
 	private String name;
@@ -62,7 +67,6 @@ public class Menu extends PageElement{
 	}
 	@Override
 	public void draw(ConsoleSurface s) {
-		// TODO Auto-generated method stub
 		String menuLine;
 		int xOffset = 0;
 		y = s.getHeight()-getHeight();

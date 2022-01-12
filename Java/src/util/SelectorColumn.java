@@ -1,7 +1,7 @@
 package util;
 
 /**
- * 
+ * Used by the PerformanceSelector to store and set column widths
  * @author JS
  *
  */

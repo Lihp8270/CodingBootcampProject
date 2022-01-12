@@ -1,6 +1,10 @@
 package util;
 
-
+/**
+ * A PageElement object
+ * @author JS
+ *
+ */
 public class TextLabel extends PageElement {
 	
 	private String text;
@@ -26,9 +30,5 @@ public class TextLabel extends PageElement {
 	public void update() {
 		setWidth(text.length());
 		setHeight(1);
-		
-		
 	}
-
-
 }

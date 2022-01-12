@@ -3,10 +3,14 @@ package util;
 
 import model.User;
 
+/**
+ * A PageElement object.
+ * Displays the User's ShoppingBasket contents
+ * @author JS
+ *
+ */
 public class BasketContents extends PageElement{
 
-	//private String label;
-	
 	private int ticketCount;
 	private String basketPrice;
 	private BackendController bc;
@@ -40,8 +44,6 @@ public class BasketContents extends PageElement{
 	public void update() {
 		ticketCount = bc.getBasket(user).getSizeOfBasket();
 		basketPrice = bc.getBasket(user).getTotalPrice();
-		//label = "Basket (" + ticketCount +")";
-		//setWidth(label.length()+2);
-		//setHeight(3);
+		
 	}
 }

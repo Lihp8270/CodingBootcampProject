@@ -4,6 +4,12 @@ import java.util.HashMap;
 
 import model.Performance;
 
+/**
+ * A simple drawing and text positioning surface for the console.
+ * 
+ * @author JS
+ *
+ */
 public class ConsoleSurface {
 	private int width = 100;
 	private int height = 23;
@@ -20,15 +26,9 @@ public class ConsoleSurface {
 	}
 
 
-	
-
-
 	public int getHeight() {
 		return height;
 	}
-
-
-
 
 
 	/**
@@ -139,64 +139,60 @@ public class ConsoleSurface {
 		}
 	}
 	
-	public void putHMenuAt(int x, int y, Menu menu) {
-		String menuLine;
-		int xOffset = 0;
-		HashMap<String, String> menumap = menu.toMap();
-		for (String k : menumap.keySet()) {
-			menuLine = "";
-			menuLine += k + ": "  + menumap.get(k)+ " ";
-			putStringBoxAt(x + xOffset, y, menuLine);
-			xOffset += menuLine.length() +1;  
-		}
-	}
+//	public void putHMenuAt(int x, int y, Menu menu) {
+//		String menuLine;
+//		int xOffset = 0;
+//		HashMap<String, String> menumap = menu.toMap();
+//		for (String k : menumap.keySet()) {
+//			menuLine = "";
+//			menuLine += k + ": "  + menumap.get(k)+ " ";
+//			putStringBoxAt(x + xOffset, y, menuLine);
+//			xOffset += menuLine.length() +1;  
+//		}
+//	}
 	
-	public void putSelectionAt(int x, int y, PerformanceSelector sel) {
-		drawBoxAt(x, y, getWidth()-5, 14);
-		drawBoxAt(x, y, getWidth()-5, 2);
-		drawBoxAt(x+3,y,sel.title.getWidth()+1,2);
-		HashMap<String, Performance> sm = sel.toMap();
-		String line = "";
-		int yOffset = 3;
-		
-		for (String k : sm.keySet()) {
-			int xOffset = 1;
-			line = "";
-			String a = " ";
-			if(sel.getSelected()!=null) {
-			if(sm.get(k).getPerformanceID()==sel.getSelected().getPerformanceID()) {
-				a="*";
-			}}
-			line += k + ": "+a  + sm.get(k).getTitle();
-			putStringAt(x+xOffset ,y + yOffset, line);
-			xOffset+= 5 + sel.title.getWidth();
-			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getType());
-			xOffset+= sel.type.getWidth();
-			
-			putStringAt(x+xOffset,y+yOffset,sm.get(k).getTime());
-			xOffset+= sel.time.getWidth();
-			
-			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDateString());
-			xOffset+= sel.date.getWidth();
-			
-			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDuration()+"");
-			xOffset+= sel.duration.getWidth();
-			
-			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getLanguage());
-			xOffset+= sel.language.getWidth();
-			
-			String totSeats = "" + (sm.get(k).getStallsAvailable() + sm.get(k).getCircleAvailable());
-			putStringAt(x+xOffset,y+yOffset,totSeats);
-			xOffset+= sel.seats.getWidth();
-			
-//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getpr);
-//			xOffset+= sel.price.getWidth();
-			
-			
-			yOffset ++; 
-			   
-		}
-	}
+//	public void putSelectionAt(int x, int y, PerformanceSelector sel) {
+//		drawBoxAt(x, y, getWidth()-5, 14);
+//		drawBoxAt(x, y, getWidth()-5, 2);
+//		drawBoxAt(x+3,y,sel.title.getWidth()+1,2);
+//		HashMap<String, Performance> sm = sel.toMap();
+//		String line = "";
+//		int yOffset = 3;
+//		
+//		for (String k : sm.keySet()) {
+//			int xOffset = 1;
+//			line = "";
+//			String a = " ";
+//			if(sel.getSelected()!=null) {
+//			if(sm.get(k).getPerformanceID()==sel.getSelected().getPerformanceID()) {
+//				a="*";
+//			}}
+//			line += k + ": "+a  + sm.get(k).getTitle();
+//			putStringAt(x+xOffset ,y + yOffset, line);
+//			xOffset+= 5 + sel.title.getWidth();
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getType());
+//			xOffset+= sel.type.getWidth();
+//			
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getTime());
+//			xOffset+= sel.time.getWidth();
+//			
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDateString());
+//			xOffset+= sel.date.getWidth();
+//			
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getDuration()+"");
+//			xOffset+= sel.duration.getWidth();
+//			
+//			putStringAt(x+xOffset,y+yOffset,sm.get(k).getType().getLanguage());
+//			xOffset+= sel.language.getWidth();
+//			
+//			String totSeats = "" + (sm.get(k).getStallsAvailable() + sm.get(k).getCircleAvailable());
+//			putStringAt(x+xOffset,y+yOffset,totSeats);
+//			xOffset+= sel.seats.getWidth();
+//		
+//			yOffset ++; 
+//			   
+//		}
+//	}
 	
 	/**
 	 * fill surface with spaces
@@ -215,8 +211,6 @@ public class ConsoleSurface {
 	public void clear() {
 		init(default_char);
 	}
-	
-	
 
 }
 

@@ -1,6 +1,11 @@
 package util;
 
-
+/**
+ * A PageElement object.
+ * A TextBox object that can be drawn on a Page object, at a given position.
+ * @author JS
+ *
+ */
 public class TextBox extends PageElement {
 	
 	String textLabel;

@@ -3,6 +3,12 @@ package util;
 
 import model.User;
 
+/**
+ * A PageElement object.
+ * Displays the User's ShoppingBasket item count.
+ * @author JS
+ *
+ */
 public class BasketWidget extends PageElement{
 
 	private String label;
@@ -11,8 +17,7 @@ public class BasketWidget extends PageElement{
 	private BackendController bc;
 	private User user;
 	
-
-	//public BasketWidget(ShoppingBasket basket) {
+	
 	public BasketWidget(BackendController bc, User user) {
 		super();
 		this.bc = bc;
