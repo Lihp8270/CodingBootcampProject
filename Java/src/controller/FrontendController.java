@@ -92,6 +92,7 @@ public class FrontendController {
 		MenuItem setTicketQty = new MenuItem("Set Qty", ()-> buyTicketsPage.getTicketBuilder().setTicketQty());
 		
 		MenuItem productionInfo = new MenuItem("Show Info", ()-> getProdutionInfo());
+		MenuItem getPerformancesFromShow = new MenuItem("Find Tickets for this Show", ()-> getPerformancesFromShow());
 		
 		
 		
@@ -188,6 +189,7 @@ public class FrontendController {
 		pm.addMenuItem("2", viewBasket);
 		pm.addMenuItem("3", gotoBrowsePage);
 		pm.addMenuItem("4", gotoSearchPage);
+		pm.addMenuItem("5", getPerformancesFromShow);
 		
 		setDefaultElements(productionPage);
 		ProductionPanel pPanel = new ProductionPanel();
@@ -220,10 +222,10 @@ public class FrontendController {
 	}
 	
 
-	public void exitFrontEnd() {
-		System.out.println("Bye!");
-		System.exit(0);
-	}
+//	public void exitFrontEnd() {
+//		System.out.println("Bye!");
+//		System.exit(0);
+//	}
 	
 	public void browseScreen() {
 		//always browse all shows
@@ -258,6 +260,26 @@ public class FrontendController {
 			s.putStringBoxAt(35, 10, "No Shows found.");
 		}				
       }
+	
+	
+	public void getPerformancesFromShow() {
+		currentPage = productionPage;
+		int showID = productionPage.getProductionPanel().getShowID();
+		ArrayList<Performance> results = bController.getShowsFromProductionID(showID);
+		searchPage.getpSelector().clear();
+		System.out.println("Showid " +showID);
+		if (results.size()>0) {
+			currentPage = searchPage;
+			searchPage.getpSelector().addPerformances(results);
+			searchPage.show();
+			
+		} else {
+			//no performances?
+			System.out.println("No shows?");
+		}
+		
+	}
+	
 	
 	public void makeSelection() {
 		Performance selectedP;

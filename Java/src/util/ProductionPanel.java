@@ -20,6 +20,10 @@ public class ProductionPanel extends PageElement{
 		//update();
 	}
 	
+	public int getShowID() {
+		return p.getProductionID();
+	}
+	
 	@Override
 	public void draw(ConsoleSurface s) {
 		// TODO Auto-generated method stub
