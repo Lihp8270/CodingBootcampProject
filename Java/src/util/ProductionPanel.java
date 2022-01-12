@@ -1,7 +1,12 @@
 package util;
 
 import model.Performance;
-
+/**
+ * A PageElement object.
+ * Displays the general information for a Performance, such as the description and performers.
+ * @author JS
+ *
+ */
 public class ProductionPanel extends PageElement{
 	
 	private Performance p;
