@@ -213,7 +213,7 @@ public class FrontendController {
 
 		String userInput="";
 		while (true) {
-		
+			clearScreen();
 			currentPage.show();
 			userInput = sc.nextLine();
 			currentPage.getMenu().runItem(userInput);
@@ -338,7 +338,7 @@ public class FrontendController {
 
 	}
 	
-	public static void clrscr(){
+	public static void clearScreen(){
 	    // Clears Screen in java
 		// Works in Windows (and Linux?)
 		// https://stackoverflow.com/questions/2979383/how-to-clear-the-console
