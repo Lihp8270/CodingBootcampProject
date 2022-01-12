@@ -10,13 +10,16 @@ public class TicketBuilder extends PageElement{
 	private Performance p;
 	private int ticketQty;
 	private String seatType;
-	private int concession;
+	private int concessionID;
 	private User user;
 	private BackendController bc;
 	private int availStalls;
 	private int availCircle;
 	private Scanner sc;
 	private String showInfo;
+	private String conc;
+	
+	
 	
 	
 	
@@ -30,7 +33,8 @@ public class TicketBuilder extends PageElement{
 		availStalls = 0; //p.getStallsAvailable();
 		availCircle = 0; //p.getCircleAvailable();
 		seatType = "stalls";
-		concession = 1;
+		concessionID = 1;
+		conc = "Adult";
 	}
 	
 	public void setTicketQty() {
@@ -62,19 +66,21 @@ public class TicketBuilder extends PageElement{
 	}
 	
 	public void switchConcessionType() {
-		if (concession==1) {
-			concession=0;
+		if (concessionID==1) {
+			concessionID=2;
+			conc="Child";
 			
 		}else {
-			concession=1;
+			concessionID=1;
+			conc = "Adult";
 		}
 		update();
 	}
 	
 	public void sendToBasket() {
 		//TODO
-		System.out.println(" Conc: " + concession + " pID: "+ p.getPerformanceID()+" uID: " + user.getUserID() + " Qty: " + ticketQty+ " Seat: " + seatType);
-		bc.addToBasket(concession, p.getPerformanceID(), user, ticketQty, seatType);
+		//System.out.println(" Conc: " + concessionID + " pID: "+ p.getPerformanceID()+" uID: " + user.getUserID() + " Qty: " + ticketQty+ " Seat: " + seatType);
+		bc.addToBasket(concessionID, p.getPerformanceID(), user, ticketQty, seatType);
 		update();
 		this.ticketQty = 1;
 		
@@ -114,12 +120,12 @@ public class TicketBuilder extends PageElement{
 		s.putStringAt(x+1, y+5, "circle: "+ availCircle);
 		
 		
-		s.drawBoxAt((s.getWidth()/2) - 35/2, y+9 ,35 , 6);
+		s.drawBoxAt((s.getWidth()/2) - 40/2, y+9 ,40 , 6);
 		
 		s.putStringAt(xOff+x +10, y+10, "Your Selection");
-		s.putStringBoxAt(xOff+x, y+12, "Conc: "+ concession);
-		s.putStringBoxAt(xOff+x+10, y+12, "Seat: "+ seatType);
-		s.putStringBoxAt(xOff+x+25, y+12, "Qty: "+ ticketQty);
+		s.putStringBoxAt(xOff+x-2, y+12, "Conc: "+ conc);
+		s.putStringBoxAt(xOff+x+12, y+12, "Seat: "+ seatType);
+		s.putStringBoxAt(xOff+x+27, y+12, "Qty: "+ ticketQty);
 		
 		
 	}
