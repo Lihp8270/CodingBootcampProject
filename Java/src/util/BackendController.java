@@ -989,6 +989,8 @@ public class BackendController {
                 pStatementInsert = sBuilder.buildAddToBasketStatement(dbConnector.getConn(), concessionID, performanceID, seatID, user.getUserID(), pricePerUnit);
 
                 dbConnector.runQuery(pStatementInsert);
+                
+                seatFound = false;
             }
 
             dbConnector.close();
