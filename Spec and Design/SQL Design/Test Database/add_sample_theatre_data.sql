@@ -141,9 +141,10 @@ insert into performance( performance_date, time_slot, production_id)
     (date_add(curdate(), interval 4 day), 'evening', 4)
     
 ;
-
+/*
 insert into ticket (concession_id, performance_id, seat_id, customer_id, ticket_status)
 	values 
     (1,1,1,1,'basket'),
     (1,1,2,1,'purchased')
 ;
+*/

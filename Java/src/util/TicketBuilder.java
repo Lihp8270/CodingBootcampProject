@@ -37,7 +37,6 @@ public class TicketBuilder extends PageElement{
 		System.out.println("Number of tickets: ");
 		int t = 0;
 		if (sc.hasNextInt()) {
-			//System.out.println("INT found");
 			t = sc.nextInt();
 			if (seatType.equals("stalls")) {
 				if (t<= availStalls) {
@@ -49,6 +48,7 @@ public class TicketBuilder extends PageElement{
 				}
 			}
 		}
+		update();
 	}
 	
 	public void switchSeatType() {
@@ -72,6 +72,7 @@ public class TicketBuilder extends PageElement{
 	
 	public void sendToBasket() {
 		//TODO
+		System.out.println(" Conc: " + concession + " pID: "+ p.getPerformanceID()+" uID: " + user.getUserID() + " Qty: " + ticketQty+ " Seat: " + seatType);
 		bc.addToBasket(concession, p.getPerformanceID(), user, ticketQty, seatType);
 		update();
 		this.ticketQty = 1;
@@ -80,9 +81,11 @@ public class TicketBuilder extends PageElement{
 	
 	public void setPerformance(Performance p) {
 		this.p = p;
+		update();
 	}
 	
 	public void update() {
+		// TODO
 		// need to get performance by performance id from bc to get available ticket counts after adding to basket
 		//int pid = p.getPerformanceID();
 		// setPerformance(bc....get);

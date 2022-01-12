@@ -46,14 +46,30 @@ public class FrontendController {
 		bController = new BackendController();
         user = new User(bController.createNewUser());
         sc = new Scanner(System.in);
+
         setup();
         	
 	}
     
 	public static void main(String[] args) {
     	FrontendController browser = new FrontendController();
-		browser.run();
+    	
+		browser.run(); // comment out to run test
+		
+		// browser.test(); // uncomment to run test
+		
     }
+	
+	public void test() {
+		System.out.println(bController.addToBasket(1, 4, user, 10, "stalls"));
+		System.out.println(bController.getBasket(user).getSizeOfBasket());
+		
+		System.out.println(bController.addToBasket(1, 4, user, 10, "stalls"));
+		System.out.println(bController.getBasket(user).getSizeOfBasket());
+		
+		bController.removeAllFromBasket(user);
+
+	}
 	
     private void setup() {
     	
@@ -181,13 +197,12 @@ public class FrontendController {
 
 	public void run() {
 	
+		
+		//bController.addToBasket(1, 4, user, 10, "stalls");
+		
 		String userInput="";
 		while (true) {
-			//currentPage.show();
-			
-			//initPage(currentPage);
-			
-			//currentPage.draw();
+		
 			currentPage.show();
 			userInput = sc.nextLine();
 			currentPage.getMenu().runItem(userInput);
